@@ -1,0 +1,27 @@
+{
+    "columns": [
+        {
+            "id": "id",
+            "type": "string"
+        },
+        {
+            "id": "title",
+            "type": "string"
+        },
+        {
+            "id": "population",
+            "type": "integer"
+        }
+    ],
+    "rows": [
+        {
+            "id": "us",
+            "title": "United States",
+
+        },
+        {
+            "id": "ru",
+            "title": "Russian Federation"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+titles:
+  en: Counties
+  ru: Графства
+  es: Condados
+  fr: Comtés
+  de: Grafschaften
+  zh: 郡
+record_file:
+  name: "{$id}.json"
+  format: json
+  type: "map[string]any"
+columns:
+  names:
+    type: map[locale]string
+    required: true
+    valueTitle: Name
+  province:
+    type: string
+    title: Province
+  population:
+    type: int
+    title: Population
+  area:
+    type: float
+    title: Area (km²)

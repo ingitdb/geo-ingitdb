@@ -1,0 +1,12 @@
+titles:
+  en: Tags
+  ru: Таги
+record_file:
+  name: "{key}.json"
+  type: "[]map[string]any"
+  format: json
+data_dir: $records
+columns:
+  titles:
+    type: "map[locale]string"
+    required: true

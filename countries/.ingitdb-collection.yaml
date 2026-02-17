@@ -1,0 +1,44 @@
+titles:
+  en: Countries
+  ru: Страны
+  es: Países
+  fr: Pays
+  de: Länder
+
+record_file:
+  name: "{$id}/{$id}.json"
+  format: json
+  type: "map[string]any"
+
+columns:
+  names:
+    type: map[locale]string
+    required: true
+    valueTitle: Name
+  population:
+    type: int
+    title: Population
+  area:
+    type: int
+    title: Area (km²)
+  capital:
+    type: string
+    required: true
+
+readme:
+  sub_collections:
+    - id: provinces
+      limit: 0
+      format: table
+      columns:
+        - name: names.{locale}
+        - name: population
+        - name: area
+
+    - id: counties
+      limit: 0
+      format: table
+      columns:
+        - name: names.{locale}
+        - name: population
+        - name: area

@@ -1,0 +1,14 @@
+titles:
+  en: "Top 3 countries by population (descending)"
+  ru: "Топ 3 стран по численности населения (по убыванию)"
+from: .
+select:
+  - "$id"
+  - "$localize(.titles) as title"
+  - ".population"
+order_by:
+  - ".population DESC"
+top: 3
+formats:
+  - "JSON"
+file_name: "$views/top-3-countries-by-population-desc.{$locale}.json"

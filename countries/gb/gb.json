@@ -1,0 +1,14 @@
+{
+  "names": {
+    "en": "United Kingdom",
+    "ru": "Соединённое Королевство",
+    "es": "Reino Unido",
+    "fr": "Royaume-Uni",
+    "de": "Vereinigtes Königreich",
+    "zh": "英国"
+  },
+  "iso_code": "GB",
+  "population": 67081234,
+  "area": 242495,
+  "capital": "London"
+}

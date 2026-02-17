@@ -1,0 +1,8 @@
+status_$(status):
+tag_$(tags):
+  order_by: $last_modified desc
+  formats:
+    - md
+  columns:
+    - title:
+    - status:

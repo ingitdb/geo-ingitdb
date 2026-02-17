@@ -1,0 +1,33 @@
+inherits: .ingitdb-subcol.$admin_divisions.yaml
+
+titles:
+  en: States
+  ru: Штаты
+
+record_labels:
+  en: State
+  ru: Штат
+
+record_file:
+  name: "states/{$id}/{$id}.json"
+  format: json
+  type: "map[string]any"
+
+min_records_count: 1
+max_records_count: 100
+
+columns:
+  names:
+    type: map[locale]string
+    required: true
+    valueTitle: Name
+  population:
+    type: int
+    title: Population
+    min_value: 0
+    max_value: 99 000 000
+  area:
+    type: int
+    title: Area (km²)
+    min_value: 0
+

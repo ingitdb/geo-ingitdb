@@ -1,0 +1,13 @@
+inherits: .ingitdb-subcol.$admin_divisions.yaml
+
+record_file:
+  format: json
+  type: "map[id]any"
+  name: "provinces/{id}.json"
+
+columns:
+  counties:
+    type: "[]string"
+    titles:
+      en: Counties
+      ru: Каунти

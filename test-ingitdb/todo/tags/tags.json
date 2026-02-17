@@ -1,0 +1,38 @@
+{
+  "work": {
+    "titles": {
+      "en": "Work",
+      "ru": "Работа",
+      "es": "Trabajo",
+      "fr": "Travail",
+      "de": "Arbeit"
+    }
+  },
+  "home": {
+    "titles": {
+      "en": "Home",
+      "ru": "Дом",
+      "es": "Casa",
+      "fr": "Maison",
+      "de": "Zuhause"
+    }
+  },
+  "personal": {
+    "titles": {
+      "en": "Personal",
+      "ru": "Личное",
+      "es": "Personal",
+      "fr": "Personnel",
+      "de": "Persönlich"
+    }
+  },
+  "private": {
+    "titles": {
+      "en": "Private",
+      "ru": "Личное",
+      "es": "Privado",
+      "fr": "Privé",
+      "de": "Privat"
+    }
+  }
+}

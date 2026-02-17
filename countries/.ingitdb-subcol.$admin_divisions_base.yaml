@@ -1,0 +1,13 @@
+columns:
+  population:
+    type: int
+    title: Population
+    min_value: 0
+    max_value: 99 000 000
+  area:
+    type: int
+    title: Area (km²)
+    min_value: 0
+
+min_records_count: 1
+max_records_count: 100

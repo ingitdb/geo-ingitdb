@@ -1,0 +1,22 @@
+inherits: .ingitdb-subcol.counties.yaml
+
+titles:
+  en: Oblasts
+  ru: Области
+
+record_labels:
+  en: State
+  ru: Штат
+
+record_file:
+  name: "states/{$id}/{$id}.json"
+  format: json
+  type: "map[string]any"
+
+columns:
+  names:
+    type: map[locale]string
+    required: true
+    titles:
+      en: Oblast
+      ru: Область

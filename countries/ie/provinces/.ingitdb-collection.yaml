@@ -1,0 +1,22 @@
+titles:
+  en: Provinces
+  ru: Провинции
+  es: Provincias
+  fr: Provinces
+  de: Provinzen
+  zh: 省份
+record_file:
+  name: "{$id}.json"
+  format: json
+  type: "map[string]any"
+columns:
+  names:
+    type: map[locale]string
+    required: true
+    valueTitle: Name
+  population:
+    type: int
+    title: Population
+  area:
+    type: float
+    title: Area (km²)

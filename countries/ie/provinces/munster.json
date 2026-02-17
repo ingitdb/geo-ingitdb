@@ -1,0 +1,15 @@
+{
+  "names": {
+    "en": "Munster",
+    "ru": "Манстер",
+    "es": "Munster",
+    "fr": "Munster",
+    "de": "Munster",
+    "zh": "芒斯特省"
+  },
+  "population": 1373346,
+  "area": 24675.0,
+  "counties": [
+    "Limerick"
+  ]
+}

@@ -1,0 +1,49 @@
+id: slug(.names.en)
+
+titles:
+  en: Cities
+  ru: Города
+
+record_labels:
+  en: City
+  ru: Города
+
+record_file:
+  name: "{$id}/{$id}.json"
+  format: json
+  type: "map[string]any"
+
+min_records_count: 1
+max_records_count: 100000
+
+columns:
+  names:
+    type: map[locale]string
+    required: true
+    titles:
+      en: City
+      ru: Город
+
+  municipal_status:
+    required: true
+    enum:
+      - city
+      - town
+      - village
+
+  population_city:
+    type: int
+    title: Population (city & suburbs)
+    min_value: 0
+    max_value: 19 000 000
+
+  population_metro:
+    type: int
+    title: Population (metro)
+    min_value: 0
+    max_value: 19 000 000
+
+  area:
+    type: int
+    title: Area (km²)
+    min_value: 0
