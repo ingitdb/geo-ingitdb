@@ -1,0 +1,30 @@
+titles:
+  en: Settlements
+# Cities/towns (GeoNames cities15000) for showcase countries, keyed
+# <slug>-<geonameid> lowercased. Links to its country and, when known, its
+# first-order subdivision.
+record_file:
+  name: "{key}.json"
+  type: "map[string]any"
+  format: json
+columns:
+  names:
+    type: "map[locale]string"
+    required: true
+  country:
+    type: string
+    required: true
+    foreign_key: countries
+  subdivision:
+    type: string
+    foreign_key: subdivisions
+  population:
+    type: int
+    min_value: 0
+  latitude:
+    type: float
+  longitude:
+    type: float
+  geonameid:
+    type: int
+columns_order: [names, country, subdivision, population, latitude, longitude, geonameid]

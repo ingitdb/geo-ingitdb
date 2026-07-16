@@ -1,0 +1,22 @@
+titles:
+  en: Subdivisions
+# First-order administrative divisions (states, provinces, regions, ...),
+# keyed <iso2>-<admin1code> lowercased, e.g. "us-ca".
+record_file:
+  name: "{key}.json"
+  type: "map[string]any"
+  format: json
+columns:
+  names:
+    type: "map[locale]string"
+    required: true
+  country:
+    type: string
+    required: true
+    foreign_key: countries
+  admin1_code:
+    type: string
+    required: true
+  geonameid:
+    type: int
+columns_order: [names, country, admin1_code, geonameid]
