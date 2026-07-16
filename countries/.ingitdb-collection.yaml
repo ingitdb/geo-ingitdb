@@ -1,3 +1,8 @@
+# NOTE: this file previously declared readme.sub_collections — a readme table
+# spec inGitDB has never implemented (CollectionReadmeDef models only
+# hide_columns / hide_subcollections / hide_views / hide_triggers /
+# data_preview). It was read and discarded. Stripped so the database loads
+# under strict validation; intent preserved in ingitdb/ingitdb-go#8.
 titles:
   en: Countries
   ru: Страны
@@ -24,21 +29,3 @@ columns:
   capital:
     type: string
     required: true
-
-readme:
-  sub_collections:
-    - id: provinces
-      limit: 0
-      format: table
-      columns:
-        - name: names.{locale}
-        - name: population
-        - name: area
-
-    - id: counties
-      limit: 0
-      format: table
-      columns:
-        - name: names.{locale}
-        - name: population
-        - name: area

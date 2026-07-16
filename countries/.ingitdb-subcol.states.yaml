@@ -1,20 +1,16 @@
-inherits: .ingitdb-subcol.$admin_divisions.yaml
-
+# NOTE: this file previously declared keys inGitDB has never implemented
+# (inherits / min_records_count / max_records_count / record_labels).
+# They were read and discarded, so they looked live and did nothing.
+# Stripped so the database loads under strict validation.
+# Intent preserved in ingitdb/ingitdb-go#7 (inherits) and #8 (the rest).
 titles:
   en: States
   ru: Штаты
-
-record_labels:
-  en: State
-  ru: Штат
 
 record_file:
   name: "states/{$id}/{$id}.json"
   format: json
   type: "map[string]any"
-
-min_records_count: 1
-max_records_count: 100
 
 columns:
   names:

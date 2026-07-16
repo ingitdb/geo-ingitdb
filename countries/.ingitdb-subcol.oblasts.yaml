@@ -1,12 +1,11 @@
-inherits: .ingitdb-subcol.counties.yaml
-
+# NOTE: this file previously declared keys inGitDB has never implemented
+# (inherits / min_records_count / max_records_count / record_labels).
+# They were read and discarded, so they looked live and did nothing.
+# Stripped so the database loads under strict validation.
+# Intent preserved in ingitdb/ingitdb-go#7 (inherits) and #8 (the rest).
 titles:
   en: Oblasts
   ru: Области
-
-record_labels:
-  en: State
-  ru: Штат
 
 record_file:
   name: "states/{$id}/{$id}.json"

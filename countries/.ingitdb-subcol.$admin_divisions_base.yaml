@@ -1,3 +1,8 @@
+# NOTE: this file previously declared keys inGitDB has never implemented
+# (inherits / min_records_count / max_records_count / record_labels).
+# They were read and discarded, so they looked live and did nothing.
+# Stripped so the database loads under strict validation.
+# Intent preserved in ingitdb/ingitdb-go#7 (inherits) and #8 (the rest).
 columns:
   population:
     type: int
@@ -8,6 +13,3 @@ columns:
     type: int
     title: Area (km²)
     min_value: 0
-
-min_records_count: 1
-max_records_count: 100

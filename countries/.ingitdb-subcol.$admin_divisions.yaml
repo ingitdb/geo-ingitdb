@@ -1,5 +1,8 @@
-inherits: .ingitdb-subcol.$admin_divisions_base.yaml
-
+# NOTE: this file previously declared keys inGitDB has never implemented
+# (inherits / min_records_count / max_records_count / record_labels).
+# They were read and discarded, so they looked live and did nothing.
+# Stripped so the database loads under strict validation.
+# Intent preserved in ingitdb/ingitdb-go#7 (inherits) and #8 (the rest).
 subCollections:
   - name: settlements
     def: .ingitdb-subcol.counties.settlements.yaml
