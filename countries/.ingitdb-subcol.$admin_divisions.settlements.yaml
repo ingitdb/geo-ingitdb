@@ -25,6 +25,7 @@ columns:
       ru: Город
 
   municipal_status:
+    type: string
     required: true
     enum:
       - city
@@ -35,13 +36,13 @@ columns:
     type: int
     title: Population (city & suburbs)
     min_value: 0
-    max_value: 19 000 000
+    max_value: 19000000
 
   population_metro:
     type: int
     title: Population (metro)
     min_value: 0
-    max_value: 19 000 000
+    max_value: 19000000
 
   area:
     type: int

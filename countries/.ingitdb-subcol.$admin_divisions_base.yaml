@@ -3,7 +3,7 @@ columns:
     type: int
     title: Population
     min_value: 0
-    max_value: 99 000 000
+    max_value: 99000000
   area:
     type: int
     title: Area (km²)
