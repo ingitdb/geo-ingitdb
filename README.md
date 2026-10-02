@@ -56,12 +56,50 @@ go run ./cmd/wb-import --out .
 
 Fetches `SP.POP.TOTL` from the World Bank API v2 (`mrnev=1`: most recent
 non-empty value; all pages), drops aggregates (regions, income groups, "World":
-anything whose ISO3 code is not in `countries`), rewrites `population_wb/$records/`
-and registers the collection in `.ingitdb/root-collections.yaml`. Run
-`geo-import` first. Pages are cached under `.cache/wb-import`; flags: `--out`,
-`--cache`, `--refresh`, `--indicator`, `--per-page`. The committed records are a
-snapshot, and Git history is its provenance. The importer has unit tests with
-a fake fetcher; none touch the network (`go test ./...`).
+anything whose ISO3 code is not in `countries`), regenerates
+`population_wb/$records/` (written to a sibling directory and swapped in, so a
+failed run keeps the previous records) and registers the collection in
+`.ingitdb/root-collections.yaml`. Run `geo-import` first. Flags: `--out`,
+`--cache`, `--refresh`, `--per-page`. The indicator is fixed: the schema, the
+integer `population` column and the collection name all assume `SP.POP.TOTL`.
+Requests send a `User-Agent`; transport errors, HTTP 429 and 5xx are retried
+(three requests at most), and an API error payload served with HTTP 200 is
+rejected before it reaches the cache. The committed records are a snapshot, and
+Git history is its provenance. The importer has unit tests with a fake fetcher;
+none touch the network (`go test ./...`).
+
+**Re-runs are deterministic.** Pages are cached under `.cache/wb-import`
+together with the time they were downloaded, and `fetched_at` is the oldest
+download time of the pages a record came from. A run that reads only cached
+pages therefore reproduces the committed records byte for byte (zero Git diff);
+only `--refresh` takes a new snapshot and moves `fetched_at`.
+
+**Coverage gaps.** `population_wb` has 216 of the 252 `countries` records, so an
+inner join from a country-keyed source silently drops the other 36:
+
+- The World Bank reports the Channel Islands as one entity (`CHI`), not as
+  Jersey and Guernsey, so neither `je` nor `gg` has a row; the entity itself is
+  dropped like any other aggregate, because `CHI` is not in `countries`.
+- The remaining gaps are territories and historical entries the World Bank does
+  not publish a population for: Anguilla, Netherlands Antilles, Antarctica,
+  Aland Islands, Saint Barthelemy, Bonaire/Saint Eustatius/Saba, Bouvet Island,
+  Cocos Islands, Cook Islands, Serbia and Montenegro, Christmas Island, Western
+  Sahara, Falkland Islands, French Guiana, Guadeloupe, South Georgia and the
+  South Sandwich Islands, Heard Island and McDonald Islands, British Indian
+  Ocean Territory, Martinique, Montserrat, Norfolk Island, Niue, Saint Pierre
+  and Miquelon, Pitcairn, Reunion, Saint Helena, Svalbard and Jan Mayen, French
+  Southern Territories, Tokelau, Taiwan, United States Minor Outlying Islands,
+  Vatican, Wallis and Futuna, Mayotte.
+
+To list the countries without a population after any refresh:
+
+```
+comm -23 <(ls countries/\$records | sort) <(ls population_wb/\$records | sort) | sed 's/\.json$//'
+```
+
+Use a left join (or `countries.population` from GeoNames, which is undated) when
+those territories matter. All 24 `Invoice.BillingCountry` values of the Chinook
+sample database have a population.
 
 ## Validation
 
@@ -69,8 +107,14 @@ The database validates clean under inGitDB, including foreign-key referential
 integrity: every `subdivisions.country`, `settlements.country`, and
 `settlements.subdivision` value resolves to an existing record.
 
-## Data license
+## Data license and attribution
 
-Geographic data © GeoNames, used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-See [DATA-LICENSE.md](DATA-LICENSE.md). The inGitDB schema and import code in
-this repository are under the repository [LICENSE](LICENSE).
+- Countries, subdivisions and settlements: © [GeoNames](https://www.geonames.org/),
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- `population_wb`: [World Bank Open Data](https://data.worldbank.org/indicator/SP.POP.TOTL),
+  indicator SP.POP.TOTL, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+Both datasets are modified here (see [DATA-LICENSE.md](DATA-LICENSE.md) for the
+changes and the source URLs) and neither provider endorses this database. The
+inGitDB schema and import code in this repository are under the repository
+[LICENSE](LICENSE).
