@@ -2,3 +2,4 @@ countries: countries
 subdivisions: subdivisions
 settlements: settlements
 population_wb: population_wb
+country_aliases: country_aliases

@@ -15,6 +15,16 @@ model exercises that):
 | [`countries`](countries) | ~250 | lowercase ISO 3166-1 alpha-2 (`us`) | — |
 | [`subdivisions`](subdivisions) | ~3,900 | `<iso2>-<admin1code>` (`us-ca`) | `country` → countries |
 | [`settlements`](settlements) | showcase only | `<slug>-<geonameid>` | `country` → countries, `subdivision` → subdivisions |
+| [`population_wb`](population_wb) | ~216 | lowercase iso2 (`ie`) | `country` → countries |
+| [`country_aliases`](country_aliases) | 24 | slug of the alias (`czech-republic`) | `country` → countries |
+
+`population_wb` is the latest World Bank `SP.POP.TOTL` observation per country
+(with `year`, `indicator`, `source_url`, `fetched_at`); unlike
+`countries.population` (GeoNames) it is dated and attributable. `country_aliases`
+maps the country spellings another system uses to a `countries` record — today the
+24 `Invoice.BillingCountry` values of the Chinook sample database (`USA`, `Czech
+Republic`, `Netherlands`, ...), each with its `source` provenance. Together they
+let a query join Chinook sales to population without guessing at names.
 
 Each collection is one JSON file per record under `$records/`. Multilingual
 names use inGitDB's `map[locale]string` column type (currently `en` only, from
@@ -37,6 +47,21 @@ re-runs are offline. Flags:
 
 The importer owns only the `$records/` directories — it clears and rewrites
 them — and never touches the `.collection/` schemas or `.ingitdb/` config.
+
+### World Bank population
+
+```
+go run ./cmd/wb-import --out .
+```
+
+Fetches `SP.POP.TOTL` from the World Bank API v2 (`mrnev=1`: most recent
+non-empty value; all pages), drops aggregates (regions, income groups, "World":
+anything whose ISO3 code is not in `countries`), rewrites `population_wb/$records/`
+and registers the collection in `.ingitdb/root-collections.yaml`. Run
+`geo-import` first. Pages are cached under `.cache/wb-import`; flags: `--out`,
+`--cache`, `--refresh`, `--indicator`, `--per-page`. The committed records are a
+snapshot, and Git history is its provenance. The importer has unit tests with
+a fake fetcher; none touch the network (`go test ./...`).
 
 ## Validation
 
