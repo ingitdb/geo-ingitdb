@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
 
   Validator:
@@ -13,7 +16,13 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # actions/checkout v6
 
-#      - name: inGitDB action
-#        uses: ingitdb/ingitdb-action
+      # Validates every collection definition and record, including foreign-key
+      # integrity across collections. The action downloads the exact ingitdb-cli
+      # release below, verifies its published checksum, and pins by commit SHA.
+      - name: Validate the inGitDB database
+        uses: ingitdb/ingitdb-action@ec621991c6ca57d45a252c7d140eea1624f42ab9
+        with:
+          cli-version: v0.68.2
+          database-root: .
