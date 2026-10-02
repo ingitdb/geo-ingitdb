@@ -1,3 +1,5 @@
 .idea/
 .vscode/
 .cache/
+/geo-import
+/wb-import
