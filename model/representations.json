@@ -1,0 +1,317 @@
+{
+  "contracts": [
+    {
+      "bridge": {
+        "artifact": {
+          "path": "bridges/geonames_chinook_customer_country.json",
+          "sha256": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded"
+        },
+        "raw_label_column": "raw_label",
+        "serving_identity_column": "serving_id",
+        "table": "geonames_chinook_customer_country",
+        "target_key_column": "target_key"
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-chinook-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "f995ad2febb3545611c18a26bd12ee6ca7c1aa8e22d677364729de62a3e39bfe"
+        },
+        "scope": "chinook/Customer.Country@26e852cca00101f53a84ef8ee1f1ae389067f5cf"
+      },
+      "execution": "label-bridge",
+      "policy": {
+        "cardinality": "zero-or-one",
+        "collision": "ineligible",
+        "equality": "utf8-byte-exact",
+        "transform": "identity",
+        "unmatched": "exception"
+      },
+      "source": {
+        "datatype": "string",
+        "entity": "Customer",
+        "module": "chinook",
+        "namespace": "demo:demand-chinook-customer:label",
+        "property": "Country",
+        "schema": {
+          "path": "model/chinook.modelspec.json",
+          "repository": "https://github.com/demo-db/chinook",
+          "revision": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+          "sha256": "5e81f79ae02760bbdc372985022ab94209b97aaa76bf456fb59e040a99476870"
+        }
+      },
+      "target": {
+        "binding": {
+          "concept": "geonames-country",
+          "document": {
+            "path": "model/geonames.meaning.yaml",
+            "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+          },
+          "meaning": {
+            "concept": "country",
+            "document": {
+              "path": "geo.meaning.yaml",
+              "repository": "https://github.com/meaninggraph/core",
+              "revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+              "sha256": "ee6eeea2e8038e016433a72dd15d45b6eaf89d3ae6e45893d4e5eeb7be61f4e9"
+            }
+          },
+          "role": "identifier"
+        },
+        "datatype": "string",
+        "entity": "geonames_countries",
+        "keys": {
+          "path": "country-keys.json",
+          "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+        },
+        "model": {
+          "path": "model/geonames.modelspec.json",
+          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+        },
+        "module": "geonames",
+        "namespace": "GeoNames:countryInfoISO2",
+        "property": "iso",
+        "snapshot": {
+          "path": "source/artifact-snapshot.json",
+          "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
+        }
+      }
+    },
+    {
+      "bridge": {
+        "artifact": {
+          "path": "bridges/geonames_northwind_customer_country.json",
+          "sha256": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a"
+        },
+        "raw_label_column": "raw_label",
+        "serving_identity_column": "serving_id",
+        "table": "geonames_northwind_customer_country",
+        "target_key_column": "target_key"
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-northwind-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "fca0dec5ed2478b40c1ee6146b712d4527617b94f1bb1b9ad57ffbbc22852d21"
+        },
+        "scope": "northwind/Customers.Country@e74726515c3833620b54b7a50d1d273276dd23c1"
+      },
+      "execution": "label-bridge",
+      "policy": {
+        "cardinality": "zero-or-one",
+        "collision": "ineligible",
+        "equality": "utf8-byte-exact",
+        "transform": "identity",
+        "unmatched": "exception"
+      },
+      "source": {
+        "datatype": "string",
+        "entity": "Customers",
+        "module": "northwind",
+        "namespace": "demo:demand-northwind-customers:label",
+        "property": "Country",
+        "schema": {
+          "path": "model/northwind.modelspec.json",
+          "repository": "https://github.com/demo-db/northwind",
+          "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+          "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f"
+        }
+      },
+      "target": {
+        "binding": {
+          "concept": "geonames-country",
+          "document": {
+            "path": "model/geonames.meaning.yaml",
+            "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+          },
+          "meaning": {
+            "concept": "country",
+            "document": {
+              "path": "geo.meaning.yaml",
+              "repository": "https://github.com/meaninggraph/core",
+              "revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+              "sha256": "ee6eeea2e8038e016433a72dd15d45b6eaf89d3ae6e45893d4e5eeb7be61f4e9"
+            }
+          },
+          "role": "identifier"
+        },
+        "datatype": "string",
+        "entity": "geonames_countries",
+        "keys": {
+          "path": "country-keys.json",
+          "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+        },
+        "model": {
+          "path": "model/geonames.modelspec.json",
+          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+        },
+        "module": "geonames",
+        "namespace": "GeoNames:countryInfoISO2",
+        "property": "iso",
+        "snapshot": {
+          "path": "source/artifact-snapshot.json",
+          "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
+        }
+      }
+    },
+    {
+      "bridge": {
+        "artifact": {
+          "path": "bridges/geonames_northwind_order_country.json",
+          "sha256": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7"
+        },
+        "raw_label_column": "raw_label",
+        "serving_identity_column": "serving_id",
+        "table": "geonames_northwind_order_country",
+        "target_key_column": "target_key"
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-northwind-shipping-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "8f7cf5e218e8c36c1932839323801a49133529327dbfac0405abf7fb7a5731eb"
+        },
+        "scope": "northwind/Orders.ShipCountry@e74726515c3833620b54b7a50d1d273276dd23c1"
+      },
+      "execution": "label-bridge",
+      "policy": {
+        "cardinality": "zero-or-one",
+        "collision": "ineligible",
+        "equality": "utf8-byte-exact",
+        "transform": "identity",
+        "unmatched": "exception"
+      },
+      "source": {
+        "datatype": "string",
+        "entity": "Orders",
+        "module": "northwind",
+        "namespace": "demo:demand-northwind-orders:label",
+        "property": "ShipCountry",
+        "schema": {
+          "path": "model/northwind.modelspec.json",
+          "repository": "https://github.com/demo-db/northwind",
+          "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+          "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f"
+        }
+      },
+      "target": {
+        "binding": {
+          "concept": "geonames-country",
+          "document": {
+            "path": "model/geonames.meaning.yaml",
+            "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+          },
+          "meaning": {
+            "concept": "country",
+            "document": {
+              "path": "geo.meaning.yaml",
+              "repository": "https://github.com/meaninggraph/core",
+              "revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+              "sha256": "ee6eeea2e8038e016433a72dd15d45b6eaf89d3ae6e45893d4e5eeb7be61f4e9"
+            }
+          },
+          "role": "identifier"
+        },
+        "datatype": "string",
+        "entity": "geonames_countries",
+        "keys": {
+          "path": "country-keys.json",
+          "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+        },
+        "model": {
+          "path": "model/geonames.modelspec.json",
+          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+        },
+        "module": "geonames",
+        "namespace": "GeoNames:countryInfoISO2",
+        "property": "iso",
+        "snapshot": {
+          "path": "source/artifact-snapshot.json",
+          "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
+        }
+      }
+    },
+    {
+      "bridge": {
+        "artifact": {
+          "path": "bridges/geonames_pubs_publisher_country.json",
+          "sha256": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377"
+        },
+        "raw_label_column": "raw_label",
+        "serving_identity_column": "serving_id",
+        "table": "geonames_pubs_publisher_country",
+        "target_key_column": "target_key"
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-pubs-publisher-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "06c96f83dd6cb07173759874904c5281a00e75655efe8256062f823b4b1ead9d"
+        },
+        "scope": "pubs/publishers.country@6c06c5c7395b03ff1a02c2b1a21485add3e1b65b"
+      },
+      "execution": "label-bridge",
+      "policy": {
+        "cardinality": "zero-or-one",
+        "collision": "ineligible",
+        "equality": "utf8-byte-exact",
+        "transform": "identity",
+        "unmatched": "exception"
+      },
+      "source": {
+        "datatype": "string",
+        "entity": "publishers",
+        "module": "pubs",
+        "namespace": "demo:demand-pubs-publishers:label",
+        "property": "country",
+        "schema": {
+          "path": "model/pubs.modelspec.json",
+          "repository": "https://github.com/demo-db/pubs",
+          "revision": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+          "sha256": "6f7ca172d746866f2cf3ee84be0fb1ae9bd6c90f6144a0e35f24eec7af11f3ea"
+        }
+      },
+      "target": {
+        "binding": {
+          "concept": "geonames-country",
+          "document": {
+            "path": "model/geonames.meaning.yaml",
+            "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+          },
+          "meaning": {
+            "concept": "country",
+            "document": {
+              "path": "geo.meaning.yaml",
+              "repository": "https://github.com/meaninggraph/core",
+              "revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+              "sha256": "ee6eeea2e8038e016433a72dd15d45b6eaf89d3ae6e45893d4e5eeb7be61f4e9"
+            }
+          },
+          "role": "identifier"
+        },
+        "datatype": "string",
+        "entity": "geonames_countries",
+        "keys": {
+          "path": "country-keys.json",
+          "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+        },
+        "model": {
+          "path": "model/geonames.modelspec.json",
+          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+        },
+        "module": "geonames",
+        "namespace": "GeoNames:countryInfoISO2",
+        "property": "iso",
+        "snapshot": {
+          "path": "source/artifact-snapshot.json",
+          "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
+        }
+      }
+    }
+  ],
+  "format": "ovdb-representation-contract/2"
+}

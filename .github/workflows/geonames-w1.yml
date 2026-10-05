@@ -14,3 +14,5 @@ jobs:
           fetch-depth: 0
       - name: Validate projection, packaged native artifacts and negative controls
         run: python3 -m unittest discover -s scripts -p 'test_*geonames_w1.py' -v
+      - name: Reproduce reviewed representation metadata
+        run: python3 scripts/generate_representations.py --check
