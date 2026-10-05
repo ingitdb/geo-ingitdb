@@ -21,12 +21,15 @@ script's own earlier immutable code commit. No artifact references its containin
 commit. Actual measurements for the four source keys are in
 `source/native-key-evidence.json`; they do not grant semantic eligibility.
 
-The native helper currently expects a filename-keyed `snapshot.outputs` map, while
-the original GeoNames descriptor uses `outputs.sqlite.file = "geonames.sqlite"` and
-also has an unrelated chunks array. These originals are not normalized or relabelled
-as helper-compatible receipts. A dedicated architecture/continuity review owns any
-explicit selector adapter and representation contract. Existing country bridges
-retain their original scopes independently of that deferred native mechanism.
+The original GeoNames descriptor uses `outputs.sqlite.file = "geonames.sqlite"`
+and also has an unrelated chunks array. The additive `source/native/<entity>.json`
+generation receipts keep that original object unchanged and explicitly name its
+bounded source file/hash through `snapshot_association.source` with literal
+`output_key: "sqlite"`. They require the separately reviewed native helper extension;
+they do not normalize originals or create representation contracts. The alternate
+name namespace is a source-local `alternateNameId` generation annotation, without
+canonical or user interoperability acceptance. Existing country bridges retain
+their original scopes independently of this native generation evidence.
 
 Rebuild only from the reviewed private full-build directory:
 

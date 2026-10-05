@@ -29,9 +29,13 @@ SOURCE_METADATA = ["ATTRIBUTION.txt", "country-keys.json", "bridges/accepted-inp
                        "geonames_northwind_order_country", "geonames_pubs_publisher_country")],
                    "model/geonames.modelspec.hcl", "model/geonames.modelspec.json", "model/geonames.meaning.yaml"]
 REQUIRED_METADATA = [*SOURCE_METADATA, "LICENSE", "DATA-LICENSE.md", "source/generation-snapshot.json",
-                     "source/generation-validation.json", "source/native-key-evidence.json"]
+                     "source/generation-validation.json", "source/native-key-evidence.json",
+                     *["source/native/" + table + ".json" for table in (
+                         "geonames_countries", "geonames_admin1", "geonames_places", "geonames_alternate_names")]]
 KEYS = {"geonames_countries": "iso", "geonames_admin1": "code", "geonames_places": "geonameid",
         "geonames_alternate_names": "alternate_name_id"}
+NAMESPACES = {"geonames_countries": "GeoNames:countryInfoISO2", "geonames_admin1": "GeoNames:admin1compositecode",
+              "geonames_places": "GeoNames:geonameid", "geonames_alternate_names": "GeoNames:alternateNameId"}
 DATA_LICENSE = """\n\n## Additive GeoNames W1 artifact package
 
 GeoNames geographic data is licensed under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).
@@ -199,6 +203,27 @@ def chunk_paths(source):
     return [{"path": PREFIX + item["file"], "sha256": item["sha256"], "bytes": item["bytes"]} for item in chunks]
 
 
+def native_receipts(source, proof):
+    """Explicit selected-original descriptor association; no representation admission."""
+    receipts = {}
+    for key in proof["keys"]:
+        table = key["entity"]
+        native = {"module": key["module"], "entity": table, "property": key["property"],
+                  "namespace": NAMESPACES[table], "model": proof["model"], "binding": proof["binding"],
+                  "dataset": proof["dataset"], "records": key["records"], "duplicates": key["duplicates"]}
+        receipts["source/native/" + table + ".json"] = {
+            "native_key": native, "snapshot": source,
+            "snapshot_association": {"source": proof["original_snapshot"], "output_key": "sqlite"},
+            "native_key_checks": {"generation_provider": proof["generation_provider"],
+                                  "original_importer_sha256": proof["original_importer_sha256"],
+                                  "constraint": key["constraint"], "missing": key["missing"],
+                                  "invalid_native_values": key["invalid_native_values"], "sqlite_integrity": proof["sqlite_integrity"]},
+            "eligibility": "source generation evidence only; no user mapping or native representation eligibility",
+            "namespace_provenance": ("official alternateNameId source column; source-local generation annotation only, not canonical/user interoperability acceptance"
+                                     if table == "geonames_alternate_names" else "existing accepted provider-scoped source namespace; no new user mapping")}
+    return receipts
+
+
 def reconstruct(root, descriptor, destination=None):
     encoded_hash, decoded_hash, encoded_count, decoded_count = hashlib.sha256(), hashlib.sha256(), 0, 0
     with tempfile.TemporaryFile() as encoded:
@@ -283,6 +308,9 @@ def verify_bundle(root, code_root=None):
         proof = native_evidence(database, source, {"path": "source/generation-snapshot.json", "sha256": SOURCE_SNAPSHOT_SHA256})
     if read_json(safe_path(root, "source/native-key-evidence.json")) != proof:
         raise ValueError("native key evidence/generation provider association mismatch")
+    for name, expected in native_receipts(source, proof).items():
+        if read_json(safe_path(root, name)) != expected:
+            raise ValueError("per-entity native original snapshot/key/proof association mismatch")
     if read_json(safe_path(root, "country-keys.json")) != proof["country_keys"]:
         raise ValueError("native country index association mismatch")
     model = read_json(safe_path(root, "model/geonames.modelspec.json"))
@@ -325,6 +353,8 @@ def package(root, bundle, output, revision, receipt):
         proof = native_evidence(safe_path(bundle, "geonames.sqlite"), source,
                                 {"path": "source/generation-snapshot.json", "sha256": SOURCE_SNAPSHOT_SHA256})
         write_json(stage / "source/native-key-evidence.json", proof)
+        for name, native_receipt in native_receipts(source, proof).items():
+            write_json(stage / name, native_receipt)
         chunks = chunk_paths(source)
         total, encoded = 0, hashlib.sha256()
         for item, original_chunk in zip(chunks, source["outputs"]["chunks"]):

@@ -48,6 +48,8 @@ class PackageTest(unittest.TestCase):
         self.assertEqual((self.root / "source/generation-validation.json").read_bytes(),
                          package.git_blob(ROOT, package.SOURCE_REVISION, "w1/validation.json"))
         self.assertEqual(package.digest(self.root / "source/generation-snapshot.json"), package.SOURCE_SNAPSHOT_SHA256)
+        self.assertTrue((self.root / "DATA-LICENSE.md").read_bytes().startswith(
+            package.git_blob(ROOT, package.SOURCE_REVISION, "DATA-LICENSE.md")))
 
     def test_source_generation_repo_revision_and_original_hash_are_checked(self):
         original = copy.deepcopy(self.snapshot)
@@ -105,6 +107,25 @@ class PackageTest(unittest.TestCase):
             with self.subTest(value=value["generation_provider"]):
                 self.alter_metadata(name, value)
                 self.rejected()
+
+    def test_per_entity_original_association_key_and_proofs_are_checked(self):
+        name = "source/native/geonames_places.json"
+        original = package.read_json(self.root / name)
+        mutants = []
+        for target, field, value in [("native_key", "property", "name"), ("native_key", "namespace", "generic-city"),
+                                     ("snapshot_association", "output_key", "chunks"), ("native_key", "records", 1)]:
+            changed = copy.deepcopy(original)
+            changed[target][field] = value
+            mutants.append(changed)
+        changed = copy.deepcopy(original)
+        changed["snapshot_association"]["source"]["sha256"] = "0" * 64
+        mutants.append(changed)
+        changed = copy.deepcopy(original)
+        changed["snapshot"]["counts"]["geonames_places"] -= 1
+        mutants.append(changed)
+        for value in mutants:
+            self.alter_metadata(name, value)
+            self.rejected()
 
     def test_original_receipt_or_snapshot_rewrite_cannot_be_repinned(self):
         for name in ("source/generation-validation.json", "source/generation-snapshot.json"):
@@ -164,6 +185,25 @@ class PackageTest(unittest.TestCase):
             package.package(ROOT, self.root, self.root / "candidate", package.SOURCE_REVISION, self.root / "measure.json")
         self.assertFalse((self.root / "candidate").exists())
         self.assertFalse(list(self.root.glob(".geonames-package-*")))
+
+    def test_package_budget_failure_cleans_completed_stage_without_narrowing(self):
+        bundle = self.root / "input-bundle"
+        bundle.mkdir()
+        for name in package.SOURCE_METADATA:
+            destination = bundle / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(self.root / name, destination)
+        shutil.copyfile(self.root / "source/generation-snapshot.json", bundle / "snapshot.json")
+        for chunk in self.snapshot["sqlite"]["chunks"]:
+            shutil.copyfile(self.root / chunk["path"], bundle / Path(chunk["path"]).name)
+        with (bundle / "geonames.sqlite").open("wb") as stream:
+            package.reconstruct(self.root, self.snapshot["sqlite"], stream)
+        output = self.root / "over-budget"
+        with patch.object(package, "DISK_LIMIT", 1), self.assertRaisesRegex(ValueError, "resource budget"):
+            package.package(ROOT, bundle, output, self.snapshot["generator"]["revision"], self.root / "measurement.json")
+        self.assertFalse(output.exists())
+        self.assertFalse(list(self.root.glob(".geonames-package-*")))
+        self.assertFalse((self.root / "measurement.json").exists())
 
 
 if __name__ == "__main__":
