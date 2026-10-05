@@ -1,10 +1,12 @@
 ---
 ovdb: 1
-publish: [./ovdb.yaml, ./ovdb-database.json]
+publish: [./ovdb.yaml]
 ---
 # GeoNames W1 candidate deployment metadata
 
-The explicit list opts both manifests into reviewed publisher ingestion. These
+The explicit list opts [publisher YAML](ovdb.yaml) into publisher ingestion.
+The separate [public database descriptor](ovdb-database.json) declares discovery
+metadata and candidate query status; it is not a publisher manifest. These
 wrappers allocate the existing Cloud identities; they do not prove live hosting,
 Directory admission or query availability. The candidate JSON declares query=false
 and manifest.json declares available/query/deploymentVerified=false. Future runtime
