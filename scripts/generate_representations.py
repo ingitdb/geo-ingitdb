@@ -15,8 +15,8 @@ def encoded(value):
     return (json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
 
-def pinned(path, expected):
-    file = ROOT / path
+def pinned(path, expected, root=ROOT):
+    file = root / path
     if file.is_symlink() or not file.is_file():
         raise ValueError(f"expected regular metadata file: {path}")
     data = file.read_bytes()
@@ -30,12 +30,12 @@ def external(repository, revision, path, sha256):
                 path=path, sha256=sha256)
 
 
-def generate(check=False):
-    document = build()
+def generate(check=False, root=ROOT):
+    document = build(root)
     data = encoded(document)
     envelope = encoded(dict(path="model/representations.json", sha256=hashlib.sha256(data).hexdigest()))
     for path, value in [("model/representations.json", data), ("source/representation-attachment.json", envelope)]:
-        target = ROOT / path
+        target = root / path
         if check:
             if target.is_symlink() or not target.is_file() or target.read_bytes() != value:
                 raise ValueError(f"generated metadata differs: {path}")
@@ -46,24 +46,28 @@ def generate(check=False):
     return document
 
 
-def build():
-    snapshot = pinned("source/artifact-snapshot.json", "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b")
-    inputs = pinned("bridges/accepted-inputs.json", "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d")
-    accepted = json.loads((ROOT / inputs["path"]).read_bytes())
+def build(root=ROOT):
+    def local(path, expected):
+        return pinned(path, expected, root)
+
+
+    snapshot = local("source/artifact-snapshot.json", "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b")
+    inputs = local("bridges/accepted-inputs.json", "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d")
+    accepted = json.loads((root / inputs["path"]).read_bytes())
     target = dict(snapshot=snapshot, module="geonames", entity="geonames_countries",
                   property="iso", datatype="string", namespace="GeoNames:countryInfoISO2",
-                  model=pinned("model/geonames.modelspec.json", "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"),
-                  keys=pinned("country-keys.json", "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"),
-                  binding=dict(document=pinned("model/geonames.meaning.yaml", "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"),
+                  model=local("model/geonames.modelspec.json", "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"),
+                  keys=local("country-keys.json", "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"),
+                  binding=dict(document=local("model/geonames.meaning.yaml", "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"),
                                concept="geonames-country", role="identifier",
                                meaning=dict(document=external("meaninggraph/core", CORE, "geo.meaning.yaml", "ee6eeea2e8038e016433a72dd15d45b6eaf89d3ae6e45893d4e5eeb7be61f4e9"), concept="country")))
-    artifacts = {a["path"]: a for a in json.loads((ROOT / snapshot["path"]).read_bytes())["artifacts"]}
+    artifacts = {a["path"]: a for a in json.loads((root / snapshot["path"]).read_bytes())["artifacts"]}
     contracts = []
     for item in accepted["bridges"]:
         table = item["table"]
         path = f"bridges/{table}.json"
-        artifact = pinned(path, artifacts[path]["sha256"])
-        export = json.loads((ROOT / path).read_bytes())
+        artifact = local(path, artifacts[path]["sha256"])
+        export = json.loads((root / path).read_bytes())
         if export != {"table": table, "rows": item["rows"]}:
             raise ValueError(f"export differs from reviewed accepted values: {table}")
         contracts.append(dict(execution="label-bridge", source=item["source"], target=target,

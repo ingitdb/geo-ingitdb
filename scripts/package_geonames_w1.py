@@ -4,6 +4,7 @@ import argparse
 from contextlib import closing
 import gzip
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -118,6 +119,17 @@ def physical_closure(root, required, code_root):
         if read_metadata(path) != git_blob(code_root, SOURCE_REVISION, legacy):
             raise ValueError("legacy bridge authority changed")
         expected.add(legacy)
+    # Independently reproduced later attachment pair; preserve original native
+    # snapshot/artifact closure and do not allow arbitrary additional metadata.
+    attachment_files = {"model/representations.json", "source/representation-attachment.json"}
+    if any(safe_path(root, name).exists() for name in attachment_files):
+        for name in attachment_files:
+            regular_file(safe_path(root, name), METADATA_LIMIT)
+        spec = importlib.util.spec_from_file_location("representation_generator", Path(__file__).with_name("generate_representations.py"))
+        generator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(generator)
+        generator.generate(check=True, root=root)
+        expected.update(attachment_files)
     directories = {str(parent) for name in expected for parent in Path(name).parents if str(parent) != "."}
     found = set()
     def visit(relative):
@@ -218,9 +230,9 @@ def git_blob(root, revision, path):
         raise ValueError("immutable Git blob unavailable") from error
 
 
-def generator(root, revision):
+def generator(root, revision, require_current=True):
     data = git_blob(root, revision, SCRIPT)
-    if data != read_metadata(safe_path(root, SCRIPT)):
+    if require_current and data != read_metadata(safe_path(root, SCRIPT)):
         raise ValueError("packager differs from committed generator")
     return {"repository": REPOSITORY, "revision": revision, "script": SCRIPT,
             "sha256": hashlib.sha256(data).hexdigest()}
@@ -349,7 +361,9 @@ def verify_bundle(root, code_root=None):
     root = Path(root)
     code_root = Path(code_root) if code_root else Path(__file__).resolve().parents[1]
     snapshot = read_json(safe_path(root, "source/artifact-snapshot.json"))
-    if snapshot.get("generator") != generator(code_root, snapshot["generator"].get("revision", "")):
+    # Verify the immutable historical generator blob/hash; do not execute it.
+    # Build still requires current script bytes to match its chosen code pin.
+    if snapshot.get("generator") != generator(code_root, snapshot["generator"].get("revision", ""), require_current=False):
         raise ValueError("packaging generator Git association mismatch")
     original = read_metadata(safe_path(root, "source/generation-validation.json"))
     original_source = read_metadata(safe_path(root, "source/generation-snapshot.json"))
