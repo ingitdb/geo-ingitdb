@@ -151,6 +151,26 @@ class W1Test(unittest.TestCase):
             self.build()
         self.assertEqual(before, w1.digest(self.root / "out" / "snapshot.json"))
 
+    def test_capture_attests_fully_flushed_small_file_bytes(self):
+        class Response(io.BytesIO):
+            status = 200
+            headers = {"Content-Length": "2"}
+
+        class Opener:
+            def open(self, request, timeout):
+                self.request = request
+                return Response(b"x\n")
+
+        captured = self.root / "captured"
+        with patch.object(w1.urllib.request, "build_opener", return_value=Opener()):
+            manifest = json.loads(w1.capture(captured).read_text())
+        for name in w1.FILES:
+            self.assertEqual(manifest["sources"][name]["sha256"], w1.digest(captured / name))
+        with self.assertRaisesRegex(w1.ProjectionError, "already exists"):
+            w1.capture(captured)
+        with self.assertRaisesRegex(w1.ProjectionError, "redirect refused"):
+            w1.NoRedirect().redirect_request(None, None, 302, "Found", {}, "https://elsewhere.example/")
+
 
 if __name__ == "__main__":
     unittest.main()

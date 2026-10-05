@@ -112,6 +112,7 @@ def capture(directory):
                 target.write(block)
             if length and size != int(length):
                 raise ProjectionError("truncated source download")
+            target.flush()
             manifest["sources"][name] = {
                 "url": BASE + name, "file": name, "member": member, "bytes": size,
                 "sha256": digest(path), "fetched_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
