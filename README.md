@@ -152,6 +152,10 @@ is a local reproduction check: full structural verification uses the released
 OVDB v0.27.0 `publisher/representation.Check` with regular committed-file readers
 for all exact external pins. Format 3 source-data byte proof is a separate stage;
 metadata resolution must never fetch source data, native SQLite or ordered chunks.
+The released Git repository reader also needs literal `$records` support for
+the unchanged canonical decision paths before its full repository checks can
+validate this attachment. An explicit checked metadata resolver alone does not
+close that tooling prerequisite.
 
 These files grant no semantic acceptance or production eligibility. Independent
 review must tie the final provider commit and attachment path/hash to the original
