@@ -228,7 +228,9 @@ class PackageTest(unittest.TestCase):
                                 output.truncate(package.METADATA_LIMIT + 1)
                         # Demonstrate the guard runs before even a bounded open.
                         with patch.object(package.os, "open", side_effect=AssertionError("opened unsafe metadata")):
-                            self.rejected()
+                            with self.assertRaises(ValueError):
+                                package.read_json(path)
+                        self.rejected()
                         if kind == "directory":
                             path.rmdir()
                         else:
