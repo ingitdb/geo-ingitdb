@@ -131,6 +131,88 @@ class W1Test(unittest.TestCase):
         with self.assertRaisesRegex(w1.ProjectionError, "duplicate native alternateNamesV2"):
             self.build()
 
+    def test_non_ror_city_overlap_is_checked_and_identical_row_retained_once(self):
+        self.sources["cities5000.zip"].append(place("99", name="city original"))
+        self.sources["allCountries.zip"].append(place("99", name="global conflict"))
+        self.write_inputs()
+        with self.assertRaisesRegex(w1.ProjectionError, "source collision: 99"):
+            self.build()
+        self.assertFalse((self.root / "out").exists())
+        self.assertFalse(list(self.root.glob(".geonames-w1-*")))
+        self.sources["allCountries.zip"][-1] = place("99", name="city original")
+        self.write_inputs()
+        self.assertEqual(self.build()["counts"]["geonames_places"], 3)
+
+    def test_strict_ror_json_rejections_leave_no_failed_output(self):
+        valid = '{"locations":[{"geonames_id":1}]}'
+        invalid = [
+            '[{"locations":[{"geonames_id":999}],"locations":[{"geonames_id":1}]}]',
+            '[{"locations":[{"geonames_id":999,"geonames_id":1}]}]',
+            '[{"locations":[{"geonames_id":1}],"nested":{"x":0,"x":1}}]',
+            *['[{"locations":[{"geonames_id":1}],"x":' + x + '}]'
+              for x in ('NaN', 'Infinity', '-Infinity', '1e999', '-1e999')],
+            *[ws + '[' + valid + ']' for ws in ('\v', '\f', '\u00a0')],
+            '[' + valid + ']\u00a0', '[' + valid + ',\v' + valid + ']',
+            *['[{"locations":[{"geonames_id":' + key + '}]}]'
+              for key in ('true', '1.0', '"01"')],
+        ]
+        record = '{"locations":[{"geonames_id":1}],"padding":"' + 'x' * (1 << 20) + '"}'
+        invalid.append('[' + record + ']')
+        (self.root / "ids.txt").write_text("1\n", encoding="utf-8")
+        for index, data in enumerate(invalid):
+            with self.subTest(data=data[:90]):
+                archive = self.root / "ror.zip"
+                with zipfile.ZipFile(archive, "w") as zipped:
+                    zipped.writestr("ror.json", data)
+                self.ror.update(archive_sha256=w1.digest(archive), archive_bytes=archive.stat().st_size,
+                                record_count=1, location_count=1, id_count=1,
+                                ids_sha256=w1.digest(self.root / "ids.txt"))
+                self.write_ror()
+                name = f"bad-json-{index}"
+                with self.assertRaises(w1.ProjectionError):
+                    self.build(name)
+                self.assertFalse((self.root / name).exists())
+                self.assertFalse(list(self.root.glob(".geonames-w1-*")))
+                self.assertEqual(json.loads((self.root / (name + "-receipt.json")).read_text())["status"], "blocked")
+
+    def test_ror_json_exact_utf8_record_bound_and_chunk_boundaries(self):
+        class Chunked(io.StringIO):
+            def read(self, size=-1):
+                return super().read(min(size, 7))
+
+        prefix, suffix = '{"locations":[],"padding":"', '"}'
+        padding_size = (1 << 20) - len(prefix) - len(suffix)
+        exact = prefix + 'é' * (padding_size // 2) + 'x' * (padding_size % 2) + suffix
+        self.assertEqual(len(exact.encode('utf-8')), 1 << 20)
+        self.assertEqual(len(list(w1.json_array(io.StringIO('[' + exact + ']')))), 1)
+        with self.assertRaisesRegex(w1.ProjectionError, "overlong"):
+            list(w1.json_array(io.StringIO('[' + exact[:-2] + 'x' + suffix + ']')))
+        data = ' \r\n[ {"locations":[{"geonames_id":"1"}],"nested":{"a":2}}, {} ]\t'
+        self.assertEqual(list(w1.json_array(Chunked(data))), json.loads(data))
+        for data in ('[{"a":0,"a":1}]', '[{"nested":{"a":0,"a":1}}]', '[{"x":1e999}]', '[{}]\v'):
+            with self.subTest(data=data), self.assertRaises(w1.ProjectionError):
+                list(w1.json_array(Chunked(data)))
+
+        prefix = '{"locations":[{"geonames_id":"1"}],"padding":"'
+        exact = prefix + 'x' * ((1 << 20) - len(prefix) - len(suffix)) + suffix
+        (self.root / "ids.txt").write_text("1\n", encoding="utf-8")
+        for label, record in (("exact", exact), ("over", exact[:-2] + 'x' + suffix)):
+            archive = self.root / "ror.zip"
+            with zipfile.ZipFile(archive, "w") as zipped:
+                zipped.writestr("ror.json", '[' + record + ']')
+            self.ror.update(archive_sha256=w1.digest(archive), archive_bytes=archive.stat().st_size,
+                            record_count=1, location_count=1, id_count=1,
+                            ids_sha256=w1.digest(self.root / "ids.txt"))
+            self.write_ror()
+            if label == "exact":
+                self.assertEqual(self.build(label)["counts"]["required_ror_places"], 1)
+            else:
+                with self.assertRaisesRegex(w1.ProjectionError, "overlong"):
+                    self.build(label)
+                self.assertFalse((self.root / label).exists())
+                self.assertFalse(list(self.root.glob(".geonames-w1-*")))
+                self.assertEqual(json.loads((self.root / (label + "-receipt.json")).read_text())["status"], "blocked")
+
     def test_budget_failure_is_reported_without_output_or_scope_narrowing(self):
         with patch.dict(w1.LIMITS, {"sqlite_bytes": 1}):
             with self.assertRaisesRegex(w1.ProjectionError, "exceeds 256MiB"):

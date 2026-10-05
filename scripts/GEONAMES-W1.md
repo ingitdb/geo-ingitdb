@@ -83,6 +83,12 @@ accepted-input provenance. No attachment references its own containing commit.
 The native country index uses the accepted source-qualified namespace
 `GeoNames:countryInfoISO2`, including historic provider-retained countryInfo rows.
 It does not assert that every row is a current ISO3166-1 member.
+ROR JSON rejects duplicate members recursively, nonfinite constants/numbers and
+non-JSON whitespace. Each decoded object is bounded to 1MiB of original UTF-8
+JSON bytes; native integer/string GeoNames identifiers keep their existing checks.
+Every retained cities5000 row must match its allCountries overlap exactly, including
+places absent from the ROR ID set. Separately fetched upstream files are not an
+atomic snapshot; conflicting overlaps fail the candidate without choosing a source.
 Chunks obey the existing 25MiB fetch guard; their order/hash and decoded SQLite hash
 are ready for the designated runtime owner. These files are private build outputs:
 no production mount, Directory discovery or public availability is claimed here.

@@ -11,6 +11,7 @@ import gzip
 import hashlib
 import io
 import json
+import math
 import os
 from pathlib import Path
 import platform
@@ -224,7 +225,7 @@ def checked_ror(path):
     if archive_path.stat().st_size != value["archive_bytes"] or digest(archive_path) != value["archive_sha256"]:
         raise ProjectionError("ROR archive checksum/size mismatch")
     with source_stream(archive_path, value["json_member"]) as binary:
-        with io.TextIOWrapper(binary, encoding="utf-8") as stream:
+        with io.TextIOWrapper(binary, encoding="utf-8", newline="") as stream:
             ids, records, locations = set(), 0, 0
             for record in json_array(stream):
                 records += 1
@@ -245,12 +246,31 @@ def checked_ror(path):
 
 def json_array(stream):
     """Incrementally decode the complete top-level ROR array, bounded per record."""
-    decoder = json.JSONDecoder()
+    def unique_object(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ProjectionError(f"duplicate ROR JSON member: {key}")
+            value[key] = item
+        return value
+
+    def finite_float(text):
+        value = float(text)
+        if not math.isfinite(value):
+            raise ProjectionError("nonfinite ROR JSON number")
+        return value
+
+    def reject_constant(text):
+        raise ProjectionError(f"non-standard ROR JSON constant: {text}")
+
+    decoder = json.JSONDecoder(object_pairs_hook=unique_object, parse_float=finite_float,
+                               parse_constant=reject_constant)
+    whitespace = " \t\r\n"
     buffer = ""
     state = "start"
     eof = False
     while True:
-        buffer = buffer.lstrip()
+        buffer = buffer.lstrip(whitespace)
         if not buffer and not eof:
             block = stream.read(65536)
             eof = not block
@@ -267,12 +287,14 @@ def json_array(stream):
             try:
                 value, end = decoder.raw_decode(buffer)
             except json.JSONDecodeError as error:
-                if eof or len(buffer) > 1 << 20:
+                if eof or len(buffer.encode("utf-8")) > 1 << 20:
                     raise ProjectionError("truncated or overlong ROR JSON record") from error
                 block = stream.read(65536)
                 eof = not block
                 buffer += block
                 continue
+            if len(buffer[:end].encode("utf-8")) > 1 << 20:
+                raise ProjectionError("overlong ROR JSON record exceeds 1MiB")
             if not isinstance(value, dict):
                 raise ProjectionError("ROR array members must be objects")
             yield value
@@ -285,7 +307,7 @@ def json_array(stream):
             else:
                 raise ProjectionError("malformed ROR array delimiter")
         else:
-            if buffer.strip() or any(block.strip() for block in iter(lambda: stream.read(65536), "")):
+            if buffer.strip(whitespace) or any(block.strip(whitespace) for block in iter(lambda: stream.read(65536), "")):
                 raise ProjectionError("trailing ROR JSON content")
             return
 
@@ -398,9 +420,9 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path, bridge_i
                     source_counts[name] = count
                 bridge_counts = export_bridges(db, stage, bridge_inputs) if bridge_inputs else {}
                 db.commit()
-                # allCountries is scanned once. Only IDs required by ROR are loaded.
+                # allCountries is scanned once; every retained city overlap must agree.
                 scan_count = 0
-                found = set()
+                city_ids = {row[0] for row in db.execute("SELECT geonameid FROM geonames_places")}
                 with source_stream(source_root / "allCountries.zip", "allCountries.txt") as stream:
                     for fields in rows(stream, PLACE):
                         key = positive_id(fields[0])
@@ -409,15 +431,12 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path, bridge_i
                         except sqlite3.IntegrityError as error:
                             raise ProjectionError(f"duplicate native allCountries key: {key}") from error
                         scan_count += 1
-                        if db.execute("SELECT 1 FROM required_ror_places WHERE geonameid=?", (key,)).fetchone():
-                            if key in found:
-                                raise ProjectionError(f"duplicate required native key in allCountries: {key}")
-                            found.add(key)
+                        if key in city_ids:
                             existing = db.execute("SELECT * FROM geonames_places WHERE geonameid=?", (key,)).fetchone()
-                            if existing and tuple(fields) != existing:
+                            if tuple(fields) != existing:
                                 raise ProjectionError(f"cities5000/allCountries source collision: {key}")
-                            if not existing:
-                                insert(db, "geonames_places", fields)
+                        elif db.execute("SELECT 1 FROM required_ror_places WHERE geonameid=?", (key,)).fetchone():
+                            insert(db, "geonames_places", fields)
                         if scan_count % 10000 == 0:
                             budget.check()
                 source_counts["allCountries.zip"] = scan_count
