@@ -160,14 +160,19 @@ def rows(stream, columns, minimum=None):
 
 class Budget:
     def __init__(self, roots):
+        self.roots = []
+        self.include_roots(roots)
+        self.started = time.monotonic()
+        self.peak_disk = 0
+        self.peak_rss = 0
+
+    def include_roots(self, roots):
+        roots = list(self.roots) + list(roots)
         paths = sorted({Path(root).resolve() for root in roots}, key=lambda path: len(path.parts))
         self.roots = []
         for path in paths:
             if not any(path.is_relative_to(root) for root in self.roots):
                 self.roots.append(path)
-        self.started = time.monotonic()
-        self.peak_disk = 0
-        self.peak_rss = 0
 
     def check(self):
         usage = resource.getrusage(resource.RUSAGE_SELF)
@@ -350,6 +355,7 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path, bridge_i
         try:
             inputs = checked_inputs(manifest_path)
             ror, ids_path = checked_ror(ror_path)
+            budget.include_roots([ids_path.parent, (Path(ror_path).parent / ror["archive_file"]).parent])
             download_bytes = sum(x["bytes"] for x in inputs["sources"].values()) + ror["archive_bytes"]
             if download_bytes > LIMITS["download_bytes"]:
                 raise ProjectionError("full combined W1 download budget exceeded")
