@@ -1,0 +1,682 @@
+{
+  "apiUrl": "https://cloud.openvaultdb.com/v1/databases/geonames",
+  "capabilities": {
+    "query": false,
+    "read": true,
+    "write": false
+  },
+  "deployment": {
+    "discovery": "https://cloud.openvaultdb.com/.well-known/openvaultdb",
+    "engine": "sqlite",
+    "url": "https://cloud.openvaultdb.com/ovdb/dbs/geonames"
+  },
+  "description": "Accepted pinned native source projection. Query availability awaits reviewed live runtime proof; native identifiers, source values, exceptions and multiplicity are preserved.",
+  "format": "ovdb-database/draft-1",
+  "homepage": "https://github.com/ingitdb/geo-ingitdb",
+  "id": "https://cloud.openvaultdb.com/ovdb/dbs/geonames",
+  "licences": {
+    "data": "CC-BY-4.0",
+    "meaning": "CC0-1.0",
+    "model": "CC0-1.0"
+  },
+  "localId": "geonames",
+  "meaning": {
+    "id": "meaning://github.com/ingitdb/geo-ingitdb",
+    "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/model/geonames.meaning.yaml"
+  },
+  "model": {
+    "hclUrl": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/model/geonames.modelspec.hcl",
+    "id": "modelspec://github.com/ingitdb/geo-ingitdb/geonames",
+    "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/model/geonames.modelspec.json"
+  },
+  "provenance": {
+    "license": "CC-BY-4.0",
+    "notes": "Unchanged generated native SQLite, reconstructed only from the accepted ordered chunks. The logical SQLite path is not a hosted download file. Original upstream inputs, generator, hashes and coverage remain in source/artifact-snapshot.json and its referenced source receipts. Serving artifacts and public query proof have separate future receipts.",
+    "path": "geonames.sqlite",
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "revision": "57e25689009047a557d35519831b8413b4abe838",
+    "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+  },
+  "publisher": {
+    "name": "inGitDB",
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "url": "https://github.com/ingitdb"
+  },
+  "recordsets": [
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "code",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "name",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "asciiname",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "geonameid",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_admin1",
+      "primaryKey": [
+        {
+          "column": "code",
+          "position": 1
+        }
+      ],
+      "rowCount": 3865
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "alternate_name_id",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "geonameid",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "isolanguage",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "alternate_name",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "is_preferred_name",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "is_short_name",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "is_colloquial",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "is_historic",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "from_period",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "to_period",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_alternate_names",
+      "primaryKey": [
+        {
+          "column": "alternate_name_id",
+          "position": 1
+        }
+      ],
+      "rowCount": 844831
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "serving_id",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "raw_label",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "target_key",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_chinook_customer_country",
+      "primaryKey": [
+        {
+          "column": "serving_id",
+          "position": 1
+        }
+      ],
+      "rowCount": 24
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "iso",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "iso3",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "iso_numeric",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "fips",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "country",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "capital",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "area_sq_km",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "population",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "continent",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "tld",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "currency_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "currency_name",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "phone",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "postal_code_format",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "postal_code_regex",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "languages",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "geonameid",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "neighbours",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "equivalent_fips_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_countries",
+      "primaryKey": [
+        {
+          "column": "iso",
+          "position": 1
+        }
+      ],
+      "rowCount": 252
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "serving_id",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "raw_label",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "target_key",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_northwind_customer_country",
+      "primaryKey": [
+        {
+          "column": "serving_id",
+          "position": 1
+        }
+      ],
+      "rowCount": 21
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "serving_id",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "raw_label",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "target_key",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_northwind_order_country",
+      "primaryKey": [
+        {
+          "column": "serving_id",
+          "position": 1
+        }
+      ],
+      "rowCount": 21
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "geonameid",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "name",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "asciiname",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "alternatenames",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "latitude",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "longitude",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "feature_class",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "feature_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "country_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "cc2",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "admin1_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "admin2_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "admin3_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "admin4_code",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "population",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "elevation",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "dem",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "timezone",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "modification_date",
+          "nullable": true,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_places",
+      "primaryKey": [
+        {
+          "column": "geonameid",
+          "position": 1
+        }
+      ],
+      "rowCount": 75300
+    },
+    {
+      "columns": [
+        {
+          "defaultValue": null,
+          "name": "serving_id",
+          "nullable": false,
+          "primaryKey": true,
+          "primaryKeyPosition": 1,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "raw_label",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        },
+        {
+          "defaultValue": null,
+          "name": "target_key",
+          "nullable": false,
+          "primaryKey": false,
+          "primaryKeyPosition": null,
+          "type": "TEXT"
+        }
+      ],
+      "description": "",
+      "foreignKeys": [],
+      "kind": "table",
+      "name": "geonames_pubs_publisher_country",
+      "primaryKey": [
+        {
+          "column": "serving_id",
+          "position": 1
+        }
+      ],
+      "rowCount": 3
+    }
+  ],
+  "serverDbBaseUrl": "https://cloud.openvaultdb.com/ovdb/dbs/geonames",
+  "serverId": "https://cloud.openvaultdb.com/ovdb/",
+  "title": "GeoNames W1"
+}
