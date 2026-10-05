@@ -112,10 +112,13 @@ def git_blob(root, revision, path):
     safe_path(root, path)
     if not re.fullmatch(r"[0-9a-f]{40}", revision):
         raise ValueError("immutable Git commit required")
-    kind = subprocess.run(["git", "-C", str(root), "cat-file", "-t", revision], check=True, capture_output=True).stdout.strip()
-    if kind != b"commit":
-        raise ValueError("revision is not a Git commit")
-    return subprocess.run(["git", "-C", str(root), "show", f"{revision}:{path}"], check=True, capture_output=True).stdout
+    try:
+        kind = subprocess.run(["git", "-C", str(root), "cat-file", "-t", revision], check=True, capture_output=True).stdout.strip()
+        if kind != b"commit":
+            raise ValueError("revision is not a Git commit")
+        return subprocess.run(["git", "-C", str(root), "show", f"{revision}:{path}"], check=True, capture_output=True).stdout
+    except subprocess.CalledProcessError as error:
+        raise ValueError("immutable Git blob unavailable") from error
 
 
 def generator(root, revision):
