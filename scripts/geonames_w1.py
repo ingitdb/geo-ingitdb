@@ -454,7 +454,7 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path, bridge_i
                 counts = {table: db.execute(f'SELECT count(*) FROM "{table}"').fetchone()[0]
                           for table in (*TABLES, "required_ror_places", "missing_ror_places", "missing_admin1_references", "missing_country_references", "orphan_admin1")}
                 counts.update(bridge_counts)
-                write_json(stage / "country-keys.json", {"namespace": "iso-3166-1-alpha-2",
+                write_json(stage / "country-keys.json", {"namespace": "GeoNames:countryInfoISO2",
                            "keys": [row[0] for row in db.execute("SELECT iso FROM geonames_countries ORDER BY iso")]})
                 if db.execute("SELECT count(*) FROM geonames_alternate_names WHERE geonameid NOT IN (SELECT geonameid FROM geonames_places)").fetchone()[0]:
                     raise ProjectionError("retained alias closure failed")

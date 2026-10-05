@@ -192,6 +192,8 @@ class W1Test(unittest.TestCase):
                 self.assertEqual(db.execute(f'SELECT count(*) FROM "{table}" WHERE raw_label=?', ("USA",)).fetchone()[0], 0)
         artifacts = {item["path"]: item["sha256"] for item in snapshot["artifacts"]}
         self.assertIn("country-keys.json", artifacts)
+        keys = json.loads((self.root / "with-bridges" / "country-keys.json").read_text())
+        self.assertEqual(keys["namespace"], "GeoNames:countryInfoISO2")
         self.assertIn("model/geonames.meaning.yaml", artifacts)
         inputs["bridges"][0]["rows"].append(inputs["bridges"][0]["rows"][0])
         w1.write_json(bridge_path, inputs)

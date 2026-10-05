@@ -80,6 +80,9 @@ Each output includes SQLite, deterministic ordered 16MiB decoded gzip chunks,
 The generic snapshot `generator` and `artifacts` fields bind the country key index,
 four physical bridge descriptors, provider model/meaning files and immutable
 accepted-input provenance. No attachment references its own containing commit.
+The native country index uses the accepted source-qualified namespace
+`GeoNames:countryInfoISO2`, including historic provider-retained countryInfo rows.
+It does not assert that every row is a current ISO3166-1 member.
 Chunks obey the existing 25MiB fetch guard; their order/hash and decoded SQLite hash
 are ready for the designated runtime owner. These files are private build outputs:
 no production mount, Directory discovery or public availability is claimed here.
