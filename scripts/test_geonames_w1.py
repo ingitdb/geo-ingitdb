@@ -33,7 +33,7 @@ class W1Test(unittest.TestCase):
         self.write_inputs()
         (self.root / "ids.txt").write_text("1\n2\n3\n", encoding="utf-8")
         archive = self.root / "ror.zip"
-        records = [{"locations": [{"geonames_details": {"geonames_id": key}} for key in keys]}
+        records = [{"locations": [{"geonames_id": key, "geonames_details": {"name": "A location"}} for key in keys]}
                    for keys in ([1, 2], [3], [1], [None])]
         with zipfile.ZipFile(archive, "w") as zipped:
             zipped.writestr("ror.json", json.dumps(records))

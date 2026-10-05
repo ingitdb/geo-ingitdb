@@ -225,7 +225,7 @@ def checked_ror(path):
                 records += 1
                 for location in record["locations"]:
                     locations += 1
-                    key = location.get("geonames_details", {}).get("geonames_id")
+                    key = location.get("geonames_id")
                     if key is not None:
                         if type(key) not in (int, str):
                             raise ProjectionError("non-native ROR location GeoNames identifier")
