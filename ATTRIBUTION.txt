@@ -1,0 +1,8 @@
+GeoNames W1 geographic projection
+Source: GeoNames https://www.geonames.org/
+Data: Creative Commons Attribution 4.0 https://creativecommons.org/licenses/by/4.0/
+Changes: selected global countries/admin1, cities5000 union complete pinned ROR GeoNames references,
+and every alternateNamesV2 row belonging to retained places; relational SQLite projection.
+Native source values and unresolved references are preserved. No GeoNames endorsement or warranty.
+Importer code: CC0-1.0, repository LICENSE. Models and meanings have their separate declared licences.
+ROR references: CC0 metadata; embedded GeoNames locations retain GeoNames CC-BY-4.0 attribution.

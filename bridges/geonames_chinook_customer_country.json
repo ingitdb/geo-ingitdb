@@ -1,0 +1,101 @@
+{
+  "rows": [
+    {
+      "raw_label": "Argentina",
+      "target_key": "AR"
+    },
+    {
+      "raw_label": "Australia",
+      "target_key": "AU"
+    },
+    {
+      "raw_label": "Austria",
+      "target_key": "AT"
+    },
+    {
+      "raw_label": "Belgium",
+      "target_key": "BE"
+    },
+    {
+      "raw_label": "Brazil",
+      "target_key": "BR"
+    },
+    {
+      "raw_label": "Canada",
+      "target_key": "CA"
+    },
+    {
+      "raw_label": "Chile",
+      "target_key": "CL"
+    },
+    {
+      "raw_label": "Czech Republic",
+      "target_key": "CZ"
+    },
+    {
+      "raw_label": "Denmark",
+      "target_key": "DK"
+    },
+    {
+      "raw_label": "Finland",
+      "target_key": "FI"
+    },
+    {
+      "raw_label": "France",
+      "target_key": "FR"
+    },
+    {
+      "raw_label": "Germany",
+      "target_key": "DE"
+    },
+    {
+      "raw_label": "Hungary",
+      "target_key": "HU"
+    },
+    {
+      "raw_label": "India",
+      "target_key": "IN"
+    },
+    {
+      "raw_label": "Ireland",
+      "target_key": "IE"
+    },
+    {
+      "raw_label": "Italy",
+      "target_key": "IT"
+    },
+    {
+      "raw_label": "Netherlands",
+      "target_key": "NL"
+    },
+    {
+      "raw_label": "Norway",
+      "target_key": "NO"
+    },
+    {
+      "raw_label": "Poland",
+      "target_key": "PL"
+    },
+    {
+      "raw_label": "Portugal",
+      "target_key": "PT"
+    },
+    {
+      "raw_label": "Spain",
+      "target_key": "ES"
+    },
+    {
+      "raw_label": "Sweden",
+      "target_key": "SE"
+    },
+    {
+      "raw_label": "USA",
+      "target_key": "US"
+    },
+    {
+      "raw_label": "United Kingdom",
+      "target_key": "GB"
+    }
+  ],
+  "table": "geonames_chinook_customer_country"
+}

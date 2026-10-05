@@ -61,3 +61,19 @@ match to a `countries` record was exact or manual.
 - **Settlements** — cities ≥ 15,000 population for the showcase countries only
   (default `GB,IE,US,DE`), to keep the repository git-friendly. Change with
   `--settlements`, or `--settlements ""` for none.
+
+
+## Additive GeoNames W1 artifact package
+
+GeoNames geographic data is licensed under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).
+Source and attribution: [GeoNames](https://www.geonames.org/), [official dump readme](https://download.geonames.org/export/dump/readme.txt).
+Keep this file and ATTRIBUTION.txt with downloaded/reconstructed data and display attribution in consumers.
+
+Changes: the pinned source files are projected into relational SQLite, with complete countryInfo/admin1,
+global cities5000 plus full pinned ROR location references, and every alias for retained features.
+Native values, feature classes/codes and unmatched references remain intact. Chunk packaging changes no data.
+No endorsement, warranty, atomic upstream snapshot or semantic eligibility is asserted.
+
+The ROR v2.13 metadata used for the place ID union is CC0; GeoNames attribution remains applicable.
+Code uses the repository LICENSE (CC0-1.0). Models and MeaningGraph files retain their declared CC0-1.0
+licence separately; that code/model licence does not relicense GeoNames data.

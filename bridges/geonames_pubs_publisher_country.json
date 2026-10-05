@@ -1,0 +1,17 @@
+{
+  "rows": [
+    {
+      "raw_label": "France",
+      "target_key": "FR"
+    },
+    {
+      "raw_label": "Germany",
+      "target_key": "DE"
+    },
+    {
+      "raw_label": "USA",
+      "target_key": "US"
+    }
+  ],
+  "table": "geonames_pubs_publisher_country"
+}

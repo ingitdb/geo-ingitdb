@@ -1,0 +1,802 @@
+{
+  "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+  "artifacts": [
+    {
+      "bytes": 652,
+      "path": "ATTRIBUTION.txt",
+      "sha256": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7"
+    },
+    {
+      "bytes": 4628,
+      "path": "DATA-LICENSE.md",
+      "sha256": "d5442960d5fc58661b5a45d965f65d5e681317ae6572b9c45d0e4225bd99538c"
+    },
+    {
+      "bytes": 7048,
+      "path": "LICENSE",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "bytes": 6218432,
+      "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+      "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+    },
+    {
+      "bytes": 4877469,
+      "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+      "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+    },
+    {
+      "bytes": 5700433,
+      "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+      "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+    },
+    {
+      "bytes": 5138706,
+      "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+      "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+    },
+    {
+      "bytes": 3109896,
+      "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+      "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+    },
+    {
+      "bytes": 12447,
+      "path": "bridges/accepted-inputs.json",
+      "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d"
+    },
+    {
+      "bytes": 1704,
+      "path": "bridges/geonames_chinook_customer_country.json",
+      "sha256": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded"
+    },
+    {
+      "bytes": 1486,
+      "path": "bridges/geonames_northwind_customer_country.json",
+      "sha256": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a"
+    },
+    {
+      "bytes": 1483,
+      "path": "bridges/geonames_northwind_order_country.json",
+      "sha256": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7"
+    },
+    {
+      "bytes": 264,
+      "path": "bridges/geonames_pubs_publisher_country.json",
+      "sha256": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377"
+    },
+    {
+      "bytes": 2582,
+      "path": "country-keys.json",
+      "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+    },
+    {
+      "bytes": 3777,
+      "path": "model/geonames.meaning.yaml",
+      "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+    },
+    {
+      "bytes": 4393,
+      "path": "model/geonames.modelspec.hcl",
+      "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa"
+    },
+    {
+      "bytes": 5509,
+      "path": "model/geonames.modelspec.json",
+      "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+    },
+    {
+      "bytes": 7001,
+      "path": "source/artifact-snapshot.json",
+      "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
+    },
+    {
+      "bytes": 7941,
+      "path": "source/generation-snapshot.json",
+      "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab"
+    },
+    {
+      "bytes": 12669,
+      "path": "source/generation-validation.json",
+      "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132"
+    },
+    {
+      "bytes": 5337,
+      "path": "source/native-key-evidence.json",
+      "sha256": "59d10462f828c32a652da074d7649ad68499845b75b03bdff93ddeb8907481f7"
+    },
+    {
+      "bytes": 9864,
+      "path": "source/native/geonames_admin1.json",
+      "sha256": "6e37456681bb8e71ed47705db3f53136d7156d3afaebb243caae16ae98b76d87"
+    },
+    {
+      "bytes": 9940,
+      "path": "source/native/geonames_alternate_names.json",
+      "sha256": "5a139309815e6c9ea54127390652f6121e4d54c1ab6ff479af5dc0bfb33296d0"
+    },
+    {
+      "bytes": 9861,
+      "path": "source/native/geonames_countries.json",
+      "sha256": "4f52bf1f9bbb417fc3ca1a67b0fc96e0af9d8baf271fd66cfe9eaaaa5b8e4412"
+    },
+    {
+      "bytes": 9860,
+      "path": "source/native/geonames_places.json",
+      "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56"
+    }
+  ],
+  "checker_repairs": {
+    "physical_closure": "exact designated distributable namespaces; logical dataset must not exist physically; unchanged optional source-pinned legacy bridge authority",
+    "pre_open_metadata": "nonempty regular file and size guards; no-follow nonblocking descriptor with fstat; bounded read defense in depth",
+    "proof_counts": "type-preserving JSON equality excludes float and boolean integer-count claims",
+    "review_probes": "original reviewer baseline passes; every negative probe including rehashed floats/bools and FIFO now rejects"
+  },
+  "complete_required_provenance_closure": "original snapshot/validation, four scoped receipts and actual native-key evidence, model/binding, key index, four accepted bridges and original accepted inputs, both licences, attribution, all chunks and reconstructed native SQLite",
+  "determinism": {
+    "all_files_compared": true,
+    "byte_identical_files": 25,
+    "full_packages": 2
+  },
+  "external_time_l": [
+    {
+      "peak_rss_bytes": 37388288,
+      "wall_seconds": 2.39
+    },
+    {
+      "peak_rss_bytes": 37388288,
+      "wall_seconds": 2.17
+    }
+  ],
+  "format": "geonames-w1-artifact-validation-1",
+  "metadata_bytes": 118446,
+  "namespace_scope": "Country/place/admin namespace spellings retain existing provider-scoped accepted source labels. GeoNames:alternateNameId is source-local generation annotation only; no canonical/user interoperability acceptance is implied. No mappings/bindings changed.",
+  "offline_test_seconds": 44.67,
+  "offline_tests": 30,
+  "packaging_generator": {
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
+    "script": "scripts/package_geonames_w1.py",
+    "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
+  },
+  "packaging_measurements": [
+    {
+      "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+      "elapsed_seconds": 2.3166070417501032,
+      "generated_bytes": 25163382,
+      "generator": {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
+        "script": "scripts/package_geonames_w1.py",
+        "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
+      },
+      "new_source_download_bytes": 0,
+      "peak_logical_working_bound_bytes": 225905412,
+      "peak_rss_bytes": 36880384,
+      "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+      "python": "3.14.7",
+      "scope": "packaging only; conservative input+output+encoded+decoded logical working bound, not whole-wave disk peak",
+      "sqlite": "3.53.4",
+      "status": "packaged"
+    },
+    {
+      "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+      "elapsed_seconds": 2.1207763752900064,
+      "generated_bytes": 25163382,
+      "generator": {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
+        "script": "scripts/package_geonames_w1.py",
+        "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
+      },
+      "new_source_download_bytes": 0,
+      "peak_logical_working_bound_bytes": 225905412,
+      "peak_rss_bytes": 36896768,
+      "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+      "python": "3.14.7",
+      "scope": "packaging only; conservative input+output+encoded+decoded logical working bound, not whole-wave disk peak",
+      "sqlite": "3.53.4",
+      "status": "packaged"
+    }
+  ],
+  "public_repair_verification": {
+    "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+    "assets": [
+      {
+        "bytes": 652,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"2eafaf500c21da79a1eebf573ba99e117de2a040c79463b04277ffe5e8285b16\"",
+        "path": "ATTRIBUTION.txt",
+        "sha256": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/ATTRIBUTION.txt"
+      },
+      {
+        "bytes": 2582,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"59b9a64504154536f45b865a72f907183f99853eab54215049f79de0b5f2f7d9\"",
+        "path": "country-keys.json",
+        "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/country-keys.json"
+      },
+      {
+        "bytes": 12447,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"43e1cc0b634e85389ed8bc042966eae6b396b8743b153d3b180762f07a6a6f35\"",
+        "path": "bridges/accepted-inputs.json",
+        "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/bridges/accepted-inputs.json"
+      },
+      {
+        "bytes": 1704,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"88647fd1a257b612bf4524a42bdf49b38dcfbc8e4e1acbd522de58ca479a3727\"",
+        "path": "bridges/geonames_chinook_customer_country.json",
+        "sha256": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/bridges/geonames_chinook_customer_country.json"
+      },
+      {
+        "bytes": 1486,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"224d6374c32089244b242be0ea10a0e23a9f7d8c3b4143c16ec899d7fa0ac36b\"",
+        "path": "bridges/geonames_northwind_customer_country.json",
+        "sha256": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/bridges/geonames_northwind_customer_country.json"
+      },
+      {
+        "bytes": 1483,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"3800d278cf4af92362d9fa94fafa884ff3f09b90bd8feb545ab2f2b567a4b0f2\"",
+        "path": "bridges/geonames_northwind_order_country.json",
+        "sha256": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/bridges/geonames_northwind_order_country.json"
+      },
+      {
+        "bytes": 264,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"4b042fd2608bf7523277f508ec083b68e42b1b987eddaca2291116d30483f3a8\"",
+        "path": "bridges/geonames_pubs_publisher_country.json",
+        "sha256": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/bridges/geonames_pubs_publisher_country.json"
+      },
+      {
+        "bytes": 4393,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"97c6383863ab5536336bbf9c891d4e64fef5a881bac178642e1595deac7fad22\"",
+        "path": "model/geonames.modelspec.hcl",
+        "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/model/geonames.modelspec.hcl"
+      },
+      {
+        "bytes": 5509,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"5cc1d210d1cad0371c7a86920490f03b2ef4fd0e2f4602f0ac847c92f0c65113\"",
+        "path": "model/geonames.modelspec.json",
+        "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/model/geonames.modelspec.json"
+      },
+      {
+        "bytes": 3777,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9d48dc2891fa7c1d15bd308889cd21c62be087e5d045144cc19de1ac9f5b2168\"",
+        "path": "model/geonames.meaning.yaml",
+        "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/model/geonames.meaning.yaml"
+      },
+      {
+        "bytes": 7048,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9d3fb2fa8cac7a8827d7cf7e62d6af81f1ffbb3fddb4d270334afebee9e1fc66\"",
+        "path": "LICENSE",
+        "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/LICENSE"
+      },
+      {
+        "bytes": 4628,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"ad28c48016e512340ab8cf4f7cae697cfcfd925eae47356519c55dbdd659d3e9\"",
+        "path": "DATA-LICENSE.md",
+        "sha256": "d5442960d5fc58661b5a45d965f65d5e681317ae6572b9c45d0e4225bd99538c",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/DATA-LICENSE.md"
+      },
+      {
+        "bytes": 7941,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"f425f0a239aaff05d521ad7d75454d2b713579168cc37e81858acdb57fd82a0c\"",
+        "path": "source/generation-snapshot.json",
+        "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/generation-snapshot.json"
+      },
+      {
+        "bytes": 12669,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"913b68d412d13ef7a356bb1f55dd53aacc0a2b1fe6362294fc0fca6bbeaafe54\"",
+        "path": "source/generation-validation.json",
+        "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/generation-validation.json"
+      },
+      {
+        "bytes": 5337,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9db0d31ad0e8da0bac956602cbeae1dd1f5950d30b4fefe70e3f098f17b8902b\"",
+        "path": "source/native-key-evidence.json",
+        "sha256": "59d10462f828c32a652da074d7649ad68499845b75b03bdff93ddeb8907481f7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/native-key-evidence.json"
+      },
+      {
+        "bytes": 9861,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"b6f1b96ecc182b5e95604231905206cef5a3956489622eab0ba83ba738d60b2f\"",
+        "path": "source/native/geonames_countries.json",
+        "sha256": "4f52bf1f9bbb417fc3ca1a67b0fc96e0af9d8baf271fd66cfe9eaaaa5b8e4412",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/native/geonames_countries.json"
+      },
+      {
+        "bytes": 9864,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"dc436e778fad80cbcadc547278fcc9c182c8aa6f4ff4281025e90828cff481c0\"",
+        "path": "source/native/geonames_admin1.json",
+        "sha256": "6e37456681bb8e71ed47705db3f53136d7156d3afaebb243caae16ae98b76d87",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/native/geonames_admin1.json"
+      },
+      {
+        "bytes": 9860,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"0bc5ef7c1ceeb1c5ccb993b553e5ececaa1539f69675ea201070459533911c75\"",
+        "path": "source/native/geonames_places.json",
+        "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/native/geonames_places.json"
+      },
+      {
+        "bytes": 9940,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"ea4d5bac230042783f4e1be772d37f7d8cd48b05d5b537288dcf7d18d9d88d57\"",
+        "path": "source/native/geonames_alternate_names.json",
+        "sha256": "5a139309815e6c9ea54127390652f6121e4d54c1ab6ff479af5dc0bfb33296d0",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/native/geonames_alternate_names.json"
+      },
+      {
+        "bytes": 29921,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"a10854c3d45ec2a80eb8853de16e4a52abc2044abfb1c8639373a4b8aa8c3bf1\"",
+        "path": "scripts/package_geonames_w1.py",
+        "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/scripts/package_geonames_w1.py"
+      },
+      {
+        "bytes": 15928,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"653a7a3299a60759d27295d87f2fee8d55094391c7699c66ff77386abf452fcd\"",
+        "path": "scripts/test_package_geonames_w1.py",
+        "sha256": "17fc1152df1b956b026afbaa15fdbb58eb1a515aecb9fc74b20030246eb7cbce",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/scripts/test_package_geonames_w1.py"
+      },
+      {
+        "bytes": 4679,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"933f45d6a22399bcd046abe5b5d8f242a530c82893213ebd11433f1929105b18\"",
+        "path": "scripts/GEONAMES-W1-ARTIFACTS.md",
+        "sha256": "8c6afbba398e8fe1afd31e49a9b6af74b611a75e532c372dc1d3d416344ee065",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/scripts/GEONAMES-W1-ARTIFACTS.md"
+      },
+      {
+        "bytes": 6689,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9de563c905176ef42d34b8654a22bd432a74430fe8c3ba6d3da2e29db9e7a4a2\"",
+        "path": "README.md",
+        "sha256": "0cf0af48e7dc2e619876f60361e8b3b169908ff7719bf402640e369d1153080a",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/README.md"
+      },
+      {
+        "bytes": 439,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"57a0fc627f0f9ceb12761e2a8edd7af1dc0502b871e9426dfa01609cf274a53f\"",
+        "path": ".github/workflows/geonames-w1.yml",
+        "sha256": "cdcb33b1e11ec53127d7c0fbc5680232d88b427a3371b3d45d06d5cb2ac17bb6",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/.github/workflows/geonames-w1.yml"
+      },
+      {
+        "bytes": 24058,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"e22cc12571d3f5c3f53a0e5849a75c7db44c73b0443ce65f295b43f17fc941f7\"",
+        "path": "w1/artifact-validation.json",
+        "sha256": "eeb0c3e21b7a22c8c2296d211f263849ad644e62e7e436876a1f5c7027db93c9",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/w1/artifact-validation.json"
+      },
+      {
+        "bytes": 12447,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"43e1cc0b634e85389ed8bc042966eae6b396b8743b153d3b180762f07a6a6f35\"",
+        "path": "bridges/accepted-country-bridges.json",
+        "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/bridges/accepted-country-bridges.json"
+      },
+      {
+        "bytes": 7001,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"47964c9995e258df425113211efdfce5e920828c5a55c804143203fb51e2edd3\"",
+        "path": "source/artifact-snapshot.json",
+        "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/d2ed411129c442e5ad66e1c20ee8764c5fbb1265/source/artifact-snapshot.json"
+      }
+    ],
+    "decoded_sqlite_bytes": 75304960,
+    "decoded_sqlite_sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+    "elapsed_seconds": 7.345543792005628,
+    "external_time_l": {
+      "peak_rss_bytes": 43286528,
+      "wall_seconds": 8.57
+    },
+    "peak_rss_bytes": 43237376,
+    "public_verification_download_bytes": 212607,
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "reused_chunk_bytes": 25044936,
+    "reused_chunk_public_assets": [
+      {
+        "bytes": 6218432,
+        "content_type": "application/octet-stream",
+        "etag": "\"77fa68b800075b8bea72b8536fde59f4325874eb5493ec5bc468928b058a075f\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+        "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz"
+      },
+      {
+        "bytes": 4877469,
+        "content_type": "application/octet-stream",
+        "etag": "\"dba3179196349ce84013af9af5bcb195efe4215a7258d706471f8921c7034924\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+        "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz"
+      },
+      {
+        "bytes": 5700433,
+        "content_type": "application/octet-stream",
+        "etag": "\"acdc7ae3620764b5ad85c305bae481cc79027e0330d528b907355d5ad6219e87\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+        "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz"
+      },
+      {
+        "bytes": 5138706,
+        "content_type": "application/octet-stream",
+        "etag": "\"91a213c95eb3ab1ffc988b3e96c42673c3e049f530ea41a5063dc95dd0ab563d\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+        "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz"
+      },
+      {
+        "bytes": 3109896,
+        "content_type": "application/octet-stream",
+        "etag": "\"d1b9836f44e902b00f3bda2cdb70b51acd067c4b82038559abce6aa7557a18d7\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+        "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz"
+      }
+    ],
+    "revision": "d2ed411129c442e5ad66e1c20ee8764c5fbb1265",
+    "scope": "27 metadata/code/authority/receipt GETs at immutable candidate; five unchanged public chunks reverified locally against exact old public hashes and decoded with new wrapper. Final publication receipt differs from this captured intermediate receipt only; generation/package/code bytes unchanged.",
+    "status": "verified"
+  },
+  "public_verification": {
+    "all_required_assets_verified": 25,
+    "artifact_snapshot_sha256": "5bb94bc67a326da337bd1a8be978dd5a384095e60d47b2669afc579ad86d396e",
+    "assets": [
+      {
+        "bytes": 652,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"2eafaf500c21da79a1eebf573ba99e117de2a040c79463b04277ffe5e8285b16\"",
+        "path": "ATTRIBUTION.txt",
+        "sha256": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/ATTRIBUTION.txt"
+      },
+      {
+        "bytes": 2582,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"59b9a64504154536f45b865a72f907183f99853eab54215049f79de0b5f2f7d9\"",
+        "path": "country-keys.json",
+        "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/country-keys.json"
+      },
+      {
+        "bytes": 12447,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"43e1cc0b634e85389ed8bc042966eae6b396b8743b153d3b180762f07a6a6f35\"",
+        "path": "bridges/accepted-inputs.json",
+        "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/bridges/accepted-inputs.json"
+      },
+      {
+        "bytes": 1704,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"88647fd1a257b612bf4524a42bdf49b38dcfbc8e4e1acbd522de58ca479a3727\"",
+        "path": "bridges/geonames_chinook_customer_country.json",
+        "sha256": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/bridges/geonames_chinook_customer_country.json"
+      },
+      {
+        "bytes": 1486,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"224d6374c32089244b242be0ea10a0e23a9f7d8c3b4143c16ec899d7fa0ac36b\"",
+        "path": "bridges/geonames_northwind_customer_country.json",
+        "sha256": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/bridges/geonames_northwind_customer_country.json"
+      },
+      {
+        "bytes": 1483,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"3800d278cf4af92362d9fa94fafa884ff3f09b90bd8feb545ab2f2b567a4b0f2\"",
+        "path": "bridges/geonames_northwind_order_country.json",
+        "sha256": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/bridges/geonames_northwind_order_country.json"
+      },
+      {
+        "bytes": 264,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"4b042fd2608bf7523277f508ec083b68e42b1b987eddaca2291116d30483f3a8\"",
+        "path": "bridges/geonames_pubs_publisher_country.json",
+        "sha256": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/bridges/geonames_pubs_publisher_country.json"
+      },
+      {
+        "bytes": 4393,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"97c6383863ab5536336bbf9c891d4e64fef5a881bac178642e1595deac7fad22\"",
+        "path": "model/geonames.modelspec.hcl",
+        "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/model/geonames.modelspec.hcl"
+      },
+      {
+        "bytes": 5509,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"5cc1d210d1cad0371c7a86920490f03b2ef4fd0e2f4602f0ac847c92f0c65113\"",
+        "path": "model/geonames.modelspec.json",
+        "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/model/geonames.modelspec.json"
+      },
+      {
+        "bytes": 3777,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9d48dc2891fa7c1d15bd308889cd21c62be087e5d045144cc19de1ac9f5b2168\"",
+        "path": "model/geonames.meaning.yaml",
+        "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/model/geonames.meaning.yaml"
+      },
+      {
+        "bytes": 7048,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9d3fb2fa8cac7a8827d7cf7e62d6af81f1ffbb3fddb4d270334afebee9e1fc66\"",
+        "path": "LICENSE",
+        "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/LICENSE"
+      },
+      {
+        "bytes": 4628,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"ad28c48016e512340ab8cf4f7cae697cfcfd925eae47356519c55dbdd659d3e9\"",
+        "path": "DATA-LICENSE.md",
+        "sha256": "d5442960d5fc58661b5a45d965f65d5e681317ae6572b9c45d0e4225bd99538c",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/DATA-LICENSE.md"
+      },
+      {
+        "bytes": 7941,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"f425f0a239aaff05d521ad7d75454d2b713579168cc37e81858acdb57fd82a0c\"",
+        "path": "source/generation-snapshot.json",
+        "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/generation-snapshot.json"
+      },
+      {
+        "bytes": 12669,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"913b68d412d13ef7a356bb1f55dd53aacc0a2b1fe6362294fc0fca6bbeaafe54\"",
+        "path": "source/generation-validation.json",
+        "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/generation-validation.json"
+      },
+      {
+        "bytes": 5337,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"9db0d31ad0e8da0bac956602cbeae1dd1f5950d30b4fefe70e3f098f17b8902b\"",
+        "path": "source/native-key-evidence.json",
+        "sha256": "59d10462f828c32a652da074d7649ad68499845b75b03bdff93ddeb8907481f7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/native-key-evidence.json"
+      },
+      {
+        "bytes": 9861,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"b6f1b96ecc182b5e95604231905206cef5a3956489622eab0ba83ba738d60b2f\"",
+        "path": "source/native/geonames_countries.json",
+        "sha256": "4f52bf1f9bbb417fc3ca1a67b0fc96e0af9d8baf271fd66cfe9eaaaa5b8e4412",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/native/geonames_countries.json"
+      },
+      {
+        "bytes": 9864,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"dc436e778fad80cbcadc547278fcc9c182c8aa6f4ff4281025e90828cff481c0\"",
+        "path": "source/native/geonames_admin1.json",
+        "sha256": "6e37456681bb8e71ed47705db3f53136d7156d3afaebb243caae16ae98b76d87",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/native/geonames_admin1.json"
+      },
+      {
+        "bytes": 9860,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"0bc5ef7c1ceeb1c5ccb993b553e5ececaa1539f69675ea201070459533911c75\"",
+        "path": "source/native/geonames_places.json",
+        "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/native/geonames_places.json"
+      },
+      {
+        "bytes": 9940,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"ea4d5bac230042783f4e1be772d37f7d8cd48b05d5b537288dcf7d18d9d88d57\"",
+        "path": "source/native/geonames_alternate_names.json",
+        "sha256": "5a139309815e6c9ea54127390652f6121e4d54c1ab6ff479af5dc0bfb33296d0",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/native/geonames_alternate_names.json"
+      },
+      {
+        "bytes": 6218432,
+        "content_type": "application/octet-stream",
+        "etag": "\"77fa68b800075b8bea72b8536fde59f4325874eb5493ec5bc468928b058a075f\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+        "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz"
+      },
+      {
+        "bytes": 4877469,
+        "content_type": "application/octet-stream",
+        "etag": "\"dba3179196349ce84013af9af5bcb195efe4215a7258d706471f8921c7034924\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+        "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz"
+      },
+      {
+        "bytes": 5700433,
+        "content_type": "application/octet-stream",
+        "etag": "\"acdc7ae3620764b5ad85c305bae481cc79027e0330d528b907355d5ad6219e87\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+        "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz"
+      },
+      {
+        "bytes": 5138706,
+        "content_type": "application/octet-stream",
+        "etag": "\"91a213c95eb3ab1ffc988b3e96c42673c3e049f530ea41a5063dc95dd0ab563d\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+        "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz"
+      },
+      {
+        "bytes": 3109896,
+        "content_type": "application/octet-stream",
+        "etag": "\"d1b9836f44e902b00f3bda2cdb70b51acd067c4b82038559abce6aa7557a18d7\"",
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+        "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz"
+      },
+      {
+        "bytes": 7001,
+        "content_type": "text/plain; charset=utf-8",
+        "etag": "\"78a569a5435de4c526e32fefb271a73523d884e86842d4d6d04055118af43b1a\"",
+        "path": "source/artifact-snapshot.json",
+        "sha256": "5bb94bc67a326da337bd1a8be978dd5a384095e60d47b2669afc579ad86d396e",
+        "status": 200,
+        "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf/source/artifact-snapshot.json"
+      }
+    ],
+    "decoded_sqlite_bytes": 75304960,
+    "decoded_sqlite_sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+    "elapsed_seconds": 8.874267916195095,
+    "external_time_l": {
+      "peak_rss_bytes": 52101120,
+      "wall_seconds": 10.23
+    },
+    "peak_rss_bytes": 52084736,
+    "public_verification_download_bytes": 25163382,
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "revision": "a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf",
+    "scope": "Historical original 25-file public capture; all 24 non-wrapper package files proven byte-identical in r2. New wrapper and code delivery require refreshed immutable small-asset proof."
+  },
+  "publication": "Commit-pinned Git artifacts only; no runtime endpoint, serving adapter, mount, Directory entry or production representation contract.",
+  "receipt_association": "Exact original snapshot kept; per-entity receipt explicitly selects original outputs.sqlite via top-level snapshot_association. Requires separately reviewed native helper extension; no eligibility granted.",
+  "resource_scope": "No source or chunk redownload for r2. Original sources670249165B + prior public package25163382B + r2 small public metadata/code212607B =695625154B for this author scope. Other reviewer/lane requests are separate. Whole-capture elapsed/RSS instrumentation gap, whole-wave disk peak and combined-wave acceptance remain open.",
+  "review": "r1 found two major checker gaps and one minor integer-type gap; repaired with reviewer probe regressions. Fresh r2 continuity review, native helper adoption/independent review and root-owned landing remain separate gates.",
+  "source_generation": {
+    "original_snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+    "original_validation_sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "revision": "fc53a3537304dd77a4e97162608454b2da2ae241"
+  },
+  "sqlite": {
+    "bytes": 25044936,
+    "chunks": [
+      {
+        "bytes": 6218432,
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+        "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+      },
+      {
+        "bytes": 4877469,
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+        "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+      },
+      {
+        "bytes": 5700433,
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+        "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+      },
+      {
+        "bytes": 5138706,
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+        "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+      },
+      {
+        "bytes": 3109896,
+        "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+        "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+      }
+    ],
+    "compression": "gzip",
+    "decodedBytes": 75304960,
+    "decodedSha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+    "encodedPath": "geonames.sqlite.gz",
+    "path": "geonames.sqlite",
+    "sha256": "44baf25803a91d3c070831a2a50de0e731bc59b024a2c143d47824dce3343c7a"
+  },
+  "status": "packaged-publicly-readable-independent-continuity-review-pending"
+}
