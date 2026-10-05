@@ -83,7 +83,7 @@
     {
       "bytes": 7941,
       "path": "snapshot.json",
-      "sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc"
+      "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab"
     }
   ],
   "checks": {
@@ -94,8 +94,8 @@
     "modelspec_cli_revision": "a8de98b4565ae669b6fba00c334b4649c9d40b11",
     "modelspec_export_check": "pass",
     "modelspec_publish_lint": "pass, zero warnings/errors",
-    "offline_unit_tests": 12,
-    "source_head_ci": "873538b63de475f8a04f5accdd9a14e51e59e90a: all applicable checks pass; receipt-only final head requires separate authoritative CI observation",
+    "offline_unit_tests": 15,
+    "source_head_ci": "Repair source ee9152f1d8f5aaf34960540d4328966c85fe66b2: local gates pass; final review head CI must be observed separately to avoid a self-referential committed receipt.",
     "tool_vcs_modified": false
   },
   "country_key_namespace": "GeoNames:countryInfoISO2",
@@ -124,9 +124,9 @@
   "format": "geonames-w1-validation-1",
   "generator": {
     "repository": "https://github.com/ingitdb/geo-ingitdb",
-    "revision": "873538b63de475f8a04f5accdd9a14e51e59e90a"
+    "revision": "ee9152f1d8f5aaf34960540d4328966c85fe66b2"
   },
-  "importer_sha256": "2bb3994ef606bbac4fb39da68a8367336692ac470fbcc444b6db564045899f2c",
+  "importer_sha256": "4808c935cfce0c4b61fb1ab71ebfedcd4a8a5ec279c8ab4230db89233aab0f20",
   "missing_ror_place_ids": [
     "906044",
     "1667905",
@@ -157,19 +157,19 @@
     "disk_measurement": "sampled logical bytes over input/staging roots, including retained validation builds; not filesystem physical usage",
     "external_time_l_builds": [
       {
-        "peak_rss_bytes": 130760704,
-        "wall_seconds": 194.05
+        "peak_rss_bytes": 129482752,
+        "wall_seconds": 169.33
       },
       {
-        "peak_rss_bytes": 129613824,
-        "wall_seconds": 206.66
+        "peak_rss_bytes": 129761280,
+        "wall_seconds": 169.95
       }
     ],
     "generation": [
       {
         "measurement": {
           "disk_measurement": "sampled logical files under complete input and staging roots",
-          "elapsed_seconds": 193.917094,
+          "elapsed_seconds": 169.241381,
           "limits": {
             "disk_bytes": 8589934592,
             "download_bytes": 1073741824,
@@ -178,20 +178,20 @@
             "rss_bytes": 536870912,
             "sqlite_bytes": 268435456
           },
-          "peak_observed_disk_bytes": 3496645247,
-          "peak_rss_bytes": 129990656,
+          "peak_observed_disk_bytes": 3774135231,
+          "peak_rss_bytes": 128761856,
           "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
           "python": "3.14.7",
           "rss_source": "getrusage(RUSAGE_SELF).ru_maxrss",
           "sqlite": "3.53.4"
         },
-        "snapshot_sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc",
+        "snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
         "status": "generated"
       },
       {
         "measurement": {
           "disk_measurement": "sampled logical files under complete input and staging roots",
-          "elapsed_seconds": 206.506046,
+          "elapsed_seconds": 169.838819,
           "limits": {
             "disk_bytes": 8589934592,
             "download_bytes": 1073741824,
@@ -200,18 +200,30 @@
             "rss_bytes": 536870912,
             "sqlite_bytes": 268435456
           },
-          "peak_observed_disk_bytes": 3570394483,
-          "peak_rss_bytes": 128860160,
+          "peak_observed_disk_bytes": 3773058999,
+          "peak_rss_bytes": 128991232,
           "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
           "python": "3.14.7",
           "rss_source": "getrusage(RUSAGE_SELF).ru_maxrss",
           "sqlite": "3.53.4"
         },
-        "snapshot_sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc",
+        "snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
         "status": "generated"
       }
     ],
     "metadata_bytes": 42238
+  },
+  "review_repairs": {
+    "after_snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+    "before_snapshot_sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc",
+    "current_data_parity": "Independent r1 source audit found no pinned source overlap conflicts; repair rebuild SQLite and every output except snapshot.json are byte-identical to reviewed corrected-a. Snapshot changes only generator revision and importer SHA256.",
+    "findings": {
+      "GEO-R1-1": "Reject recursive duplicate members, nonfinite constants and overflowing floats, non-JSON whitespace; enforce original UTF-8 decoded record bytes <=1MiB, including successful decode. Preserve native int/string checks and line endings.",
+      "GEO-R1-2": "Compare every retained cities5000 overlap independently of ROR membership; conflicting rows fail and identical overlap stays once."
+    },
+    "negative_controls": "Fifteen tests include exact byte boundary/+1, non-ASCII UTF-8 boundary, chunk boundaries, failed output/stage cleanup, sampled closure, global duplicate and city-only conflicts. New controls reproduced defects before repair.",
+    "repair_source_revision": "ee9152f1d8f5aaf34960540d4328966c85fe66b2",
+    "reviewed_head": "cdbb108746c4a32238f19ddc1bcc3f3e23e79157"
   },
   "ror_closure": {
     "archive_bytes": 37540961,
