@@ -1,0 +1,295 @@
+{
+  "artifacts": [
+    {
+      "bytes": 652,
+      "path": "ATTRIBUTION.txt",
+      "sha256": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7"
+    },
+    {
+      "bytes": 12447,
+      "path": "bridges/accepted-inputs.json",
+      "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d"
+    },
+    {
+      "bytes": 1704,
+      "path": "bridges/geonames_chinook_customer_country.json",
+      "sha256": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded"
+    },
+    {
+      "bytes": 1486,
+      "path": "bridges/geonames_northwind_customer_country.json",
+      "sha256": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a"
+    },
+    {
+      "bytes": 1483,
+      "path": "bridges/geonames_northwind_order_country.json",
+      "sha256": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7"
+    },
+    {
+      "bytes": 264,
+      "path": "bridges/geonames_pubs_publisher_country.json",
+      "sha256": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377"
+    },
+    {
+      "bytes": 2582,
+      "path": "country-keys.json",
+      "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+    },
+    {
+      "bytes": 75304960,
+      "path": "geonames.sqlite",
+      "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+    },
+    {
+      "bytes": 6218432,
+      "path": "geonames.sqlite.0000.gz",
+      "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+    },
+    {
+      "bytes": 4877469,
+      "path": "geonames.sqlite.0001.gz",
+      "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+    },
+    {
+      "bytes": 5700433,
+      "path": "geonames.sqlite.0002.gz",
+      "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+    },
+    {
+      "bytes": 5138706,
+      "path": "geonames.sqlite.0003.gz",
+      "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+    },
+    {
+      "bytes": 3109896,
+      "path": "geonames.sqlite.0004.gz",
+      "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+    },
+    {
+      "bytes": 3777,
+      "path": "model/geonames.meaning.yaml",
+      "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+    },
+    {
+      "bytes": 4393,
+      "path": "model/geonames.modelspec.hcl",
+      "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa"
+    },
+    {
+      "bytes": 5509,
+      "path": "model/geonames.modelspec.json",
+      "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+    },
+    {
+      "bytes": 7941,
+      "path": "snapshot.json",
+      "sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc"
+    }
+  ],
+  "checks": {
+    "core_revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+    "legacy_go_tests": "pass; wb-import 100% statement coverage",
+    "meaninggraph_check": "pass, zero warnings/errors",
+    "meaninggraph_cli_revision": "a58a506d9e6f76660cc8586478521787976111d0",
+    "modelspec_cli_revision": "a8de98b4565ae669b6fba00c334b4649c9d40b11",
+    "modelspec_export_check": "pass",
+    "modelspec_publish_lint": "pass, zero warnings/errors",
+    "offline_unit_tests": 12,
+    "source_head_ci": "873538b63de475f8a04f5accdd9a14e51e59e90a: all applicable checks pass; receipt-only final head requires separate authoritative CI observation",
+    "tool_vcs_modified": false
+  },
+  "country_key_namespace": "GeoNames:countryInfoISO2",
+  "counts": {
+    "geonames_admin1": 3865,
+    "geonames_alternate_names": 844831,
+    "geonames_chinook_customer_country": 24,
+    "geonames_countries": 252,
+    "geonames_northwind_customer_country": 21,
+    "geonames_northwind_order_country": 21,
+    "geonames_places": 75300,
+    "geonames_pubs_publisher_country": 3,
+    "missing_admin1_references": 234,
+    "missing_country_references": 0,
+    "missing_ror_places": 9,
+    "orphan_admin1": 0,
+    "required_ror_places": 19729
+  },
+  "determinism": {
+    "all_files_compared": true,
+    "byte_identical_files": 17,
+    "full_builds": 2,
+    "ordered_chunks_reconstruct_sqlite_sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+  },
+  "download_bytes": 670249165,
+  "format": "geonames-w1-validation-1",
+  "generator": {
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "revision": "873538b63de475f8a04f5accdd9a14e51e59e90a"
+  },
+  "importer_sha256": "2bb3994ef606bbac4fb39da68a8367336692ac470fbcc444b6db564045899f2c",
+  "missing_ror_place_ids": [
+    "906044",
+    "1667905",
+    "1684803",
+    "1783934",
+    "2110683",
+    "4922459",
+    "6941055",
+    "7626407",
+    "11237863"
+  ],
+  "namespace_correction": {
+    "accepted_decision_revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+    "after_country_keys_sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8",
+    "after_namespace": "GeoNames:countryInfoISO2",
+    "after_snapshot_sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc",
+    "before_country_keys_sha256": "4b304370b3a6ba8915edcb918bc2b66c2e67da24d2b71199f28014abfe766bef",
+    "before_namespace": "iso-3166-1-alpha-2",
+    "before_snapshot_sha256": "6f91e7d124b93a0822615c8b99e60d69735dbea6e7edd08b5df5e5294d1fc895",
+    "reason": "Restore the exact accepted native countryInfo key namespace; historical provider rows do not assert current ISO membership.",
+    "sqlite_unchanged": true
+  },
+  "publication": "Large outputs remain private. No production representation attachment, discovery eligibility, runtime identity adapter, hosting, landing, cleanup or whole W1 acceptance is asserted.",
+  "resource_measurements": {
+    "builds_ran_concurrently": true,
+    "capture_measurement_gap": "Per-file fetch times and source bytes/hashes exist; whole capture elapsed and peak RSS were not externally instrumented. Generation measurements do not establish whole-wave resource acceptance.",
+    "disk_limit_bytes": 8589934592,
+    "disk_measurement": "sampled logical bytes over input/staging roots, including retained validation builds; not filesystem physical usage",
+    "external_time_l_builds": [
+      {
+        "peak_rss_bytes": 130760704,
+        "wall_seconds": 194.05
+      },
+      {
+        "peak_rss_bytes": 129613824,
+        "wall_seconds": 206.66
+      }
+    ],
+    "generation": [
+      {
+        "measurement": {
+          "disk_measurement": "sampled logical files under complete input and staging roots",
+          "elapsed_seconds": 193.917094,
+          "limits": {
+            "disk_bytes": 8589934592,
+            "download_bytes": 1073741824,
+            "elapsed_seconds": 1800,
+            "metadata_bytes": 2097152,
+            "rss_bytes": 536870912,
+            "sqlite_bytes": 268435456
+          },
+          "peak_observed_disk_bytes": 3496645247,
+          "peak_rss_bytes": 129990656,
+          "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+          "python": "3.14.7",
+          "rss_source": "getrusage(RUSAGE_SELF).ru_maxrss",
+          "sqlite": "3.53.4"
+        },
+        "snapshot_sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc",
+        "status": "generated"
+      },
+      {
+        "measurement": {
+          "disk_measurement": "sampled logical files under complete input and staging roots",
+          "elapsed_seconds": 206.506046,
+          "limits": {
+            "disk_bytes": 8589934592,
+            "download_bytes": 1073741824,
+            "elapsed_seconds": 1800,
+            "metadata_bytes": 2097152,
+            "rss_bytes": 536870912,
+            "sqlite_bytes": 268435456
+          },
+          "peak_observed_disk_bytes": 3570394483,
+          "peak_rss_bytes": 128860160,
+          "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+          "python": "3.14.7",
+          "rss_source": "getrusage(RUSAGE_SELF).ru_maxrss",
+          "sqlite": "3.53.4"
+        },
+        "snapshot_sha256": "3fce69153378a0af22f049af8bcd507e3e79ba34b2020ac767cee6c0ee4977bc",
+        "status": "generated"
+      }
+    ],
+    "metadata_bytes": 42238
+  },
+  "ror_closure": {
+    "archive_bytes": 37540961,
+    "archive_sha256": "476988542f1bdd185f779386f90149371f58cb4ebdba326db3b7b428a468d4a5",
+    "archive_url": "https://zenodo.org/records/22902037/files/v2.13-2026-09-22-ror-data.zip",
+    "captured_at": "2026-10-05T01:04:26.439988+00:00",
+    "complete": true,
+    "id_count": 19729,
+    "ids_sha256": "04c27970c5e70c8d3bbd470e18d022d0477dbd63257da3e9c8427043f66081e9",
+    "json_member": "v2.13-2026-09-22-ror-data.json",
+    "location_count": 141722,
+    "record_count": 141528,
+    "release": "v2.13",
+    "release_date": "2026-09-22"
+  },
+  "source_scan_counts": {
+    "admin1CodesASCII.txt": 3865,
+    "allCountries.zip": 13472243,
+    "alternateNamesV2.zip": 19219256,
+    "cities5000.zip": 69763,
+    "countryInfo.txt": 252
+  },
+  "sources": {
+    "admin1CodesASCII.txt": {
+      "bytes": 151583,
+      "etag": "\"2501f-65cfb6df9b6ce\"",
+      "fetched_at": "2026-10-05T01:06:17.524431+00:00",
+      "file": "admin1CodesASCII.txt",
+      "last_modified": "Sun, 04 Oct 2026 03:33:31 GMT",
+      "licence": "CC-BY-4.0",
+      "member": null,
+      "sha256": "1da92a6323a5fec3176f3f743bf4cf4040fd56a876da55e46fbca23c863aa60a",
+      "url": "https://download.geonames.org/export/dump/admin1CodesASCII.txt"
+    },
+    "allCountries.zip": {
+      "bytes": 422005409,
+      "etag": "\"19274aa1-65cfb6df9aefe\"",
+      "fetched_at": "2026-10-05T01:06:25.212966+00:00",
+      "file": "allCountries.zip",
+      "last_modified": "Sun, 04 Oct 2026 03:33:31 GMT",
+      "licence": "CC-BY-4.0",
+      "member": "allCountries.txt",
+      "sha256": "0c06603f65161d9ff072658f7c19a071d965254fd3c34190261ef02fd1bd67fc",
+      "url": "https://download.geonames.org/export/dump/allCountries.zip"
+    },
+    "alternateNamesV2.zip": {
+      "bytes": 204810908,
+      "etag": "\"c352a9c-65cfb85c261a7\"",
+      "fetched_at": "2026-10-05T01:06:28.939916+00:00",
+      "file": "alternateNamesV2.zip",
+      "last_modified": "Sun, 04 Oct 2026 03:40:10 GMT",
+      "licence": "CC-BY-4.0",
+      "member": "alternateNamesV2.txt",
+      "sha256": "00541c69ae9e1bfef9092d8f3cdaa60f474eaec94954f72f8c02139dcf0706ef",
+      "url": "https://download.geonames.org/export/dump/alternateNamesV2.zip"
+    },
+    "cities5000.zip": {
+      "bytes": 5708626,
+      "etag": "\"571b52-65cfb6df9b2e6\"",
+      "fetched_at": "2026-10-05T01:06:17.965961+00:00",
+      "file": "cities5000.zip",
+      "last_modified": "Sun, 04 Oct 2026 03:33:31 GMT",
+      "licence": "CC-BY-4.0",
+      "member": "cities5000.txt",
+      "sha256": "4e767cb4c93e61455154044113f172d9a620722e3e41e425f8d522ab3f27878a",
+      "url": "https://download.geonames.org/export/dump/cities5000.zip"
+    },
+    "countryInfo.txt": {
+      "bytes": 31678,
+      "etag": "\"7bbe-65cfb88f8532a\"",
+      "fetched_at": "2026-10-05T01:06:17.298605+00:00",
+      "file": "countryInfo.txt",
+      "last_modified": "Sun, 04 Oct 2026 03:41:04 GMT",
+      "licence": "CC-BY-4.0",
+      "member": null,
+      "sha256": "93bafc525813f22e4711ff9ed6d626343094ce48c26388dc7c49189b3d7d5512",
+      "url": "https://download.geonames.org/export/dump/countryInfo.txt"
+    }
+  },
+  "status": "source-build-verified-review-pending"
+}

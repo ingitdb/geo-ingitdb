@@ -108,6 +108,12 @@ Run offline checks with:
 python3 -m unittest discover -s scripts -p test_geonames_w1.py -v
 ```
 
+The compact [full-build validation receipt](../w1/validation.json) records the
+pinned inputs, complete scan counts, two byte-identical builds, chunk reconstruction,
+resource measurements and native namespace correction. Large outputs stay outside
+Git. The initial capture lacks externally measured whole-capture elapsed time and
+peak RSS, so this receipt leaves combined-wave resource acceptance open.
+
 Data: GeoNames CC-BY-4.0; include attribution and changes on artifact download and
 in consumers. Importer code: repository CC0-1.0. ROR metadata: CC0, with GeoNames
 location attribution retained. Models and canonical meanings retain their separate
