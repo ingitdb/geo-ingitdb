@@ -52,6 +52,9 @@ separately from deterministic metadata. The original capture's missing whole-cap
 elapsed/RSS measurement remains an explicit whole-wave acceptance gap. Publication
 verification downloads only this bounded package at commit-pinned public raw URLs;
 it does not redownload the bulk GeoNames/ROR sources.
+The separate [packaging validation receipt](../w1/artifact-validation.json) records
+the two-package comparison and measurements; it is not an eligibility artifact or
+a member of its own checksum closure.
 
 These are native source artifacts. Hosting, runtime serving identifiers/mounts,
 Directory publication and representation eligibility remain separate owner gates.

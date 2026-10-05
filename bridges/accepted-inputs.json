@@ -1,0 +1,441 @@
+{
+  "bridges": [
+    {
+      "accepted_values": {
+        "document": {
+          "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+        },
+        "empty_string_rows": 0,
+        "matched_rows": 59,
+        "null_source_rows": 0,
+        "source_fixture_sha256": "7651ba378ac2fcd0dfc3c66fb101f7a7eed3ba39a612ec642b96e20702061f15",
+        "source_rows": 59
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-chinook-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "f995ad2febb3545611c18a26bd12ee6ca7c1aa8e22d677364729de62a3e39bfe"
+        },
+        "scope": "chinook/Customer.Country@26e852cca00101f53a84ef8ee1f1ae389067f5cf"
+      },
+      "rows": [
+        {
+          "raw_label": "Argentina",
+          "target_key": "AR"
+        },
+        {
+          "raw_label": "Australia",
+          "target_key": "AU"
+        },
+        {
+          "raw_label": "Austria",
+          "target_key": "AT"
+        },
+        {
+          "raw_label": "Belgium",
+          "target_key": "BE"
+        },
+        {
+          "raw_label": "Brazil",
+          "target_key": "BR"
+        },
+        {
+          "raw_label": "Canada",
+          "target_key": "CA"
+        },
+        {
+          "raw_label": "Chile",
+          "target_key": "CL"
+        },
+        {
+          "raw_label": "Czech Republic",
+          "target_key": "CZ"
+        },
+        {
+          "raw_label": "Denmark",
+          "target_key": "DK"
+        },
+        {
+          "raw_label": "Finland",
+          "target_key": "FI"
+        },
+        {
+          "raw_label": "France",
+          "target_key": "FR"
+        },
+        {
+          "raw_label": "Germany",
+          "target_key": "DE"
+        },
+        {
+          "raw_label": "Hungary",
+          "target_key": "HU"
+        },
+        {
+          "raw_label": "India",
+          "target_key": "IN"
+        },
+        {
+          "raw_label": "Ireland",
+          "target_key": "IE"
+        },
+        {
+          "raw_label": "Italy",
+          "target_key": "IT"
+        },
+        {
+          "raw_label": "Netherlands",
+          "target_key": "NL"
+        },
+        {
+          "raw_label": "Norway",
+          "target_key": "NO"
+        },
+        {
+          "raw_label": "Poland",
+          "target_key": "PL"
+        },
+        {
+          "raw_label": "Portugal",
+          "target_key": "PT"
+        },
+        {
+          "raw_label": "Spain",
+          "target_key": "ES"
+        },
+        {
+          "raw_label": "Sweden",
+          "target_key": "SE"
+        },
+        {
+          "raw_label": "USA",
+          "target_key": "US"
+        },
+        {
+          "raw_label": "United Kingdom",
+          "target_key": "GB"
+        }
+      ],
+      "source": {
+        "datatype": "string",
+        "entity": "Customer",
+        "module": "chinook",
+        "namespace": "demo:demand-chinook-customer:label",
+        "property": "Country",
+        "schema": {
+          "path": "model/chinook.modelspec.json",
+          "repository": "https://github.com/demo-db/chinook",
+          "revision": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+          "sha256": "5e81f79ae02760bbdc372985022ab94209b97aaa76bf456fb59e040a99476870"
+        }
+      },
+      "table": "geonames_chinook_customer_country"
+    },
+    {
+      "accepted_values": {
+        "document": {
+          "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+        },
+        "empty_string_rows": 0,
+        "matched_rows": 91,
+        "null_source_rows": 2,
+        "source_fixture_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20",
+        "source_rows": 93
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-northwind-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "fca0dec5ed2478b40c1ee6146b712d4527617b94f1bb1b9ad57ffbbc22852d21"
+        },
+        "scope": "northwind/Customers.Country@e74726515c3833620b54b7a50d1d273276dd23c1"
+      },
+      "rows": [
+        {
+          "raw_label": "Argentina",
+          "target_key": "AR"
+        },
+        {
+          "raw_label": "Austria",
+          "target_key": "AT"
+        },
+        {
+          "raw_label": "Belgium",
+          "target_key": "BE"
+        },
+        {
+          "raw_label": "Brazil",
+          "target_key": "BR"
+        },
+        {
+          "raw_label": "Canada",
+          "target_key": "CA"
+        },
+        {
+          "raw_label": "Denmark",
+          "target_key": "DK"
+        },
+        {
+          "raw_label": "Finland",
+          "target_key": "FI"
+        },
+        {
+          "raw_label": "France",
+          "target_key": "FR"
+        },
+        {
+          "raw_label": "Germany",
+          "target_key": "DE"
+        },
+        {
+          "raw_label": "Ireland",
+          "target_key": "IE"
+        },
+        {
+          "raw_label": "Italy",
+          "target_key": "IT"
+        },
+        {
+          "raw_label": "Mexico",
+          "target_key": "MX"
+        },
+        {
+          "raw_label": "Norway",
+          "target_key": "NO"
+        },
+        {
+          "raw_label": "Poland",
+          "target_key": "PL"
+        },
+        {
+          "raw_label": "Portugal",
+          "target_key": "PT"
+        },
+        {
+          "raw_label": "Spain",
+          "target_key": "ES"
+        },
+        {
+          "raw_label": "Sweden",
+          "target_key": "SE"
+        },
+        {
+          "raw_label": "Switzerland",
+          "target_key": "CH"
+        },
+        {
+          "raw_label": "UK",
+          "target_key": "GB"
+        },
+        {
+          "raw_label": "USA",
+          "target_key": "US"
+        },
+        {
+          "raw_label": "Venezuela",
+          "target_key": "VE"
+        }
+      ],
+      "source": {
+        "datatype": "string",
+        "entity": "Customers",
+        "module": "northwind",
+        "namespace": "demo:demand-northwind-customers:label",
+        "property": "Country",
+        "schema": {
+          "path": "model/northwind.modelspec.json",
+          "repository": "https://github.com/demo-db/northwind",
+          "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+          "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f"
+        }
+      },
+      "table": "geonames_northwind_customer_country"
+    },
+    {
+      "accepted_values": {
+        "document": {
+          "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+        },
+        "empty_string_rows": 0,
+        "matched_rows": 830,
+        "null_source_rows": 0,
+        "source_fixture_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20",
+        "source_rows": 830
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-northwind-shipping-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "8f7cf5e218e8c36c1932839323801a49133529327dbfac0405abf7fb7a5731eb"
+        },
+        "scope": "northwind/Orders.ShipCountry@e74726515c3833620b54b7a50d1d273276dd23c1"
+      },
+      "rows": [
+        {
+          "raw_label": "Argentina",
+          "target_key": "AR"
+        },
+        {
+          "raw_label": "Austria",
+          "target_key": "AT"
+        },
+        {
+          "raw_label": "Belgium",
+          "target_key": "BE"
+        },
+        {
+          "raw_label": "Brazil",
+          "target_key": "BR"
+        },
+        {
+          "raw_label": "Canada",
+          "target_key": "CA"
+        },
+        {
+          "raw_label": "Denmark",
+          "target_key": "DK"
+        },
+        {
+          "raw_label": "Finland",
+          "target_key": "FI"
+        },
+        {
+          "raw_label": "France",
+          "target_key": "FR"
+        },
+        {
+          "raw_label": "Germany",
+          "target_key": "DE"
+        },
+        {
+          "raw_label": "Ireland",
+          "target_key": "IE"
+        },
+        {
+          "raw_label": "Italy",
+          "target_key": "IT"
+        },
+        {
+          "raw_label": "Mexico",
+          "target_key": "MX"
+        },
+        {
+          "raw_label": "Norway",
+          "target_key": "NO"
+        },
+        {
+          "raw_label": "Poland",
+          "target_key": "PL"
+        },
+        {
+          "raw_label": "Portugal",
+          "target_key": "PT"
+        },
+        {
+          "raw_label": "Spain",
+          "target_key": "ES"
+        },
+        {
+          "raw_label": "Sweden",
+          "target_key": "SE"
+        },
+        {
+          "raw_label": "Switzerland",
+          "target_key": "CH"
+        },
+        {
+          "raw_label": "UK",
+          "target_key": "GB"
+        },
+        {
+          "raw_label": "USA",
+          "target_key": "US"
+        },
+        {
+          "raw_label": "Venezuela",
+          "target_key": "VE"
+        }
+      ],
+      "source": {
+        "datatype": "string",
+        "entity": "Orders",
+        "module": "northwind",
+        "namespace": "demo:demand-northwind-orders:label",
+        "property": "ShipCountry",
+        "schema": {
+          "path": "model/northwind.modelspec.json",
+          "repository": "https://github.com/demo-db/northwind",
+          "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+          "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f"
+        }
+      },
+      "table": "geonames_northwind_order_country"
+    },
+    {
+      "accepted_values": {
+        "document": {
+          "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+        },
+        "empty_string_rows": 0,
+        "matched_rows": 8,
+        "null_source_rows": 0,
+        "source_fixture_sha256": "b45b08b7c06441cc0b138b031ea5bd32bd5866aebf874c89d2ebf7fc6abb3691",
+        "source_rows": 8
+      },
+      "decision": {
+        "document": {
+          "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-pubs-publisher-country.json",
+          "repository": "https://github.com/datatug/datatug",
+          "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "sha256": "06c96f83dd6cb07173759874904c5281a00e75655efe8256062f823b4b1ead9d"
+        },
+        "scope": "pubs/publishers.country@6c06c5c7395b03ff1a02c2b1a21485add3e1b65b"
+      },
+      "rows": [
+        {
+          "raw_label": "France",
+          "target_key": "FR"
+        },
+        {
+          "raw_label": "Germany",
+          "target_key": "DE"
+        },
+        {
+          "raw_label": "USA",
+          "target_key": "US"
+        }
+      ],
+      "source": {
+        "datatype": "string",
+        "entity": "publishers",
+        "module": "pubs",
+        "namespace": "demo:demand-pubs-publishers:label",
+        "property": "country",
+        "schema": {
+          "path": "model/pubs.modelspec.json",
+          "repository": "https://github.com/demo-db/pubs",
+          "revision": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+          "sha256": "6f7ca172d746866f2cf3ee84be0fb1ae9bd6c90f6144a0e35f24eec7af11f3ea"
+        }
+      },
+      "table": "geonames_pubs_publisher_country"
+    }
+  ],
+  "format": "geonames-w1-accepted-bridge-inputs-1"
+}
