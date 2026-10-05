@@ -9,6 +9,10 @@ global source fields and native keys in reproducible private SQLite exports.
 Its source-qualified projections and exception counts are separate from the
 legacy showcase collections below.
 
+The [reviewed W1 artifact package](scripts/GEONAMES-W1-ARTIFACTS.md) publishes
+the unchanged native snapshot as five ordered gzip members with immutable
+source/generator provenance. Runtime serving and discovery remain separate gates.
+
 ## Layout
 
 Three flat root collections linked by foreign keys (not nested subcollections —

@@ -32,7 +32,7 @@ REQUIRED_METADATA = [*SOURCE_METADATA, "LICENSE", "DATA-LICENSE.md", "source/gen
                      "source/generation-validation.json", "source/native-key-evidence.json"]
 KEYS = {"geonames_countries": "iso", "geonames_admin1": "code", "geonames_places": "geonameid",
         "geonames_alternate_names": "alternate_name_id"}
-DATA_LICENSE = """# GeoNames data licence and attribution
+DATA_LICENSE = """\n\n## Additive GeoNames W1 artifact package
 
 GeoNames geographic data is licensed under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).
 Source and attribution: [GeoNames](https://www.geonames.org/), [official dump readme](https://download.geonames.org/export/dump/readme.txt).
@@ -260,7 +260,8 @@ def verify_bundle(root, code_root=None):
                 raise ValueError("required artifact bytes/hash mismatch")
     if set(pins) != required:
         raise ValueError("complete required artifact closure missing or widened")
-    if safe_path(root, "DATA-LICENSE.md").read_text() != DATA_LICENSE or safe_path(root, "LICENSE").read_bytes() != git_blob(code_root, SOURCE_REVISION, "LICENSE"):
+    expected_licence = git_blob(code_root, SOURCE_REVISION, "DATA-LICENSE.md") + DATA_LICENSE.encode()
+    if safe_path(root, "DATA-LICENSE.md").read_bytes() != expected_licence or safe_path(root, "LICENSE").read_bytes() != git_blob(code_root, SOURCE_REVISION, "LICENSE"):
         raise ValueError("data/code licence association mismatch")
     source_pins = {item["path"]: item["sha256"] for item in validation["artifacts"]}
     for name in SOURCE_METADATA:
@@ -317,7 +318,7 @@ def package(root, bundle, output, revision, receipt):
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(safe_path(bundle, name), destination)
         (stage / "LICENSE").write_bytes(git_blob(root, SOURCE_REVISION, "LICENSE"))
-        (stage / "DATA-LICENSE.md").write_text(DATA_LICENSE)
+        (stage / "DATA-LICENSE.md").write_bytes(git_blob(root, SOURCE_REVISION, "DATA-LICENSE.md") + DATA_LICENSE.encode())
         (stage / "source").mkdir()
         (stage / "source/generation-validation.json").write_bytes(original)
         (stage / "source/generation-snapshot.json").write_bytes(source_bytes)
