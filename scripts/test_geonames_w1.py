@@ -32,8 +32,14 @@ class W1Test(unittest.TestCase):
         }
         self.write_inputs()
         (self.root / "ids.txt").write_text("1\n2\n3\n", encoding="utf-8")
+        archive = self.root / "ror.zip"
+        records = [{"locations": [{"geonames_details": {"geonames_id": key}} for key in keys]}
+                   for keys in ([1, 2], [3], [1], [None])]
+        with zipfile.ZipFile(archive, "w") as zipped:
+            zipped.writestr("ror.json", json.dumps(records))
         self.ror = {"complete": True, "archive_url": "https://zenodo.org/records/22902037/files/v2.13-2026-09-22-ror-data.zip",
-                    "release": "v2.13", "release_date": "2026-09-22", "archive_sha256": "a" * 64, "archive_bytes": 100,
+                    "release": "v2.13", "release_date": "2026-09-22", "archive_sha256": w1.digest(archive), "archive_bytes": archive.stat().st_size,
+                    "archive_file": "ror.zip", "json_member": "ror.json",
                     "record_count": 4, "location_count": 5, "ids_file": "ids.txt", "ids_sha256": w1.digest(self.root / "ids.txt"), "id_count": 3}
         self.write_ror()
 
@@ -101,7 +107,7 @@ class W1Test(unittest.TestCase):
     def test_duplicate_keys_and_disagreeing_source_union_fail(self):
         self.sources["admin1CodesASCII.txt"].append(self.sources["admin1CodesASCII.txt"][0])
         self.write_inputs()
-        with self.assertRaisesRegex(w1.ProjectionError, "duplicate native key"):
+        with self.assertRaisesRegex(w1.ProjectionError, "duplicate native"):
             self.build()
         self.sources["admin1CodesASCII.txt"].pop()
         self.sources["allCountries.zip"][0][1] = "Different"
@@ -111,7 +117,18 @@ class W1Test(unittest.TestCase):
         self.sources["allCountries.zip"][0][1] = " Zero "
         self.sources["alternateNamesV2.zip"].append(self.sources["alternateNamesV2.zip"][0])
         self.write_inputs()
-        with self.assertRaisesRegex(w1.ProjectionError, "duplicate native key"):
+        with self.assertRaisesRegex(w1.ProjectionError, "duplicate native"):
+            self.build()
+
+    def test_unretained_source_key_collisions_are_not_hidden_by_filtering(self):
+        self.sources["allCountries.zip"].extend([place("999"), place("999")])
+        self.write_inputs()
+        with self.assertRaisesRegex(w1.ProjectionError, "duplicate native allCountries"):
+            self.build()
+        self.sources["allCountries.zip"] = self.sources["allCountries.zip"][:-2]
+        self.sources["alternateNamesV2.zip"].append(self.sources["alternateNamesV2.zip"][-1])
+        self.write_inputs()
+        with self.assertRaisesRegex(w1.ProjectionError, "duplicate native alternateNamesV2"):
             self.build()
 
     def test_budget_failure_is_reported_without_output_or_scope_narrowing(self):
@@ -150,6 +167,50 @@ class W1Test(unittest.TestCase):
         with self.assertRaisesRegex(w1.ProjectionError, "already exists"):
             self.build()
         self.assertEqual(before, w1.digest(self.root / "out" / "snapshot.json"))
+
+    def test_falsely_attested_ror_sample_is_rejected_against_complete_archive(self):
+        (self.root / "ids.txt").write_text("1\n", encoding="utf-8")
+        self.ror.update(ids_sha256=w1.digest(self.root / "ids.txt"), id_count=1)
+        self.write_ror()
+        with self.assertRaisesRegex(w1.ProjectionError, "full ROR archive"):
+            self.build()
+        for data in ('[{"locations": []}', '[{},]', '[] junk', '{}', '[2]'):
+            with self.assertRaises(w1.ProjectionError):
+                list(w1.json_array(io.StringIO(data)))
+
+    def test_scoped_bridges_preserve_bytes_and_fail_collisions_or_missing_target(self):
+        inputs = json.loads((Path(w1.__file__).parent.parent / "bridges" / "accepted-country-bridges.json").read_text())
+        for bridge in inputs["bridges"]:
+            bridge["rows"] = [{"raw_label": " USA ", "target_key": "US"}]
+        bridge_path = self.root / "bridges.json"
+        w1.write_json(bridge_path, inputs)
+        snapshot = w1.build(self.inputs / "inputs.json", self.root / "ror.json", self.root / "with-bridges", "a" * 40, self.root / "bridge-receipt.json", bridge_path)
+        with sqlite3.connect(self.root / "with-bridges" / "geonames.sqlite") as db:
+            for table in w1.BRIDGE_TABLES:
+                self.assertEqual(snapshot["counts"][table], 1)
+                self.assertEqual(db.execute(f'SELECT raw_label,target_key FROM "{table}"').fetchone(), (" USA ", "US"))
+                self.assertEqual(db.execute(f'SELECT count(*) FROM "{table}" WHERE raw_label=?', ("USA",)).fetchone()[0], 0)
+        artifacts = {item["path"]: item["sha256"] for item in snapshot["artifacts"]}
+        self.assertIn("country-keys.json", artifacts)
+        self.assertIn("model/geonames.meaning.yaml", artifacts)
+        inputs["bridges"][0]["rows"].append(inputs["bridges"][0]["rows"][0])
+        w1.write_json(bridge_path, inputs)
+        with self.assertRaisesRegex(w1.ProjectionError, "raw-label bridge collision"):
+            w1.build(self.inputs / "inputs.json", self.root / "ror.json", self.root / "bad-bridge", "a" * 40, self.root / "bad-bridge-receipt.json", bridge_path)
+        inputs["bridges"][0]["rows"] = [{"raw_label": "USA", "target_key": "us"}]
+        w1.write_json(bridge_path, inputs)
+        with self.assertRaisesRegex(w1.ProjectionError, "target country is missing"):
+            w1.build(self.inputs / "inputs.json", self.root / "ror.json", self.root / "bad-bridge", "a" * 40, self.root / "bad-bridge-receipt.json", bridge_path)
+
+    def test_published_model_matches_physical_source_and_bridge_columns(self):
+        model = json.loads((Path(w1.__file__).parent.parent / "model" / "geonames.modelspec.json").read_text())
+        for table, (columns, key) in w1.TABLES.items():
+            entity = model["entities"][table]
+            self.assertEqual(set(entity["properties"]), set(columns))
+            self.assertEqual(entity["key"], [key])
+            self.assertTrue(all(prop["type"] == "string" for prop in entity["properties"].values()))
+        for table in w1.BRIDGE_TABLES:
+            self.assertEqual(set(model["entities"][table]["properties"]), {"serving_id", "raw_label", "target_key"})
 
     def test_capture_attests_fully_flushed_small_file_bytes(self):
         class Response(io.BytesIO):

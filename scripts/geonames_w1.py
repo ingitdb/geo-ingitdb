@@ -9,12 +9,14 @@ import contextlib
 import datetime
 import gzip
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import platform
 import re
 import resource
+import shutil
 import sqlite3
 import sys
 import tempfile
@@ -45,6 +47,8 @@ TABLES = {"geonames_countries": (COUNTRY, "iso"), "geonames_admin1": (ADMIN1, "c
           "geonames_places": (PLACE, "geonameid"), "geonames_alternate_names": (ALIAS, "alternate_name_id")}
 LIMITS = {"download_bytes": 1 << 30, "disk_bytes": 8 << 30, "rss_bytes": 512 << 20,
           "elapsed_seconds": 1800, "sqlite_bytes": 256 << 20, "metadata_bytes": 2 << 20}
+BRIDGE_TABLES = ("geonames_chinook_customer_country", "geonames_northwind_customer_country",
+                 "geonames_northwind_order_country", "geonames_pubs_publisher_country")
 ATTRIBUTION = """GeoNames W1 geographic projection
 Source: GeoNames https://www.geonames.org/
 Data: Creative Commons Attribution 4.0 https://creativecommons.org/licenses/by/4.0/
@@ -156,7 +160,11 @@ def rows(stream, columns, minimum=None):
 
 class Budget:
     def __init__(self, roots):
-        self.roots = roots
+        paths = sorted({Path(root).resolve() for root in roots}, key=lambda path: len(path.parts))
+        self.roots = []
+        for path in paths:
+            if not any(path.is_relative_to(root) for root in self.roots):
+                self.roots.append(path)
         self.started = time.monotonic()
         self.peak_disk = 0
         self.peak_rss = 0
@@ -199,7 +207,7 @@ def checked_ror(path):
     path = Path(path)
     value = json.loads(path.read_text(encoding="utf-8"))
     required = ("archive_url", "release", "release_date", "archive_sha256", "archive_bytes", "record_count",
-                "location_count", "ids_file", "ids_sha256", "id_count")
+                "location_count", "ids_file", "ids_sha256", "id_count", "archive_file", "json_member")
     if value.get("complete") is not True or any(key not in value for key in required):
         raise ProjectionError("complete pinned ROR archive and GeoNames ID projection receipt required")
     if not re.fullmatch(r"[0-9a-f]{64}", value["archive_sha256"]) or value["record_count"] <= 0:
@@ -207,7 +215,74 @@ def checked_ror(path):
     ids_path = path.parent / value["ids_file"]
     if digest(ids_path) != value["ids_sha256"]:
         raise ProjectionError("ROR ID projection checksum mismatch")
+    archive_path = path.parent / value["archive_file"]
+    if archive_path.stat().st_size != value["archive_bytes"] or digest(archive_path) != value["archive_sha256"]:
+        raise ProjectionError("ROR archive checksum/size mismatch")
+    with source_stream(archive_path, value["json_member"]) as binary:
+        with io.TextIOWrapper(binary, encoding="utf-8") as stream:
+            ids, records, locations = set(), 0, 0
+            for record in json_array(stream):
+                records += 1
+                for location in record["locations"]:
+                    locations += 1
+                    key = location.get("geonames_details", {}).get("geonames_id")
+                    if key is not None:
+                        if type(key) not in (int, str):
+                            raise ProjectionError("non-native ROR location GeoNames identifier")
+                        ids.add(positive_id(str(key)))
+    with ids_path.open(encoding="utf-8") as stream:
+        projected = {positive_id(line.removesuffix("\n")) for line in stream}
+    if (ids != projected or records != value["record_count"] or locations != value["location_count"]
+            or len(ids) != value["id_count"]):
+        raise ProjectionError("full ROR archive location/ID closure does not match receipt")
     return value, ids_path
+
+
+def json_array(stream):
+    """Incrementally decode the complete top-level ROR array, bounded per record."""
+    decoder = json.JSONDecoder()
+    buffer = ""
+    state = "start"
+    eof = False
+    while True:
+        buffer = buffer.lstrip()
+        if not buffer and not eof:
+            block = stream.read(65536)
+            eof = not block
+            buffer += block
+            continue
+        if state == "start":
+            if not buffer.startswith("["):
+                raise ProjectionError("ROR JSON must be a complete top-level array")
+            buffer, state = buffer[1:], "value-or-end"
+        elif state in ("value-or-end", "value"):
+            if state == "value-or-end" and buffer.startswith("]"):
+                buffer, state = buffer[1:], "finished"
+                continue
+            try:
+                value, end = decoder.raw_decode(buffer)
+            except json.JSONDecodeError as error:
+                if eof or len(buffer) > 1 << 20:
+                    raise ProjectionError("truncated or overlong ROR JSON record") from error
+                block = stream.read(65536)
+                eof = not block
+                buffer += block
+                continue
+            if not isinstance(value, dict):
+                raise ProjectionError("ROR array members must be objects")
+            yield value
+            buffer, state = buffer[end:], "delimiter"
+        elif state == "delimiter":
+            if buffer.startswith(","):
+                buffer, state = buffer[1:], "value"
+            elif buffer.startswith("]"):
+                buffer, state = buffer[1:], "finished"
+            else:
+                raise ProjectionError("malformed ROR array delimiter")
+        else:
+            if buffer.strip() or any(block.strip() for block in iter(lambda: stream.read(65536), "")):
+                raise ProjectionError("trailing ROR JSON content")
+            return
 
 
 def insert(db, table, fields):
@@ -218,7 +293,50 @@ def insert(db, table, fields):
         raise ProjectionError(f"duplicate native key in {table}: {fields[0]!r}") from error
 
 
-def build(manifest_path, ror_path, output, tool_revision, receipt_path):
+def export_bridges(db, stage, input_path):
+    """Materialize reviewed dictionaries; never synthesize a label or infer scope."""
+    input_path = Path(input_path)
+    if input_path.stat().st_size > 65536:
+        raise ProjectionError("accepted bridge input exceeds 64KiB")
+    value = json.loads(input_path.read_text(encoding="utf-8"))
+    if value.get("format") != "geonames-w1-accepted-bridge-inputs-1":
+        raise ProjectionError("unknown accepted bridge input format")
+    tables = set()
+    counts = {}
+    (stage / "bridges").mkdir()
+    for bridge in value["bridges"]:
+        table = bridge["table"]
+        if table not in BRIDGE_TABLES or table in tables:
+            raise ProjectionError("unknown or duplicate scoped bridge table")
+        tables.add(table)
+        for document in (bridge["source"]["schema"], bridge["decision"]["document"], bridge["accepted_values"]["document"]):
+            if not (re.fullmatch(r"https://github.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", document["repository"])
+                    and re.fullmatch(r"[0-9a-f]{40}", document["revision"])
+                    and re.fullmatch(r"[0-9a-f]{64}", document["sha256"])):
+                raise ProjectionError("bridge requires immutable source/decision references")
+        db.execute(f'CREATE TABLE "{table}" (serving_id TEXT PRIMARY KEY NOT NULL,raw_label TEXT UNIQUE NOT NULL,target_key TEXT NOT NULL) WITHOUT ROWID')
+        rows_to_write = sorted(bridge["rows"], key=lambda row: row["raw_label"].encode("utf-8"))
+        if not 0 < len(rows_to_write) <= 256:
+            raise ProjectionError("scoped bridge row count outside bounds")
+        for row in rows_to_write:
+            if not isinstance(row["raw_label"], str) or not row["raw_label"] or not isinstance(row["target_key"], str):
+                raise ProjectionError("raw bridge labels and targets must be exact non-empty strings")
+            if not db.execute("SELECT 1 FROM geonames_countries WHERE iso=?", (row["target_key"],)).fetchone():
+                raise ProjectionError("bridge target country is missing")
+            serving_id = hashlib.sha256(row["raw_label"].encode("utf-8")).hexdigest()
+            try:
+                db.execute(f'INSERT INTO "{table}" VALUES (?,?,?)', (serving_id, row["raw_label"], row["target_key"]))
+            except sqlite3.IntegrityError as error:
+                raise ProjectionError("duplicate raw-label bridge collision") from error
+        write_json(stage / "bridges" / (table + ".json"), {"table": table, "rows": rows_to_write})
+        counts[table] = len(rows_to_write)
+    if tables != set(BRIDGE_TABLES):
+        raise ProjectionError("all four accepted source-property bridge scopes required")
+    shutil.copyfile(input_path, stage / "bridges" / "accepted-inputs.json")
+    return counts
+
+
+def build(manifest_path, ror_path, output, tool_revision, receipt_path, bridge_inputs=None):
     output = Path(output)
     if output.exists():
         raise ProjectionError("output already exists; use a new snapshot directory")
@@ -237,6 +355,9 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                 raise ProjectionError("full combined W1 download budget exceeded")
             budget.check()
             db_path = stage / "geonames.sqlite"
+            scan_keys_path = stage / "scan-keys.sqlite"
+            scan_keys = sqlite3.connect(scan_keys_path)
+            scan_keys.executescript("PRAGMA journal_mode=OFF; PRAGMA cache_size=-4096; CREATE TABLE place_keys (id TEXT PRIMARY KEY) WITHOUT ROWID; CREATE TABLE alias_keys (id TEXT PRIMARY KEY) WITHOUT ROWID;")
             with contextlib.closing(sqlite3.connect(db_path)) as db:
                 db.executescript("PRAGMA page_size=4096; PRAGMA journal_mode=DELETE; PRAGMA temp_store=FILE; PRAGMA cache_size=-8192;")
                 for table, (columns, key) in TABLES.items():
@@ -269,6 +390,7 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                             insert(db, table, fields)
                             count += 1
                     source_counts[name] = count
+                bridge_counts = export_bridges(db, stage, bridge_inputs) if bridge_inputs else {}
                 db.commit()
                 # allCountries is scanned once. Only IDs required by ROR are loaded.
                 scan_count = 0
@@ -276,6 +398,10 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                 with source_stream(source_root / "allCountries.zip", "allCountries.txt") as stream:
                     for fields in rows(stream, PLACE):
                         key = positive_id(fields[0])
+                        try:
+                            scan_keys.execute("INSERT INTO place_keys VALUES (?)", (key,))
+                        except sqlite3.IntegrityError as error:
+                            raise ProjectionError(f"duplicate native allCountries key: {key}") from error
                         scan_count += 1
                         if db.execute("SELECT 1 FROM required_ror_places WHERE geonameid=?", (key,)).fetchone():
                             if key in found:
@@ -297,6 +423,10 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                     for fields in rows(stream, ALIAS, 8):
                         positive_id(fields[0])
                         positive_id(fields[1])
+                        try:
+                            scan_keys.execute("INSERT INTO alias_keys VALUES (?)", (fields[0],))
+                        except sqlite3.IntegrityError as error:
+                            raise ProjectionError(f"duplicate native alternateNamesV2 key: {fields[0]}") from error
                         alias_count += 1
                         if fields[1] in retained:
                             if any(flag not in ("", "0", "1") for flag in fields[4:8]):
@@ -317,11 +447,20 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                     raise ProjectionError("generated SQLite integrity failed")
                 counts = {table: db.execute(f'SELECT count(*) FROM "{table}"').fetchone()[0]
                           for table in (*TABLES, "required_ror_places", "missing_ror_places", "missing_admin1_references", "missing_country_references", "orphan_admin1")}
+                counts.update(bridge_counts)
+                write_json(stage / "country-keys.json", {"namespace": "iso-3166-1-alpha-2",
+                           "keys": [row[0] for row in db.execute("SELECT iso FROM geonames_countries ORDER BY iso")]})
                 if db.execute("SELECT count(*) FROM geonames_alternate_names WHERE geonameid NOT IN (SELECT geonameid FROM geonames_places)").fetchone()[0]:
                     raise ProjectionError("retained alias closure failed")
             if db_path.stat().st_size > LIMITS["sqlite_bytes"]:
                 raise ProjectionError(f"provider SQLite exceeds 256MiB: {db_path.stat().st_size}")
+            scan_keys.close()
+            scan_keys_path.unlink()
             (stage / "ATTRIBUTION.txt").write_text(ATTRIBUTION, encoding="utf-8")
+            if bridge_inputs:
+                (stage / "model").mkdir()
+                for name in ("geonames.modelspec.hcl", "geonames.modelspec.json", "geonames.meaning.yaml"):
+                    shutil.copyfile(Path(__file__).parent.parent / "model" / name, stage / "model" / name)
             # Ordered deterministic gzip chunks fit the existing 25MiB per-file runtime policy.
             chunks = []
             with db_path.open("rb") as source:
@@ -331,8 +470,11 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                         with gzip.GzipFile(filename="", mode="wb", fileobj=target, mtime=0) as compressed:
                             compressed.write(block)
                     chunks.append({"file": name, "bytes": (stage / name).stat().st_size, "sha256": digest(stage / name)})
-            public_ror = {key: value for key, value in ror.items() if key != "ids_file"}
+            public_ror = {key: value for key, value in ror.items() if key not in ("ids_file", "archive_file")}
             snapshot = {"format": "geonames-w1-snapshot-1", "sources": inputs["sources"], "ror_closure": public_ror,
+                        "generator": {"repository": "https://github.com/ingitdb/geo-ingitdb", "revision": tool_revision},
+                        "artifacts": [{"path": str(path.relative_to(stage)), "sha256": digest(path)}
+                                      for path in sorted(stage.rglob("*")) if path.is_file()],
                         "importer_revision": tool_revision, "importer_sha256": digest(__file__),
                         "projection": {"countries": "complete countryInfo", "admin1": "complete admin1CodesASCII",
                                        "places": "global cities5000 union complete ROR location GeoNames IDs",
@@ -343,7 +485,9 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
                         "outputs": {"sqlite": {"file": db_path.name, "bytes": db_path.stat().st_size, "sha256": digest(db_path)},
                                     "chunks": chunks, "attribution": {"file": "ATTRIBUTION.txt", "sha256": digest(stage / "ATTRIBUTION.txt")}}}
             write_json(stage / "snapshot.json", snapshot)
-            if (stage / "snapshot.json").stat().st_size > LIMITS["metadata_bytes"]:
+            metadata_bytes = sum(path.stat().st_size for path in stage.rglob("*") if path.is_file()
+                                 and path.name != "geonames.sqlite" and not path.name.endswith(".gz"))
+            if metadata_bytes > LIMITS["metadata_bytes"]:
                 raise ProjectionError("snapshot metadata exceeds 2MiB")
             budget.check()
             os.rename(stage, output)
@@ -351,6 +495,8 @@ def build(manifest_path, ror_path, output, tool_revision, receipt_path):
             write_json(receipt_path, receipt)
             return snapshot
         except Exception as error:
+            if "scan_keys" in locals():
+                scan_keys.close()
             write_json(receipt_path, {"status": "blocked", "error": str(error), "measurement": budget.receipt()})
             raise
 
@@ -366,12 +512,14 @@ def main():
     project.add_argument("--out", type=Path, required=True)
     project.add_argument("--tool-revision", required=True)
     project.add_argument("--receipt", type=Path, required=True)
+    project.add_argument("--bridges", type=Path, default=Path(__file__).parent.parent / "bridges" / "accepted-country-bridges.json",
+                         help="accepted scoped bridge generation input; no label inference")
     args = parser.parse_args()
     try:
         if args.command == "capture":
             print(capture(args.directory))
         else:
-            result = build(args.inputs, args.ror_closure, args.out, args.tool_revision, args.receipt)
+            result = build(args.inputs, args.ror_closure, args.out, args.tool_revision, args.receipt, args.bridges)
             print(json.dumps(result["counts"], sort_keys=True))
     except (OSError, ValueError, sqlite3.Error, zipfile.BadZipFile) as error:
         parser.exit(1, f"geonames-w1: {error}\n")

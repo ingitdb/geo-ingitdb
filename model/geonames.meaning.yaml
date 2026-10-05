@@ -1,0 +1,94 @@
+format: meaning/draft-1
+id: geonames
+name: GeoNames source projection
+license: CC0-1.0
+description: >-
+  Source-specific GeoNames recordsets and accepted country identifier roles.
+  CountryInfo includes provider-retained historic entries; snapshot coverage is
+  independent of current ISO membership. Gazetteer features are not all cities.
+  Raw demo labels obtain scope only through the separately validated publisher
+  representation attachment, not through labels matching in this graph.
+models:
+  geonames: geonames.modelspec.hcl
+concepts:
+  - id: geonames-country
+    kind: entity
+    extends: meaning://github.com/meaninggraph/core/country?ref=982916d73f0a35ff2558b0062f58aa3ac4f24d97
+    description: Country or territory records as retained in the pinned GeoNames countryInfo snapshot.
+    labels: {en: GeoNames country}
+    bindings:
+      - model: modelspec:///geonames.geonames_countries
+        role: entity
+      - model: modelspec:///geonames.geonames_countries
+        property: iso
+        role: identifier
+      - model: modelspec:///geonames.geonames_countries
+        property: country
+        role: display-name
+  - id: geonames-admin
+    kind: entity
+    description: >-
+      Provider admin1 rows identified by the raw country.admin1 composite,
+      including unresolved country references. These codes are not universally ISO3166-2.
+    labels: {en: GeoNames admin1 record}
+    bindings:
+      - model: modelspec:///geonames.geonames_admin1
+        role: entity
+      - model: modelspec:///geonames.geonames_admin1
+        property: code
+        role: identifier
+      - model: modelspec:///geonames.geonames_admin1
+        property: name
+        role: display-name
+  - id: geonames-feature
+    kind: entity
+    description: >-
+      One native GeoNames gazetteer feature in the selected ID union. All original
+      feature classes/codes remain available; this does not extend core city.
+    labels: {en: GeoNames feature}
+    bindings:
+      - model: modelspec:///geonames.geonames_places
+        role: entity
+      - model: modelspec:///geonames.geonames_places
+        property: geonameid
+        role: identifier
+      - model: modelspec:///geonames.geonames_places
+        property: name
+        role: display-name
+  - id: geonames-alternate-name
+    kind: entity
+    description: Native alternate-name rows with exact language, text, flags and periods for retained feature IDs.
+    labels: {en: GeoNames alternate name}
+    bindings:
+      - model: modelspec:///geonames.geonames_alternate_names
+        role: entity
+      - model: modelspec:///geonames.geonames_alternate_names
+        property: alternate_name_id
+        role: identifier
+      - model: modelspec:///geonames.geonames_alternate_names
+        property: alternate_name
+        role: display-name
+  - id: projected-country-code
+    kind: dimension
+    values-of: meaning://github.com/meaninggraph/core/country?ref=982916d73f0a35ff2558b0062f58aa3ac4f24d97
+    description: >-
+      Exact native alpha2 target code in each separately scoped reviewed bridge.
+      No raw label acceptance is inferred from these target-property bindings.
+    labels: {en: Projected country code}
+    bindings:
+      - model: modelspec:///geonames.geonames_chinook_customer_country
+        property: target_key
+        role: value
+        match: codes.alpha2
+      - model: modelspec:///geonames.geonames_northwind_customer_country
+        property: target_key
+        role: value
+        match: codes.alpha2
+      - model: modelspec:///geonames.geonames_northwind_order_country
+        property: target_key
+        role: value
+        match: codes.alpha2
+      - model: modelspec:///geonames.geonames_pubs_publisher_country
+        property: target_key
+        role: value
+        match: codes.alpha2

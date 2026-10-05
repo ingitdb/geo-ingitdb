@@ -21,8 +21,10 @@ The separate ROR provider supplies a complete release location-ID projection:
 `complete: true`, `archive_url`, `release`, `release_date`, `archive_sha256`,
 `archive_bytes`, `record_count`, `location_count`, `ids_file`, `ids_sha256`,
 `id_count`. The ID file contains one unique native positive decimal GeoNames ID per
-LF-terminated line. The archive's integrity and full status/location enumeration
-are the ROR owner's receipt; this builder checks the ID-file hash/count. A sample
+LF-terminated line. `archive_file` and `json_member` name the cached complete ROR
+archive and its JSON member. The builder independently checks archive bytes/hash,
+streams every organization/location and verifies the entire native ID set against
+the ID-file hash/count and receipt. A sample
 cannot satisfy the full-release prerequisite. This handoff is generation provenance,
 not a user-schema acceptance contract or a competing canonical registry.
 
@@ -63,8 +65,21 @@ remain available and counted. The exporter never fabricates a target or clears a
 raw reference to satisfy foreign-key validation. Duplicate selected native keys,
 disagreeing cities5000/allCountries overlaps and malformed retained rows fail.
 
+`bridges/accepted-country-bridges.json` contains only the previously accepted raw
+label dictionaries for pinned Chinook Customer.Country, Northwind Customers.Country,
+Northwind Orders.ShipCountry and Pubs publishers.country. The default build materializes
+four separate source-qualified serving tables, retaining each raw label byte for byte.
+`serving_id` is a generated SHA256 of raw-label UTF-8 bytes, explicitly separate from
+the native target key. Each bridge's source model, original fixture, enumerated-value
+receipt and accepted source-property decision retain immutable external pins. Targets
+must exist in this country snapshot and repeated raw labels fail. Generation does not
+authorize consumer eligibility: the publisher contract validates scope and linkage.
+
 Each output includes SQLite, deterministic ordered 16MiB decoded gzip chunks,
 `snapshot.json` with source/output checksums and counts, and `ATTRIBUTION.txt`.
+The generic snapshot `generator` and `artifacts` fields bind the country key index,
+four physical bridge descriptors, provider model/meaning files and immutable
+accepted-input provenance. No attachment references its own containing commit.
 Chunks obey the existing 25MiB fetch guard; their order/hash and decoded SQLite hash
 are ready for the designated runtime owner. These files are private build outputs:
 no production mount, Directory discovery or public availability is claimed here.
