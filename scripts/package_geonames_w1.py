@@ -6,6 +6,8 @@ import gzip
 import hashlib
 import json
 import math
+import os
+import stat
 from pathlib import Path
 import platform
 import re
@@ -53,9 +55,101 @@ licence separately; that code/model licence does not relicense GeoNames data.
 """
 
 
-def digest(path):
-    with Path(path).open("rb") as stream:
-        return hashlib.file_digest(stream, "sha256").hexdigest()
+def regular_file(path, ceiling):
+    info = Path(path).lstat()
+    if not stat.S_ISREG(info.st_mode) or not 0 < info.st_size <= ceiling:
+        raise ValueError("artifact must be a nonempty regular file within its size limit")
+    return info
+
+
+def open_regular(path, ceiling):
+    regular_file(path, ceiling)
+    # Nonblocking/no-follow also defend against replacement after lstat.
+    descriptor = os.open(path, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
+    try:
+        info = os.fstat(descriptor)
+        if not stat.S_ISREG(info.st_mode) or not 0 < info.st_size <= ceiling:
+            raise ValueError("opened artifact is not a bounded regular file")
+        stream = os.fdopen(descriptor, "rb")
+    except BaseException:
+        os.close(descriptor)
+        raise
+    return stream
+
+
+def read_metadata(path):
+    with open_regular(path, METADATA_LIMIT) as stream:
+        data = stream.read(METADATA_LIMIT + 1)
+    if len(data) > METADATA_LIMIT:
+        raise ValueError("metadata exceeds 2MiB")
+    return data
+
+
+def digest(path, ceiling=SQLITE_LIMIT):
+    with open_regular(path, ceiling) as stream:
+        result, consumed = hashlib.sha256(), 0
+        for block in iter(lambda: stream.read(1024**2), b""):
+            consumed += len(block)
+            if consumed > ceiling:
+                raise ValueError("artifact grew beyond size limit")
+            result.update(block)
+        return result.hexdigest()
+
+
+def exact_value(actual, expected):
+    """JSON equality preserving number types, including bool versus int."""
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(expected, dict):
+        return actual.keys() == expected.keys() and all(exact_value(actual[k], v) for k, v in expected.items())
+    if isinstance(expected, list):
+        return len(actual) == len(expected) and all(exact_value(a, b) for a, b in zip(actual, expected))
+    return actual == expected
+
+
+def physical_closure(root, required, code_root):
+    """Only designated distributable namespaces; repository code/w1 reports are separate."""
+    expected = required - {"geonames.sqlite"} | {"source/artifact-snapshot.json"}
+    # This pre-existing reviewed bridge-scope document is repository authority,
+    # not generated package metadata. If present, require its exact landed bytes.
+    legacy = "bridges/accepted-country-bridges.json"
+    path = safe_path(root, legacy)
+    if path.exists() or path.is_symlink():
+        if read_metadata(path) != git_blob(code_root, SOURCE_REVISION, legacy):
+            raise ValueError("legacy bridge authority changed")
+        expected.add(legacy)
+    directories = {str(parent) for name in expected for parent in Path(name).parents if str(parent) != "."}
+    found = set()
+    def visit(relative):
+        path = safe_path(root, relative)
+        info = path.lstat()
+        if stat.S_ISDIR(info.st_mode):
+            if relative not in directories:
+                raise ValueError("unexpected distributable directory")
+            with os.scandir(path) as entries:
+                for entry in entries:
+                    visit(relative + "/" + entry.name)
+        elif stat.S_ISREG(info.st_mode):
+            if relative not in expected:
+                raise ValueError("unlisted distributable file")
+            regular_file(path, FILE_LIMIT if relative.startswith(PREFIX) else METADATA_LIMIT)
+            found.add(relative)
+        else:
+            raise ValueError("distributable entry must be regular file or expected directory")
+    for namespace in ("source", "model", "bridges", PREFIX.rstrip("/").rsplit("/", 1)[0]):
+        visit(namespace)
+    for name in expected:
+        if "/" not in name:
+            visit(name)
+    for name in ("geonames.sqlite", "geonames.sqlite.gz"):
+        path = safe_path(root, name)
+        if path.exists() or path.is_symlink():
+            raise ValueError("reconstructed logical dataset must not exist physically")
+    if found != expected:
+        raise ValueError("physical distributable closure differs from manifest")
+    metadata_bytes = sum(safe_path(root, name).lstat().st_size for name in expected if not name.startswith(PREFIX))
+    if metadata_bytes > METADATA_LIMIT:
+        raise ValueError("combined metadata exceeds 2MiB")
 
 
 def safe_path(root, relative):
@@ -100,8 +194,7 @@ def decode_json(data):
 
 
 def read_json(path):
-    with Path(path).open("rb") as stream:
-        return decode_json(stream.read(METADATA_LIMIT + 1))
+    return decode_json(read_metadata(path))
 
 
 def write_json(path, value):
@@ -127,7 +220,7 @@ def git_blob(root, revision, path):
 
 def generator(root, revision):
     data = git_blob(root, revision, SCRIPT)
-    if data != safe_path(root, SCRIPT).read_bytes():
+    if data != read_metadata(safe_path(root, SCRIPT)):
         raise ValueError("packager differs from committed generator")
     return {"repository": REPOSITORY, "revision": revision, "script": SCRIPT,
             "sha256": hashlib.sha256(data).hexdigest()}
@@ -162,7 +255,7 @@ def source_association(root, original, source):
 
 def native_evidence(database, snapshot, source_ref):
     expected = snapshot["outputs"]["sqlite"]
-    if database.stat().st_size != expected["bytes"] or database.stat().st_size > SQLITE_LIMIT or digest(database) != expected["sha256"]:
+    if regular_file(database, SQLITE_LIMIT).st_size != expected["bytes"] or database.stat().st_size > SQLITE_LIMIT or digest(database) != expected["sha256"]:
         raise ValueError("SQLite differs from reviewed original dataset")
     proofs = []
     with closing(sqlite3.connect(f"file:{database.resolve()}?mode=ro", uri=True)) as db:
@@ -229,9 +322,9 @@ def reconstruct(root, descriptor, destination=None):
     with tempfile.TemporaryFile() as encoded:
         for item in descriptor["chunks"]:
             path = safe_path(root, item["path"])
-            if type(item["bytes"]) is not int or not 0 < item["bytes"] <= FILE_LIMIT or path.stat().st_size != item["bytes"] or digest(path) != item["sha256"]:
+            if type(item["bytes"]) is not int or not 0 < item["bytes"] <= FILE_LIMIT or regular_file(path, FILE_LIMIT).st_size != item["bytes"] or digest(path, FILE_LIMIT) != item["sha256"]:
                 raise ValueError("chunk hash/size/per-file guard mismatch")
-            with path.open("rb") as stream:
+            with open_regular(path, FILE_LIMIT) as stream:
                 for block in iter(lambda: stream.read(1024**2), b""):
                     encoded.write(block)
                     encoded_hash.update(block)
@@ -258,13 +351,13 @@ def verify_bundle(root, code_root=None):
     snapshot = read_json(safe_path(root, "source/artifact-snapshot.json"))
     if snapshot.get("generator") != generator(code_root, snapshot["generator"].get("revision", "")):
         raise ValueError("packaging generator Git association mismatch")
-    original = safe_path(root, "source/generation-validation.json").read_bytes()
-    original_source = safe_path(root, "source/generation-snapshot.json").read_bytes()
+    original = read_metadata(safe_path(root, "source/generation-validation.json"))
+    original_source = read_metadata(safe_path(root, "source/generation-snapshot.json"))
     validation, source = source_association(code_root, original, original_source)
     association = {"repository": REPOSITORY, "revision": SOURCE_REVISION,
                    "original_validation_sha256": hashlib.sha256(original).hexdigest(),
                    "original_snapshot_sha256": SOURCE_SNAPSHOT_SHA256}
-    if snapshot.get("source_generation") != association or snapshot.get("counts") != source["counts"]:
+    if snapshot.get("source_generation") != association or not exact_value(snapshot.get("counts"), source["counts"]):
         raise ValueError("source generation repository/revision/receipt association mismatch")
     chunks = chunk_paths(source)
     required = set(REQUIRED_METADATA) | {item["path"] for item in chunks} | {"geonames.sqlite"}
@@ -281,19 +374,20 @@ def verify_bundle(root, code_root=None):
         else:
             path = safe_path(root, name)
             ceiling = FILE_LIMIT if name.startswith(PREFIX) else METADATA_LIMIT
-            if not 0 < item["bytes"] <= ceiling or path.stat().st_size != item["bytes"] or digest(path) != item["sha256"]:
+            if not 0 < item["bytes"] <= ceiling or regular_file(path, ceiling).st_size != item["bytes"] or digest(path, ceiling) != item["sha256"]:
                 raise ValueError("required artifact bytes/hash mismatch")
     if set(pins) != required:
         raise ValueError("complete required artifact closure missing or widened")
+    physical_closure(root, required, code_root)
     expected_licence = git_blob(code_root, SOURCE_REVISION, "DATA-LICENSE.md") + DATA_LICENSE.encode()
-    if safe_path(root, "DATA-LICENSE.md").read_bytes() != expected_licence or safe_path(root, "LICENSE").read_bytes() != git_blob(code_root, SOURCE_REVISION, "LICENSE"):
+    if read_metadata(safe_path(root, "DATA-LICENSE.md")) != expected_licence or read_metadata(safe_path(root, "LICENSE")) != git_blob(code_root, SOURCE_REVISION, "LICENSE"):
         raise ValueError("data/code licence association mismatch")
     source_pins = {item["path"]: item["sha256"] for item in validation["artifacts"]}
     for name in SOURCE_METADATA:
         if pins[name]["sha256"] != source_pins[name]:
             raise ValueError("source model/binding/key/bridge/attribution changed")
     for name in ["model/geonames.modelspec.hcl", "model/geonames.modelspec.json", "model/geonames.meaning.yaml"]:
-        if safe_path(root, name).read_bytes() != git_blob(code_root, SOURCE_REVISION, name):
+        if read_metadata(safe_path(root, name)) != git_blob(code_root, SOURCE_REVISION, name):
             raise ValueError("model/binding differs from landed source")
     descriptor = snapshot["sqlite"]
     if descriptor.get("chunks") != chunks or descriptor.get("path") != "geonames.sqlite" or descriptor.get("encodedPath") != "geonames.sqlite.gz" or descriptor.get("compression") != "gzip":
@@ -306,10 +400,10 @@ def verify_bundle(root, code_root=None):
         with database.open("wb") as output:
             reconstruct(root, descriptor, output)
         proof = native_evidence(database, source, {"path": "source/generation-snapshot.json", "sha256": SOURCE_SNAPSHOT_SHA256})
-    if read_json(safe_path(root, "source/native-key-evidence.json")) != proof:
+    if not exact_value(read_json(safe_path(root, "source/native-key-evidence.json")), proof):
         raise ValueError("native key evidence/generation provider association mismatch")
     for name, expected in native_receipts(source, proof).items():
-        if read_json(safe_path(root, name)) != expected:
+        if not exact_value(read_json(safe_path(root, name)), expected):
             raise ValueError("per-entity native original snapshot/key/proof association mismatch")
     if read_json(safe_path(root, "country-keys.json")) != proof["country_keys"]:
         raise ValueError("native country index association mismatch")
@@ -318,8 +412,6 @@ def verify_bundle(root, code_root=None):
         entity = model["entities"][table]
         if model["module"]["name"] != "geonames" or entity["key"] != [key] or entity["properties"][key].get("required") is not True or entity["properties"][key]["type"] != "string":
             raise ValueError("model native key mismatch")
-    if sum(path.stat().st_size for path in root.rglob("*") if path.is_file() and path.name != "geonames.sqlite" and not path.name.endswith(".gz") and path.relative_to(root).as_posix() in (set(REQUIRED_METADATA) | {"source/artifact-snapshot.json"})) > METADATA_LIMIT:
-        raise ValueError("combined metadata exceeds 2MiB")
     return snapshot
 
 
@@ -332,11 +424,12 @@ def package(root, bundle, output, revision, receipt):
     started = time.monotonic()
     tool = generator(root, revision)
     original = git_blob(root, SOURCE_REVISION, "w1/validation.json")
-    source_bytes = safe_path(bundle, "snapshot.json").read_bytes()
+    source_bytes = read_metadata(safe_path(bundle, "snapshot.json"))
     validation, source = source_association(root, original, source_bytes)
     for pin in validation["artifacts"]:
         path = safe_path(bundle, pin["path"])
-        if path.stat().st_size != pin["bytes"] or digest(path) != pin["sha256"]:
+        ceiling = SQLITE_LIMIT if pin["path"] == "geonames.sqlite" else FILE_LIMIT if pin["path"].endswith(".gz") else METADATA_LIMIT
+        if type(pin["bytes"]) is not int or regular_file(path, ceiling).st_size != pin["bytes"] or digest(path, ceiling) != pin["sha256"]:
             raise ValueError("reviewed input bundle artifact differs")
     output.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix=".geonames-package-", dir=output.parent))

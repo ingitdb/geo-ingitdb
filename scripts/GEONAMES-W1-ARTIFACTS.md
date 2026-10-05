@@ -62,3 +62,10 @@ There is no invented database endpoint or production publisher manifest here.
 Data is GeoNames CC-BY-4.0: retain `DATA-LICENSE.md` and `ATTRIBUTION.txt` in downloads
 and display attribution in consumers. Repository code/model/meaning CC0 licences
 remain separate from the geographic data licence.
+
+The checker requires exact physical closure of `source/`, `model/`, `bridges/`, and
+`artifacts/geonames-w1-2026-10-05/`, plus named root attribution/licence/key files.
+The existing `bridges/accepted-country-bridges.json` may remain only with its exact landed source bytes.
+Repository code and `w1/` validation reports are outside these distributable namespaces.
+Logical `geonames.sqlite` and `geonames.sqlite.gz` must not exist physically; the SQLite is reconstructed from the pinned members.
+Metadata must be a bounded regular file before opening, and native proof counts preserve integer types.

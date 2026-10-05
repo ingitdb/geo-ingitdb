@@ -1,5 +1,8 @@
 import copy
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 import shutil
 import tempfile
@@ -175,6 +178,107 @@ class PackageTest(unittest.TestCase):
         for raw in (b'{"x":1,"x":2}', b'{"x":NaN}', b'{"x":1e999}'):
             with self.subTest(raw=raw), self.assertRaises(ValueError):
                 package.decode_json(raw)
+
+    def test_unlisted_physical_metadata_chunks_and_logical_dataset_fail(self):
+        for name, data in [("source/native/unreviewed.json", b"{}"),
+                           ("source/extra.json", b" " * (3 * 1024**2)),
+                           (package.PREFIX + "extra.gz", b"junk"),
+                           ("geonames.sqlite", b"counterfeit"),
+                           ("geonames.sqlite.gz", b"counterfeit"),
+                           ("bridges/unlisted.json", b"{}"), ("model/unlisted.json", b"{}"),
+                           ("artifacts/geonames-w1-2026-10-05/extra.json", b"{}")]:
+            with self.subTest(name=name):
+                path = self.root / name
+                path.write_bytes(data)
+                self.rejected()
+                path.unlink()
+        directory = self.root / "source/unlisted"
+        directory.mkdir()
+        self.rejected()
+        directory.rmdir()
+        link = self.root / "source/unlisted"
+        link.symlink_to(ROOT / "LICENSE")
+        self.rejected()
+        link.unlink()
+        os.mkfifo(link)
+        self.rejected()
+
+    def test_metadata_guards_reject_fifo_directory_symlink_and_oversize_before_open(self):
+        for name in ("source/artifact-snapshot.json", "source/generation-validation.json",
+                     "source/generation-snapshot.json"):
+            with self.subTest(name=name):
+                path = self.root / name
+                original = path.read_bytes()
+                path.unlink()
+                os.mkfifo(path)
+                # Timeout is a backstop: a regression fails without hanging the suite.
+                result = subprocess.run([sys.executable, str(ROOT / package.SCRIPT), "check", "--root", str(self.root)],
+                                        capture_output=True, timeout=3, check=False)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(b"regular file", result.stderr)
+                path.unlink()
+                for kind in ("directory", "symlink", "oversize"):
+                    with self.subTest(kind=kind):
+                        if kind == "directory":
+                            path.mkdir()
+                        elif kind == "symlink":
+                            path.symlink_to(ROOT / name)
+                        else:
+                            with path.open("wb") as output:
+                                output.truncate(package.METADATA_LIMIT + 1)
+                        # Demonstrate the guard runs before even a bounded open.
+                        with patch.object(package.os, "open", side_effect=AssertionError("opened unsafe metadata")):
+                            self.rejected()
+                        if kind == "directory":
+                            path.rmdir()
+                        else:
+                            path.unlink()
+                path.write_bytes(original)
+
+    def test_input_snapshot_is_bounded_regular_before_open(self):
+        bundle = self.root / "input"
+        bundle.mkdir()
+        path = bundle / "snapshot.json"
+        for kind in ("fifo", "directory", "symlink", "oversize"):
+            with self.subTest(kind=kind):
+                if kind == "fifo":
+                    os.mkfifo(path)
+                elif kind == "directory":
+                    path.mkdir()
+                elif kind == "symlink":
+                    path.symlink_to(self.root / "source/generation-snapshot.json")
+                else:
+                    with path.open("wb") as output:
+                        output.truncate(package.METADATA_LIMIT + 1)
+                with self.assertRaises(ValueError):
+                    package.package(ROOT, bundle, self.root / "candidate", self.snapshot["generator"]["revision"],
+                                    self.root / "measure.json")
+                self.assertFalse((self.root / "candidate").exists())
+                self.assertFalse((self.root / "measure.json").exists())
+                if kind == "directory":
+                    path.rmdir()
+                else:
+                    path.unlink()
+
+    def test_repinned_evidence_and_native_receipt_counts_require_exact_integer_types(self):
+        for name in ("source/native-key-evidence.json", "source/native/geonames_places.json"):
+            original = package.read_json(self.root / name)
+            paths = [("keys", 2, field) for field in ("records", "duplicates", "missing", "invalid_native_values")] if "evidence" in name else [
+                ("native_key", "records"), ("native_key", "duplicates"),
+                ("native_key_checks", "missing"), ("native_key_checks", "invalid_native_values"),
+                ("snapshot", "counts", "geonames_places")]
+            for keys in paths:
+                for kind in ("float", "bool"):
+                    with self.subTest(name=name, keys=keys, kind=kind):
+                        changed = copy.deepcopy(original)
+                        target = changed
+                        for key in keys[:-1]:
+                            target = target[key]
+                        value = target[keys[-1]]
+                        target[keys[-1]] = float(value) if kind == "float" else bool(value)
+                        self.alter_metadata(name, changed)
+                        self.rejected()
+            self.alter_metadata(name, original)
 
     def test_existing_output_and_wrong_generator_leave_no_candidate(self):
         output = self.root / "already"
