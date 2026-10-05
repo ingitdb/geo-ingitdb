@@ -332,8 +332,9 @@ class PackageTest(unittest.TestCase):
         with (bundle / "geonames.sqlite").open("wb") as stream:
             package.reconstruct(self.root, self.snapshot["sqlite"], stream)
         output = self.root / "over-budget"
+        revision = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
         with patch.object(package, "DISK_LIMIT", 1), self.assertRaisesRegex(ValueError, "resource budget"):
-            package.package(ROOT, bundle, output, self.snapshot["generator"]["revision"], self.root / "measurement.json")
+            package.package(ROOT, bundle, output, revision, self.root / "measurement.json")
         self.assertFalse(output.exists())
         self.assertFalse(list(self.root.glob(".geonames-package-*")))
         self.assertFalse((self.root / "measurement.json").exists())
