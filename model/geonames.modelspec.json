@@ -1,0 +1,274 @@
+{
+  "modelspec": "1.0-draft",
+  "module": {
+    "id": "github.com/ingitdb/geo-ingitdb/model/geonames",
+    "name": "geonames",
+    "version": "0.1.0"
+  },
+  "entities": {
+    "geonames_countries": {
+      "key": [
+        "iso"
+      ],
+      "properties": {
+        "iso": {
+          "type": "string",
+          "required": true
+        },
+        "iso3": {
+          "type": "string"
+        },
+        "iso_numeric": {
+          "type": "string"
+        },
+        "fips": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "capital": {
+          "type": "string"
+        },
+        "area_sq_km": {
+          "type": "string"
+        },
+        "population": {
+          "type": "string"
+        },
+        "continent": {
+          "type": "string"
+        },
+        "tld": {
+          "type": "string"
+        },
+        "currency_code": {
+          "type": "string"
+        },
+        "currency_name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "postal_code_format": {
+          "type": "string"
+        },
+        "postal_code_regex": {
+          "type": "string"
+        },
+        "languages": {
+          "type": "string"
+        },
+        "geonameid": {
+          "type": "string"
+        },
+        "neighbours": {
+          "type": "string"
+        },
+        "equivalent_fips_code": {
+          "type": "string"
+        }
+      }
+    },
+    "geonames_admin1": {
+      "key": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "required": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "asciiname": {
+          "type": "string"
+        },
+        "geonameid": {
+          "type": "string"
+        }
+      }
+    },
+    "geonames_places": {
+      "key": [
+        "geonameid"
+      ],
+      "properties": {
+        "geonameid": {
+          "type": "string",
+          "required": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "asciiname": {
+          "type": "string"
+        },
+        "alternatenames": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "feature_class": {
+          "type": "string"
+        },
+        "feature_code": {
+          "type": "string"
+        },
+        "country_code": {
+          "type": "string"
+        },
+        "cc2": {
+          "type": "string"
+        },
+        "admin1_code": {
+          "type": "string"
+        },
+        "admin2_code": {
+          "type": "string"
+        },
+        "admin3_code": {
+          "type": "string"
+        },
+        "admin4_code": {
+          "type": "string"
+        },
+        "population": {
+          "type": "string"
+        },
+        "elevation": {
+          "type": "string"
+        },
+        "dem": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "modification_date": {
+          "type": "string"
+        }
+      }
+    },
+    "geonames_alternate_names": {
+      "key": [
+        "alternate_name_id"
+      ],
+      "properties": {
+        "alternate_name_id": {
+          "type": "string",
+          "required": true
+        },
+        "geonameid": {
+          "type": "string"
+        },
+        "isolanguage": {
+          "type": "string"
+        },
+        "alternate_name": {
+          "type": "string"
+        },
+        "is_preferred_name": {
+          "type": "string"
+        },
+        "is_short_name": {
+          "type": "string"
+        },
+        "is_colloquial": {
+          "type": "string"
+        },
+        "is_historic": {
+          "type": "string"
+        },
+        "from_period": {
+          "type": "string"
+        },
+        "to_period": {
+          "type": "string"
+        }
+      }
+    },
+    "geonames_chinook_customer_country": {
+      "key": [
+        "serving_id"
+      ],
+      "properties": {
+        "serving_id": {
+          "type": "string",
+          "required": true
+        },
+        "raw_label": {
+          "type": "string",
+          "required": true
+        },
+        "target_key": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "geonames_northwind_customer_country": {
+      "key": [
+        "serving_id"
+      ],
+      "properties": {
+        "serving_id": {
+          "type": "string",
+          "required": true
+        },
+        "raw_label": {
+          "type": "string",
+          "required": true
+        },
+        "target_key": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "geonames_northwind_order_country": {
+      "key": [
+        "serving_id"
+      ],
+      "properties": {
+        "serving_id": {
+          "type": "string",
+          "required": true
+        },
+        "raw_label": {
+          "type": "string",
+          "required": true
+        },
+        "target_key": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "geonames_pubs_publisher_country": {
+      "key": [
+        "serving_id"
+      ],
+      "properties": {
+        "serving_id": {
+          "type": "string",
+          "required": true
+        },
+        "raw_label": {
+          "type": "string",
+          "required": true
+        },
+        "target_key": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+}

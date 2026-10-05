@@ -4,6 +4,11 @@ A geographic reference database stored in [inGitDB](https://github.com/ingitdb/i
 format: countries, their first-order subdivisions, and settlements, generated
 from open data by [`cmd/geo-import`](cmd/geo-import).
 
+The additive [GeoNames W1 exporter](scripts/GEONAMES-W1.md) retains full selected
+global source fields and native keys in reproducible private SQLite exports.
+Its source-qualified projections and exception counts are separate from the
+legacy showcase collections below.
+
 ## Layout
 
 Three flat root collections linked by foreign keys (not nested subcollections —

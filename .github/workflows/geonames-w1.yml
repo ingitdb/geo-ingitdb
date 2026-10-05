@@ -1,0 +1,14 @@
+name: GeoNames W1
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  offline_projection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Validate streaming projection and negative controls
+        run: python3 -m unittest discover -s scripts -p 'test_geonames_w1.py' -v

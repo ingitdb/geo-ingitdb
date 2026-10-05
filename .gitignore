@@ -3,3 +3,6 @@
 .cache/
 /geo-import
 /wb-import
+__pycache__/
+*.pyc
+/w1-build/
