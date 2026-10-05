@@ -54,6 +54,33 @@ class PackageTest(unittest.TestCase):
         self.assertTrue((self.root / "DATA-LICENSE.md").read_bytes().startswith(
             package.git_blob(ROOT, package.SOURCE_REVISION, "DATA-LICENSE.md")))
 
+    def test_later_representation_pair_requires_exact_bytes_and_regular_closure(self):
+        required = {pin["path"] for pin in self.snapshot["artifacts"]}
+        pair = ("model/representations.json", "source/representation-attachment.json")
+        for name in pair:
+            shutil.copyfile(ROOT / name, self.root / name)
+        package.physical_closure(self.root, required, ROOT)
+        # These are later metadata, not additional historical snapshot artifacts.
+        self.assertFalse(any(pin["path"] in pair for pin in self.snapshot["artifacts"]))
+        for name in pair:
+            file = self.root / name
+            original = file.read_bytes()
+            file.write_bytes(original + b" ")
+            with self.assertRaises(ValueError):
+                package.physical_closure(self.root, required, ROOT)
+            file.unlink()
+            with self.assertRaises((ValueError, OSError)):
+                package.physical_closure(self.root, required, ROOT)
+            file.symlink_to(ROOT / name)
+            with self.assertRaises((ValueError, OSError)):
+                package.physical_closure(self.root, required, ROOT)
+            file.unlink()
+            file.write_bytes(original)
+        extra = self.root / "source/untracked-representation.json"
+        extra.write_text("{}")
+        with self.assertRaises(ValueError):
+            package.physical_closure(self.root, required, ROOT)
+
     def test_source_generation_repo_revision_and_original_hash_are_checked(self):
         original = copy.deepcopy(self.snapshot)
         for field, value in [("repository", "https://github.com/example/other"),
@@ -305,8 +332,9 @@ class PackageTest(unittest.TestCase):
         with (bundle / "geonames.sqlite").open("wb") as stream:
             package.reconstruct(self.root, self.snapshot["sqlite"], stream)
         output = self.root / "over-budget"
+        revision = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
         with patch.object(package, "DISK_LIMIT", 1), self.assertRaisesRegex(ValueError, "resource budget"):
-            package.package(ROOT, bundle, output, self.snapshot["generator"]["revision"], self.root / "measurement.json")
+            package.package(ROOT, bundle, output, revision, self.root / "measurement.json")
         self.assertFalse(output.exists())
         self.assertFalse(list(self.root.glob(".geonames-package-*")))
         self.assertFalse((self.root / "measurement.json").exists())
