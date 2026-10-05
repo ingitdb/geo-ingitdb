@@ -145,9 +145,9 @@
   "dataset_role": "unchanged native source projection; runtime serving/eligibility remains separate",
   "generator": {
     "repository": "https://github.com/ingitdb/geo-ingitdb",
-    "revision": "7c0223df8e59b80df8ddf71e775197a153cf3e30",
+    "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
     "script": "scripts/package_geonames_w1.py",
-    "sha256": "2b13af23bf14be1993e2b82842e48a0cf062c0d93ed1f46a574c27446ec88cb5"
+    "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
   },
   "source_generation": {
     "original_snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",

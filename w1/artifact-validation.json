@@ -1,5 +1,5 @@
 {
-  "artifact_snapshot_sha256": "5bb94bc67a326da337bd1a8be978dd5a384095e60d47b2669afc579ad86d396e",
+  "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
   "artifacts": [
     {
       "bytes": 652,
@@ -89,7 +89,7 @@
     {
       "bytes": 7001,
       "path": "source/artifact-snapshot.json",
-      "sha256": "5bb94bc67a326da337bd1a8be978dd5a384095e60d47b2669afc579ad86d396e"
+      "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
     },
     {
       "bytes": 7941,
@@ -127,6 +127,12 @@
       "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56"
     }
   ],
+  "checker_repairs": {
+    "physical_closure": "exact designated distributable namespaces; logical dataset must not exist physically; unchanged optional source-pinned legacy bridge authority",
+    "pre_open_metadata": "nonempty regular file and size guards; no-follow nonblocking descriptor with fstat; bounded read defense in depth",
+    "proof_counts": "type-preserving JSON equality excludes float and boolean integer-count claims",
+    "review_probes": "original reviewer baseline passes; every negative probe including rehashed floats/bools and FIFO now rejects"
+  },
   "complete_required_provenance_closure": "original snapshot/validation, four scoped receipts and actual native-key evidence, model/binding, key index, four accepted bridges and original accepted inputs, both licences, attribution, all chunks and reconstructed native SQLite",
   "determinism": {
     "all_files_compared": true,
@@ -135,38 +141,38 @@
   },
   "external_time_l": [
     {
-      "peak_rss_bytes": 37208064,
-      "wall_seconds": 2.31
+      "peak_rss_bytes": 37388288,
+      "wall_seconds": 2.39
     },
     {
-      "peak_rss_bytes": 42827776,
-      "wall_seconds": 2.68
+      "peak_rss_bytes": 37388288,
+      "wall_seconds": 2.17
     }
   ],
   "format": "geonames-w1-artifact-validation-1",
   "metadata_bytes": 118446,
   "namespace_scope": "Country/place/admin namespace spellings retain existing provider-scoped accepted source labels. GeoNames:alternateNameId is source-local generation annotation only; no canonical/user interoperability acceptance is implied. No mappings/bindings changed.",
-  "offline_tests": 26,
+  "offline_tests": 30,
   "packaging_generator": {
     "repository": "https://github.com/ingitdb/geo-ingitdb",
-    "revision": "7c0223df8e59b80df8ddf71e775197a153cf3e30",
+    "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
     "script": "scripts/package_geonames_w1.py",
-    "sha256": "2b13af23bf14be1993e2b82842e48a0cf062c0d93ed1f46a574c27446ec88cb5"
+    "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
   },
   "packaging_measurements": [
     {
-      "artifact_snapshot_sha256": "5bb94bc67a326da337bd1a8be978dd5a384095e60d47b2669afc579ad86d396e",
-      "elapsed_seconds": 2.231824374757707,
+      "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+      "elapsed_seconds": 2.3166070417501032,
       "generated_bytes": 25163382,
       "generator": {
         "repository": "https://github.com/ingitdb/geo-ingitdb",
-        "revision": "7c0223df8e59b80df8ddf71e775197a153cf3e30",
+        "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
         "script": "scripts/package_geonames_w1.py",
-        "sha256": "2b13af23bf14be1993e2b82842e48a0cf062c0d93ed1f46a574c27446ec88cb5"
+        "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
       },
       "new_source_download_bytes": 0,
       "peak_logical_working_bound_bytes": 225905412,
-      "peak_rss_bytes": 36732928,
+      "peak_rss_bytes": 36880384,
       "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
       "python": "3.14.7",
       "scope": "packaging only; conservative input+output+encoded+decoded logical working bound, not whole-wave disk peak",
@@ -174,18 +180,18 @@
       "status": "packaged"
     },
     {
-      "artifact_snapshot_sha256": "5bb94bc67a326da337bd1a8be978dd5a384095e60d47b2669afc579ad86d396e",
-      "elapsed_seconds": 2.614074124954641,
+      "artifact_snapshot_sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+      "elapsed_seconds": 2.1207763752900064,
       "generated_bytes": 25163382,
       "generator": {
         "repository": "https://github.com/ingitdb/geo-ingitdb",
-        "revision": "7c0223df8e59b80df8ddf71e775197a153cf3e30",
+        "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
         "script": "scripts/package_geonames_w1.py",
-        "sha256": "2b13af23bf14be1993e2b82842e48a0cf062c0d93ed1f46a574c27446ec88cb5"
+        "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
       },
       "new_source_download_bytes": 0,
       "peak_logical_working_bound_bytes": 225905412,
-      "peak_rss_bytes": 42352640,
+      "peak_rss_bytes": 36896768,
       "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
       "python": "3.14.7",
       "scope": "packaging only; conservative input+output+encoded+decoded logical working bound, not whole-wave disk peak",
@@ -433,11 +439,12 @@
     "peak_rss_bytes": 52084736,
     "public_verification_download_bytes": 25163382,
     "repository": "https://github.com/ingitdb/geo-ingitdb",
-    "revision": "a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf"
+    "revision": "a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf",
+    "scope": "Historical original 25-file public capture; all 24 non-wrapper package files proven byte-identical in r2. New wrapper and code delivery require refreshed immutable small-asset proof."
   },
   "publication": "Commit-pinned Git artifacts only; no runtime endpoint, serving adapter, mount, Directory entry or production representation contract.",
   "receipt_association": "Exact original snapshot kept; per-entity receipt explicitly selects original outputs.sqlite via top-level snapshot_association. Requires separately reviewed native helper extension; no eligibility granted.",
-  "resource_scope": "No source redownload. Original source downloads670249165B plus25163382B immutable artifact verification =695412547B for this Geo/ROR source+single package verification scope. Initial whole-capture elapsed/RSS instrumentation gap and combined-wave acceptance stay open; other lanes measure their own verification bytes.",
+  "resource_scope": "No source or chunk redownload for r2. Original source670249165B and previous package verification25163382B remain distinct. Refreshed metadata/code GET bytes measured separately after publication. Whole-capture elapsed/RSS gap, whole-wave disk peak and combined-wave acceptance remain open.",
   "review": "Source/artifact continuity review, helper association staging/independent review, exact-head CI and root-owned landing remain separate gates.",
   "source_generation": {
     "original_snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
