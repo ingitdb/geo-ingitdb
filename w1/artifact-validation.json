@@ -193,6 +193,13 @@
       "status": "packaged"
     }
   ],
+  "pr_title_lint_repair": {
+    "after": "chore(data): publish reviewed GeoNames W1 native artifacts",
+    "before": "data: publish reviewed GeoNames W1 native artifacts",
+    "finding": "Reusable Go workflow accepts Conventional Commit types and rejects the custom data: PR title.",
+    "observed_review_head": "a7f7b6b7f9d5c03a495dbd581388e0f017bb3ccf",
+    "scope": "PR metadata correction only; native data and packaging artifacts unchanged."
+  },
   "publication": "Commit-pinned Git artifacts only; no runtime endpoint, serving adapter, mount, Directory entry or production representation contract.",
   "receipt_association": "Exact original snapshot kept; per-entity receipt explicitly selects original outputs.sqlite via top-level snapshot_association. Requires separately reviewed native helper extension; no eligibility granted.",
   "resource_scope": "No source redownload. Original source downloads670249165B remain historical; initial capture whole elapsed/RSS gap and whole-wave resource acceptance remain open. Packaging bounds measure local new work only. Public raw verification bytes will be recorded separately.",
