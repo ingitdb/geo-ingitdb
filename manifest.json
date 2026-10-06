@@ -1,0 +1,31 @@
+{
+  "capabilities": {
+    "exports": [
+      "sqlite"
+    ],
+    "ovdb": {
+      "available": false,
+      "canonicalUrl": "https://cloud.openvaultdb.com/ovdb/dbs/geonames",
+      "connection": "https://cloud.openvaultdb.com/v1/databases/geonames",
+      "deploymentVerified": false,
+      "query": false,
+      "readOnly": true,
+      "serverDbBaseUrl": "https://cloud.openvaultdb.com/ovdb/dbs/geonames",
+      "serverId": "https://cloud.openvaultdb.com/ovdb/"
+    }
+  },
+  "contractVersion": 1,
+  "dataFile": "geonames.sqlite",
+  "description": "Accepted pinned native source projection. Query availability awaits reviewed live runtime proof; native identifiers, source values, exceptions and multiplicity are preserved.",
+  "id": "geonames",
+  "name": "GeoNames W1",
+  "source": {
+    "license": "CC-BY-4.0",
+    "licenseFile": "DATA-LICENSE.md",
+    "notes": "Unchanged generated native SQLite, reconstructed only from the accepted ordered chunks. The logical SQLite path is not a hosted download file. Original upstream inputs, generator, hashes and coverage remain in source/artifact-snapshot.json and its referenced source receipts. Serving artifacts and public query proof have separate future receipts.",
+    "path": "geonames.sqlite",
+    "repository": "https://github.com/ingitdb/geo-ingitdb",
+    "revision": "57e25689009047a557d35519831b8413b4abe838",
+    "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+  }
+}

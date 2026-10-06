@@ -1,0 +1,41 @@
+# Reproducible candidate provider input; public query proof remains pending.
+format: ovdb-manifest/draft-1
+id: geonames
+title: GeoNames W1
+description: Accepted pinned native source projection. Query availability awaits reviewed live runtime proof; native identifiers, source values, exceptions and multiplicity are preserved.
+homepage: https://github.com/ingitdb/geo-ingitdb
+url: https://cloud.openvaultdb.com/ovdb/dbs/geonames
+deployment:
+  url: https://cloud.openvaultdb.com/ovdb/dbs/geonames
+  engine: sqlite
+  discovery: https://cloud.openvaultdb.com/.well-known/openvaultdb
+  recordset_page: https://cloud.openvaultdb.com/ovdb/dbs/geonames/collections/{name}
+model:
+  address: modelspec://github.com/ingitdb/geo-ingitdb/geonames
+  modelspec: model/geonames.modelspec.json
+  hcl: model/geonames.modelspec.hcl
+meaning:
+  file: model/geonames.meaning.yaml
+  graph:
+    id: geonames
+    address: meaning://github.com/ingitdb/geo-ingitdb
+publisher:
+  name: inGitDB
+  url: https://github.com/ingitdb
+  repository: https://github.com/ingitdb/geo-ingitdb
+licences:
+  data: CC-BY-4.0
+  model: CC0-1.0
+  meaning: CC0-1.0
+representation_contract:
+  path: model/representations.json
+  sha256: d012fe6f269f9f3c48bd8051c77e74ab6c5578c4d7bfe2bdc7029d4bee0a7b2c
+recordsets:
+  - geonames_admin1
+  - geonames_alternate_names
+  - geonames_chinook_customer_country
+  - geonames_countries
+  - geonames_northwind_customer_country
+  - geonames_northwind_order_country
+  - geonames_places
+  - geonames_pubs_publisher_country

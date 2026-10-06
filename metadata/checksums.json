@@ -1,0 +1,145 @@
+{
+  "contractVersion": 1,
+  "files": {
+    "ATTRIBUTION.txt": {
+      "bytes": 652,
+      "sha256": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7"
+    },
+    "DATA-LICENSE.md": {
+      "bytes": 4628,
+      "sha256": "d5442960d5fc58661b5a45d965f65d5e681317ae6572b9c45d0e4225bd99538c"
+    },
+    "LICENSE": {
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    "OVDB.md": {
+      "bytes": 2748,
+      "sha256": "07909ce9c12a6b853b39503501479ad88b5bd3af219f339e43f83a0f997d9b86"
+    },
+    "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz": {
+      "bytes": 6218432,
+      "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+    },
+    "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz": {
+      "bytes": 4877469,
+      "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+    },
+    "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz": {
+      "bytes": 5700433,
+      "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+    },
+    "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz": {
+      "bytes": 5138706,
+      "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+    },
+    "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz": {
+      "bytes": 3109896,
+      "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+    },
+    "bridges/accepted-country-bridges.json": {
+      "bytes": 12447,
+      "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d"
+    },
+    "bridges/accepted-inputs.json": {
+      "bytes": 12447,
+      "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d"
+    },
+    "bridges/geonames_chinook_customer_country.json": {
+      "bytes": 1704,
+      "sha256": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded"
+    },
+    "bridges/geonames_northwind_customer_country.json": {
+      "bytes": 1486,
+      "sha256": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a"
+    },
+    "bridges/geonames_northwind_order_country.json": {
+      "bytes": 1483,
+      "sha256": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7"
+    },
+    "bridges/geonames_pubs_publisher_country.json": {
+      "bytes": 264,
+      "sha256": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377"
+    },
+    "country-keys.json": {
+      "bytes": 2582,
+      "sha256": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"
+    },
+    "manifest.json": {
+      "bytes": 1452,
+      "sha256": "01377411c535e39b2240ae5ec1299ec7477744e7dfc0271417f44d277ad632b1"
+    },
+    "metadata/artifact.json": {
+      "bytes": 4348,
+      "sha256": "201ba2d4b68c629db42f04befcc77481a54626b8c89e7bcf559174b77baf70e9"
+    },
+    "metadata/contract.json": {
+      "bytes": 23851,
+      "sha256": "7bae68764cb79c03c8173f592cf4b38985c7a0d0df4ff5260f0d753505a94958"
+    },
+    "model/geonames.meaning.yaml": {
+      "bytes": 3777,
+      "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+    },
+    "model/geonames.modelspec.hcl": {
+      "bytes": 4393,
+      "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa"
+    },
+    "model/geonames.modelspec.json": {
+      "bytes": 5509,
+      "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+    },
+    "model/representations.json": {
+      "bytes": 12012,
+      "sha256": "d012fe6f269f9f3c48bd8051c77e74ab6c5578c4d7bfe2bdc7029d4bee0a7b2c"
+    },
+    "ovdb-database.json": {
+      "bytes": 17856,
+      "sha256": "8553fcddb3f0838f10c39d029327d6a8a4a33cea04447c285105a5329793716e"
+    },
+    "ovdb.yaml": {
+      "bytes": 1507,
+      "sha256": "6625b8b6235703158116f456dec5a43596c5c26dad4b6d916abc7614f162639c"
+    },
+    "schemas/ovdb-database-draft-1.schema.json": {
+      "bytes": 5371,
+      "sha256": "2424ef00acd462ab5a8abc546fe2d1fffbbb5397e312332aedc77b3e73109488"
+    },
+    "source/artifact-snapshot.json": {
+      "bytes": 7001,
+      "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b"
+    },
+    "source/generation-snapshot.json": {
+      "bytes": 7941,
+      "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab"
+    },
+    "source/generation-validation.json": {
+      "bytes": 12669,
+      "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132"
+    },
+    "source/native-key-evidence.json": {
+      "bytes": 5337,
+      "sha256": "59d10462f828c32a652da074d7649ad68499845b75b03bdff93ddeb8907481f7"
+    },
+    "source/native/geonames_admin1.json": {
+      "bytes": 9864,
+      "sha256": "6e37456681bb8e71ed47705db3f53136d7156d3afaebb243caae16ae98b76d87"
+    },
+    "source/native/geonames_alternate_names.json": {
+      "bytes": 9940,
+      "sha256": "5a139309815e6c9ea54127390652f6121e4d54c1ab6ff479af5dc0bfb33296d0"
+    },
+    "source/native/geonames_countries.json": {
+      "bytes": 9861,
+      "sha256": "4f52bf1f9bbb417fc3ca1a67b0fc96e0af9d8baf271fd66cfe9eaaaa5b8e4412"
+    },
+    "source/native/geonames_places.json": {
+      "bytes": 9860,
+      "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56"
+    },
+    "source/representation-attachment.json": {
+      "bytes": 123,
+      "sha256": "fd3525eebf1c18ca6596a5490e4bf0d4372dc3a7502ec92e5142e7b811e1c8b4"
+    }
+  }
+}
