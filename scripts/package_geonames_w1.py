@@ -19,6 +19,10 @@ import subprocess
 import tempfile
 import time
 
+_READER = importlib.util.spec_from_file_location("modelspec_reader", Path(__file__).with_name("modelspec_reader.py"))
+modelspec_reader = importlib.util.module_from_spec(_READER)
+_READER.loader.exec_module(modelspec_reader)
+
 REPOSITORY = "https://github.com/ingitdb/geo-ingitdb"
 SOURCE_REVISION = "fc53a3537304dd77a4e97162608454b2da2ae241"
 SOURCE_SNAPSHOT_SHA256 = "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab"
@@ -421,12 +425,18 @@ def verify_bundle(root, code_root=None):
             raise ValueError("per-entity native original snapshot/key/proof association mismatch")
     if read_json(safe_path(root, "country-keys.json")) != proof["country_keys"]:
         raise ValueError("native country index association mismatch")
-    model = read_json(safe_path(root, "model/geonames.modelspec.json"))
-    for table, key in KEYS.items():
-        entity = model["entities"][table]
-        if model["module"]["name"] != "geonames" or entity["key"] != [key] or entity["properties"][key].get("required") is not True or entity["properties"][key]["type"] != "string":
-            raise ValueError("model native key mismatch")
+    check_model_keys(read_json(safe_path(root, "model/geonames.modelspec.json")))
     return snapshot
+
+
+def check_model_keys(model):
+    """Require each native table's key to be a required string field of its record type, in either vocabulary."""
+    records = modelspec_reader.record_types(model)
+    for table, key in KEYS.items():
+        entity = records[table]
+        field = modelspec_reader.members(model, entity)[key]
+        if model["module"]["name"] != "geonames" or entity["key"] != [key] or field.get("required") is not True or field["type"] != "string":
+            raise ValueError("model native key mismatch")
 
 
 def package(root, bundle, output, revision, receipt):

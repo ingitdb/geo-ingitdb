@@ -8,6 +8,7 @@ from unittest.mock import patch
 import zipfile
 
 import geonames_w1 as w1
+import modelspec_reader as reader
 
 
 def place(key, country="US", admin="01", name="A place"):
@@ -288,13 +289,14 @@ class W1Test(unittest.TestCase):
 
     def test_published_model_matches_physical_source_and_bridge_columns(self):
         model = json.loads((Path(w1.__file__).parent.parent / "model" / "geonames.modelspec.json").read_text())
+        records = reader.record_types(model)
         for table, (columns, key) in w1.TABLES.items():
-            entity = model["entities"][table]
-            self.assertEqual(set(entity["properties"]), set(columns))
+            entity = records[table]
+            self.assertEqual(set(reader.members(model, entity)), set(columns))
             self.assertEqual(entity["key"], [key])
-            self.assertTrue(all(prop["type"] == "string" for prop in entity["properties"].values()))
+            self.assertTrue(all(prop["type"] == "string" for prop in reader.members(model, entity).values()))
         for table in w1.BRIDGE_TABLES:
-            self.assertEqual(set(model["entities"][table]["properties"]), {"serving_id", "raw_label", "target_key"})
+            self.assertEqual(set(reader.members(model, records[table])), {"serving_id", "raw_label", "target_key"})
 
     def test_capture_attests_fully_flushed_small_file_bytes(self):
         class Response(io.BytesIO):

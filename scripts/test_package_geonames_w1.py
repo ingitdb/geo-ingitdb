@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import patch
 
 import package_geonames_w1 as package
+from modelspec_spellings import both
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -115,6 +116,27 @@ class PackageTest(unittest.TestCase):
         licence = self.root / "DATA-LICENSE.md"
         licence.unlink()
         self.rejected()
+
+    def test_model_native_keys_read_either_vocabulary_and_refuse_a_mixed_document(self):
+        earlier, current = both(package.read_json(ROOT / "model/geonames.modelspec.json"))
+        package.check_model_keys(earlier)
+        package.check_model_keys(current)
+        for label, model, message in [
+                ("mixed", dict(current, modelspec="1.0-draft"), '"records" belongs to format 1.0-draft-2'),
+                ("removed", dict(earlier, collections={}), '"collections" was removed'),
+                ("reserved", dict(current, migrations={}), '"migrations" is a reserved word')]:
+            with self.subTest(label=label), self.assertRaisesRegex(ValueError, message):
+                package.check_model_keys(model)
+        for label, change in [("key", lambda m: m["records"]["geonames_places"].update(key=["name"])),
+                              ("required", lambda m: m["records"]["geonames_places"]["fields"]["geonameid"].update(required=False)),
+                              ("type", lambda m: m["records"]["geonames_places"]["fields"]["geonameid"].update(type="int")),
+                              ("module", lambda m: m["module"].update(name="other"))]:
+            model = copy.deepcopy(current)
+            change(model)
+            with self.subTest(label=label), self.assertRaisesRegex(ValueError, "model native key mismatch"):
+                package.check_model_keys(model)
+        with self.assertRaises(KeyError):
+            package.check_model_keys({"modelspec": "1.0-draft-2", "module": current["module"]})
 
     def test_forged_native_generation_provider_or_counts_fail_even_if_repinned(self):
         name = "source/native-key-evidence.json"

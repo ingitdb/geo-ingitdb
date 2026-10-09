@@ -48,7 +48,7 @@ class DeploymentTests(unittest.TestCase):
         checksums = json.loads(self.outputs["metadata/checksums.json"])["files"]
         self.assertEqual(contract["exports"], [snapshot["sqlite"]])
         self.assertEqual(public["provenance"]["sha256"], snapshot["sqlite"]["decodedSha256"])
-        modeled = json.loads((deployment.ROOT / ("model/" + public["localId"] + ".modelspec.json")).read_bytes())["entities"]
+        modeled = deployment.model_record_names(deployment.ROOT, public["localId"])
         self.assertEqual({t["name"] for t in public["recordsets"]}, set(modeled))
         full_names = {t["name"] for t in contract["schema"]["tables"]}
         expected_diagnostics = deployment.GEONAMES_DIAGNOSTICS if public["localId"] == "geonames" else set()
@@ -59,6 +59,24 @@ class DeploymentTests(unittest.TestCase):
         attachment = json.loads((deployment.ROOT / "source/representation-attachment.json").read_bytes())
         self.assertEqual(checksums[attachment["path"]]["sha256"], attachment["sha256"])
         self.assertIn(attachment["sha256"].encode(), self.outputs["ovdb.yaml"])
+
+    def test_model_record_names_follow_either_vocabulary(self):
+        earlier = {"modelspec": "1.0-draft", "module": {"id": "example.org/m", "version": "1"},
+                   "entities": {"Thing": {"key": ["id"], "properties": {"id": {"type": "string"}}}}}
+        current = {"modelspec": "1.0-draft-2", "module": earlier["module"],
+                   "records": {"Thing": {"key": ["id"], "fields": {"id": {"type": "string"}}}}}
+        mixed = dict(current, entities={})
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            (root / "model").mkdir()
+            for model, expected in ((earlier, {"Thing"}), (current, {"Thing"}), (mixed, None)):
+                (root / "model/local.modelspec.json").write_text(json.dumps(model))
+                with self.subTest(identifier=model["modelspec"], keys=sorted(k for k in model if k in ("entities", "records"))):
+                    if expected is None:
+                        with self.assertRaisesRegex(ValueError, '"entities" belongs to format 1.0-draft'):
+                            deployment.model_record_names(root, "local")
+                    else:
+                        self.assertEqual(deployment.model_record_names(root, "local"), expected)
 
     def test_downloads_are_actual_immutable_chunks_with_attribution(self):
         artifact = json.loads(self.outputs["metadata/artifact.json"])
