@@ -22,6 +22,9 @@ import time
 _READER = importlib.util.spec_from_file_location("modelspec_reader", Path(__file__).with_name("modelspec_reader.py"))
 modelspec_reader = importlib.util.module_from_spec(_READER)
 _READER.loader.exec_module(modelspec_reader)
+_SPELLINGS = importlib.util.spec_from_file_location("modelspec_spellings", Path(__file__).with_name("modelspec_spellings.py"))
+modelspec_spellings = importlib.util.module_from_spec(_SPELLINGS)
+_SPELLINGS.loader.exec_module(modelspec_spellings)
 
 REPOSITORY = "https://github.com/ingitdb/geo-ingitdb"
 SOURCE_REVISION = "fc53a3537304dd77a4e97162608454b2da2ae241"
@@ -392,6 +395,12 @@ def verify_bundle(root, code_root=None):
         else:
             path = safe_path(root, name)
             ceiling = FILE_LIMIT if name.startswith(PREFIX) else METADATA_LIMIT
+            if name in modelspec_spellings.MODEL_PATHS:
+                # This pin names the landed source's bytes. The file is those bytes or their exact
+                # rename; the comparison with the landed source below decides which, and refuses the rest.
+                if not 0 < item["bytes"] <= ceiling or not 0 < regular_file(path, ceiling).st_size <= ceiling:
+                    raise ValueError("required artifact bytes/hash mismatch")
+                continue
             if not 0 < item["bytes"] <= ceiling or regular_file(path, ceiling).st_size != item["bytes"] or digest(path, ceiling) != item["sha256"]:
                 raise ValueError("required artifact bytes/hash mismatch")
     if set(pins) != required:
@@ -404,9 +413,19 @@ def verify_bundle(root, code_root=None):
     for name in SOURCE_METADATA:
         if pins[name]["sha256"] != source_pins[name]:
             raise ValueError("source model/binding/key/bridge/attribution changed")
-    for name in ["model/geonames.modelspec.hcl", "model/geonames.modelspec.json", "model/geonames.meaning.yaml"]:
-        if read_metadata(safe_path(root, name)) != git_blob(code_root, SOURCE_REVISION, name):
-            raise ValueError("model/binding differs from landed source")
+    if read_metadata(safe_path(root, "model/geonames.meaning.yaml")) != git_blob(code_root, SOURCE_REVISION, "model/geonames.meaning.yaml"):
+        raise ValueError("model/binding differs from landed source")
+    # The model's two files were landed in ModelSpec's earlier vocabulary. They are accepted in two
+    # states and no other: the landed bytes, which the snapshot pins, or the exact rename of those
+    # bytes into the current vocabulary, recomputed here from the landed bytes; both files alike.
+    landed_model = {name: git_blob(code_root, SOURCE_REVISION, name) for name in modelspec_spellings.MODEL_PATHS}
+    for name, data in landed_model.items():
+        if (pins[name]["bytes"], pins[name]["sha256"]) != (len(data), hashlib.sha256(data).hexdigest()):
+            raise ValueError("required artifact bytes/hash mismatch")
+    try:
+        modelspec_spellings.model_state(landed_model, {name: read_metadata(safe_path(root, name)) for name in landed_model})
+    except (ValueError, UnicodeDecodeError) as error:
+        raise ValueError("model/binding differs from landed source") from error
     descriptor = snapshot["sqlite"]
     if descriptor.get("chunks") != chunks or descriptor.get("path") != "geonames.sqlite" or descriptor.get("encodedPath") != "geonames.sqlite.gz" or descriptor.get("compression") != "gzip":
         raise ValueError("invalid gzip reconstruction/chunk order descriptor")
