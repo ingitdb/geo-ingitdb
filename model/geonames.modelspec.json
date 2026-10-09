@@ -1,16 +1,16 @@
 {
-  "modelspec": "1.0-draft",
+  "modelspec": "1.0-draft-2",
   "module": {
     "id": "github.com/ingitdb/geo-ingitdb/model/geonames",
     "name": "geonames",
     "version": "0.1.0"
   },
-  "entities": {
+  "records": {
     "geonames_countries": {
       "key": [
         "iso"
       ],
-      "properties": {
+      "fields": {
         "iso": {
           "type": "string",
           "required": true
@@ -75,7 +75,7 @@
       "key": [
         "code"
       ],
-      "properties": {
+      "fields": {
         "code": {
           "type": "string",
           "required": true
@@ -95,7 +95,7 @@
       "key": [
         "geonameid"
       ],
-      "properties": {
+      "fields": {
         "geonameid": {
           "type": "string",
           "required": true
@@ -160,7 +160,7 @@
       "key": [
         "alternate_name_id"
       ],
-      "properties": {
+      "fields": {
         "alternate_name_id": {
           "type": "string",
           "required": true
@@ -198,7 +198,7 @@
       "key": [
         "serving_id"
       ],
-      "properties": {
+      "fields": {
         "serving_id": {
           "type": "string",
           "required": true
@@ -217,7 +217,7 @@
       "key": [
         "serving_id"
       ],
-      "properties": {
+      "fields": {
         "serving_id": {
           "type": "string",
           "required": true
@@ -236,7 +236,7 @@
       "key": [
         "serving_id"
       ],
-      "properties": {
+      "fields": {
         "serving_id": {
           "type": "string",
           "required": true
@@ -255,7 +255,7 @@
       "key": [
         "serving_id"
       ],
-      "properties": {
+      "fields": {
         "serving_id": {
           "type": "string",
           "required": true
