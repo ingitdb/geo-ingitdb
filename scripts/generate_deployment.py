@@ -9,6 +9,7 @@ import argparse
 from contextlib import closing
 import gzip
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -16,6 +17,10 @@ import sqlite3
 import stat
 import subprocess
 import tempfile
+
+_READER = importlib.util.spec_from_file_location("modelspec_reader", Path(__file__).with_name("modelspec_reader.py"))
+modelspec_reader = importlib.util.module_from_spec(_READER)
+_READER.loader.exec_module(modelspec_reader)
 
 ROOT = Path(__file__).resolve().parents[1]
 METADATA_LIMIT = 2 * 1024**2
@@ -164,6 +169,11 @@ def native_schema(database):
     return tables
 
 
+def model_record_names(root, local_id):
+    """Names of the record types the provider's ModelSpec JSON declares, in either vocabulary."""
+    return set(modelspec_reader.record_types(decode(safe_path(root, f"model/{local_id}.modelspec.json").read_bytes())))
+
+
 def build(root=ROOT):
     root = Path(root)
     local_id, title, revision, licence, expected_tables = CONFIG[root.name]
@@ -180,11 +190,11 @@ def build(root=ROOT):
         native = Path(scratch) / artifact["path"]
         reconstruct(root, artifact, native)
         tables = native_schema(native)
-    model = decode(safe_path(root, f"model/{local_id}.modelspec.json").read_bytes())
+    modeled = model_record_names(root, local_id)
     diagnostics = GEONAMES_DIAGNOSTICS if local_id == "geonames" else set()
-    if any(t["kind"] != "table" for t in tables) or set(t["name"] for t in tables) != set(model["entities"]) | diagnostics:
+    if any(t["kind"] != "table" for t in tables) or set(t["name"] for t in tables) != modeled | diagnostics:
         raise ValueError("native table/model entity inventory differs")
-    public_tables = [t for t in tables if t["name"] in model["entities"]]
+    public_tables = [t for t in tables if t["name"] in modeled]
     if len(public_tables) != expected_tables:
         raise ValueError("accepted public physical table inventory changed")
     for table in tables:
