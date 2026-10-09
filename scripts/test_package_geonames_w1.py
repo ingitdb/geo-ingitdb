@@ -125,8 +125,24 @@ class PackageTest(unittest.TestCase):
                     package.verify_bundle(self.root, ROOT)
                 with self.assertRaises(ValueError):
                     spellings.model_state(landed, files)
-        # A snapshot whose pin is moved to follow the renamed file is refused: the pin names the landed bytes.
+        # The rename is recomputed, not looked up: with the pinned digest moved to another file's,
+        # that file is still refused, because the recomputed rename no longer matches the digest.
+        other_type = renamed[json_file].replace(b'"string"', b'"int"', 1)
+        with patch.dict(spellings.RENAMED_SHA256, {json_file: hashlib.sha256(other_type).hexdigest()}):
+            with self.assertRaisesRegex(ValueError, "does not reproduce the reference tool's output"):
+                spellings.model_state(landed, {json_file: other_type, hcl_file: renamed[hcl_file]})
+        # A snapshot pin of a model file must name the landed size as well as the landed SHA-256.
         place(renamed)
+        for name in spellings.MODEL_PATHS:
+            with self.subTest(wrong_bytes=name):
+                pins[name]["bytes"] += 1
+                self.save_snapshot()
+                with self.assertRaisesRegex(ValueError, "required artifact bytes/hash mismatch"):
+                    package.verify_bundle(self.root, ROOT)
+                pins[name]["bytes"] -= 1
+        self.save_snapshot()
+        self.assertEqual(package.verify_bundle(self.root, ROOT), self.snapshot)
+        # A snapshot whose pin is moved to follow the renamed file is refused: the pin names the landed bytes.
         for pin in self.snapshot["artifacts"]:
             if pin["path"] == json_file:
                 pin.update(bytes=len(renamed[json_file]), sha256=hashlib.sha256(renamed[json_file]).hexdigest())
