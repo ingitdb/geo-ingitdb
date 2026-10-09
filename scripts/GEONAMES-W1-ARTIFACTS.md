@@ -21,6 +21,32 @@ script's own earlier immutable code commit. No artifact references its containin
 commit. Actual measurements for the four source keys are in
 `source/native-key-evidence.json`; they do not grant semantic eligibility.
 
+The model's two files (`model/geonames.modelspec.json` and `.hcl`) are the one place
+where the repository's tree is not the landed bytes. They were landed in ModelSpec's
+earlier vocabulary (`entity`, `property`); ModelSpec has since renamed those words to
+`record` and `field`, and the files in the tree are written in the current
+vocabulary. Nothing of the past run was rewritten for that: the artifact snapshot,
+the generation snapshot and receipts, the native key evidence and the per-entity
+receipts keep their bytes and still name the landed model's SHA-256, because that is
+the model the run saw. The checker ties the two together. It accepts the two files in
+exactly two states: the landed bytes, which the snapshot pins, or the exact rename of
+those bytes, both files in the same state. `scripts/modelspec_spellings.py` recomputes
+the rename from the landed bytes at `fc53a3537304dd77a4e97162608454b2da2ae241` and
+compares it with the SHA-256 of what the reference tool (`modelspec rewrite` 0.2.0)
+writes, so one file renamed without the other, a rename with any other change, or a
+model that mixes the two vocabularies is refused. `build` is unchanged and still
+reproduces the package with the landed model. The repository's owner approved this
+rule on 2026-10-09.
+
+The representation contract (`model/representations.json`) pins the model file as it
+is in the tree, so its four native entries name the renamed file's SHA-256. The
+deployment wrappers written by `scripts/generate_deployment.py` name the provider
+revision whose files they describe; that revision moved to
+`7d18132fd9d09b4f893d019eb690d73576003de1`, the commit that holds the renamed model
+and the contract's new pins, so the model links in `ovdb-database.json` serve the
+files this repository describes. That generator's own check is unchanged: every
+input must equal its Git blob at the revision it names.
+
 The original GeoNames descriptor uses `outputs.sqlite.file = "geonames.sqlite"`
 and also has an unrelated chunks array. The additive `source/native/<entity>.json`
 generation receipts keep that original object unchanged and explicitly name its

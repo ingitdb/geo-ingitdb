@@ -25,7 +25,7 @@
     "notes": "Unchanged generated native SQLite, reconstructed only from the accepted ordered chunks. The logical SQLite path is not a hosted download file. Original upstream inputs, generator, hashes and coverage remain in source/artifact-snapshot.json and its referenced source receipts. Serving artifacts and public query proof have separate future receipts.",
     "path": "geonames.sqlite",
     "repository": "https://github.com/ingitdb/geo-ingitdb",
-    "revision": "57e25689009047a557d35519831b8413b4abe838",
+    "revision": "7d18132fd9d09b4f893d019eb690d73576003de1",
     "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
   }
 }

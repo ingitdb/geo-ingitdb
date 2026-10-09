@@ -4,13 +4,13 @@
       "bytes": 4628,
       "path": "DATA-LICENSE.md",
       "sha256": "d5442960d5fc58661b5a45d965f65d5e681317ae6572b9c45d0e4225bd99538c",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/DATA-LICENSE.md"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/DATA-LICENSE.md"
     },
     {
       "bytes": 652,
       "path": "ATTRIBUTION.txt",
       "sha256": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/ATTRIBUTION.txt"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/ATTRIBUTION.txt"
     }
   ],
   "downloads": [
@@ -18,36 +18,36 @@
       "bytes": 6218432,
       "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
       "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz"
     },
     {
       "bytes": 4877469,
       "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
       "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz"
     },
     {
       "bytes": 5700433,
       "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
       "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz"
     },
     {
       "bytes": 5138706,
       "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
       "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz"
     },
     {
       "bytes": 3109896,
       "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
       "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031",
-      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/57e25689009047a557d35519831b8413b4abe838/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz"
+      "url": "https://raw.githubusercontent.com/ingitdb/geo-ingitdb/7d18132fd9d09b4f893d019eb690d73576003de1/artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz"
     }
   ],
   "reconstruction": "Concatenate chunks in listed order, then decode the complete gzip stream; verify every chunk, encoded stream and decoded SQLite size and SHA256.",
   "repository": "https://github.com/ingitdb/geo-ingitdb",
-  "revision": "57e25689009047a557d35519831b8413b4abe838",
+  "revision": "7d18132fd9d09b4f893d019eb690d73576003de1",
   "snapshot": {
     "bytes": 7001,
     "path": "source/artifact-snapshot.json",
