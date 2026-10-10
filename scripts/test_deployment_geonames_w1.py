@@ -5,8 +5,10 @@ import gzip
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sqlite3
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -14,6 +16,12 @@ from unittest.mock import patch
 SPEC = importlib.util.spec_from_file_location("deployment", Path(__file__).resolve().parents[1] / "scripts/generate_deployment.py")
 deployment = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(deployment)
+
+
+def is_ancestor(root, revision, head="HEAD"):
+    """Whether `revision` is `head` or one of its ancestors; False when the commit is unknown or unrelated."""
+    return subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor", revision, head],
+                          capture_output=True).returncode == 0
 
 
 class DeploymentTests(unittest.TestCase):
@@ -77,6 +85,34 @@ class DeploymentTests(unittest.TestCase):
                             deployment.model_record_names(root, "local")
                     else:
                         self.assertEqual(deployment.model_record_names(root, "local"), expected)
+
+    def test_provider_revision_is_in_the_history_of_head(self):
+        # `git ls-tree <revision>` in the generator asks only that the commit exists in the clone. A commit
+        # that survives on a deleted branch alone, after a squash or a rebase, exists in no fresh clone.
+        revision = deployment.CONFIG[deployment.ROOT.name][2]
+        self.assertTrue(is_ancestor(deployment.ROOT, revision),
+                        f"provider revision {revision} is not an ancestor of HEAD; land the change that pins it "
+                        "as a merge commit, and run this check in a clone with full history")
+
+    def test_ancestry_check_refuses_a_commit_that_is_only_on_another_branch(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            environment = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@example.org",
+                           "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@example.org"}
+            def git(*arguments, **options):
+                return subprocess.run(["git", "-C", scratch, *arguments], check=True, capture_output=True,
+                                      text=True, env=environment, **options).stdout.strip()
+            git("init", "-q")
+            tree = git("hash-object", "-t", "tree", "-w", "--stdin", input="")
+            root = git("commit-tree", tree, "-m", "root")
+            main = git("commit-tree", tree, "-p", root, "-m", "main")
+            side = git("commit-tree", tree, "-p", root, "-m", "side")
+            git("update-ref", "refs/heads/main", main)
+            git("symbolic-ref", "HEAD", "refs/heads/main")
+            git("update-ref", "refs/heads/side", side)
+            self.assertTrue(is_ancestor(scratch, main))
+            self.assertTrue(is_ancestor(scratch, root))
+            self.assertFalse(is_ancestor(scratch, side))
+            self.assertFalse(is_ancestor(scratch, "0" * 40))
 
     def test_downloads_are_actual_immutable_chunks_with_attribution(self):
         artifact = json.loads(self.outputs["metadata/artifact.json"])
