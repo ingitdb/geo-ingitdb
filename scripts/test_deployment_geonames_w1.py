@@ -5,8 +5,10 @@ import gzip
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sqlite3
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -14,6 +16,18 @@ from unittest.mock import patch
 SPEC = importlib.util.spec_from_file_location("deployment", Path(__file__).resolve().parents[1] / "scripts/generate_deployment.py")
 deployment = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(deployment)
+
+
+def git_environment(**extra):
+    """The process environment without Git's own variables, plus `extra`. Git exports GIT_DIR to a hook and to
+    `rebase --exec` in a linked worktree; with it set, `git -C <directory>` works on that repository instead."""
+    return {**{k: v for k, v in os.environ.items() if not k.startswith("GIT_")}, **extra}
+
+
+def is_ancestor(root, revision, head="HEAD"):
+    """Whether `revision` is `head` or one of its ancestors; False when the commit is unknown or unrelated."""
+    return subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor", revision, head],
+                          capture_output=True, env=git_environment()).returncode == 0
 
 
 class DeploymentTests(unittest.TestCase):
@@ -77,6 +91,35 @@ class DeploymentTests(unittest.TestCase):
                             deployment.model_record_names(root, "local")
                     else:
                         self.assertEqual(deployment.model_record_names(root, "local"), expected)
+
+    def test_provider_revision_is_in_the_history_of_head(self):
+        # `git ls-tree <revision>` in the generator asks only that the commit exists in the clone.
+        # After a squash or a rebase the pinned commit is on no branch of the remote, so no fresh clone has it.
+        revision = deployment.CONFIG[deployment.ROOT.name][2]
+        self.assertTrue(is_ancestor(deployment.ROOT, revision),
+                        f"provider revision {revision} is in this clone but not in the history of HEAD; pin a commit of "
+                        "this branch and land it as a merge commit (a squash or a rebase leaves the pinned commit "
+                        "out of main)")
+
+    def test_ancestry_check_refuses_a_commit_that_is_only_on_another_branch(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            environment = git_environment(GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@example.org",
+                                          GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@example.org")
+            def git(*arguments, **options):
+                return subprocess.run(["git", "-C", scratch, *arguments], check=True, capture_output=True,
+                                      text=True, env=environment, **options).stdout.strip()
+            git("init", "-q")
+            tree = git("hash-object", "-t", "tree", "-w", "--stdin", input="")
+            root = git("commit-tree", tree, "-m", "root")
+            main = git("commit-tree", tree, "-p", root, "-m", "main")
+            side = git("commit-tree", tree, "-p", root, "-m", "side")
+            git("update-ref", "refs/heads/main", main)
+            git("symbolic-ref", "HEAD", "refs/heads/main")
+            git("update-ref", "refs/heads/side", side)
+            self.assertTrue(is_ancestor(scratch, main))
+            self.assertTrue(is_ancestor(scratch, root))
+            self.assertFalse(is_ancestor(scratch, side))
+            self.assertFalse(is_ancestor(scratch, "0" * 40))
 
     def test_downloads_are_actual_immutable_chunks_with_attribution(self):
         artifact = json.loads(self.outputs["metadata/artifact.json"])
