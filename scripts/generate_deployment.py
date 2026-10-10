@@ -26,8 +26,8 @@ ROOT = Path(__file__).resolve().parents[1]
 METADATA_LIMIT = 2 * 1024**2
 FILE_LIMIT = 25 * 1024**2
 CONFIG = {
-    "geo-ingitdb": ("geonames", "GeoNames W1", "57e25689009047a557d35519831b8413b4abe838", "CC-BY-4.0", 8),
-    "ror-ingitdb": ("ror", "Research Organization Registry", "24bcbcb5f0ba715d72d604e9d4d296766e5f4ca7", "CC0-1.0 AND CC-BY-4.0", 3),
+    "geo-ingitdb": ("geonames", "GeoNames W1", "7d18132fd9d09b4f893d019eb690d73576003de1", "CC-BY-4.0", 8),
+    "ror-ingitdb": ("ror", "Research Organization Registry", "c706831d1e73b9ac9913940e0c5bbdb485f68501", "CC0-1.0 AND CC-BY-4.0", 3),
 }
 OUTPUTS = ("manifest.json", "metadata/contract.json", "metadata/checksums.json",
            "metadata/artifact.json", "ovdb-database.json", "ovdb.yaml", "OVDB.md")

@@ -56,7 +56,7 @@ def build(root=ROOT):
     accepted = json.loads((root / inputs["path"]).read_bytes())
     target = dict(snapshot=snapshot, module="geonames", entity="geonames_countries",
                   property="iso", datatype="string", namespace="GeoNames:countryInfoISO2",
-                  model=local("model/geonames.modelspec.json", "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"),
+                  model=local("model/geonames.modelspec.json", "affd113f8ec5d20dcc4af38556e263528af71dc0e8410099fdbc3422461b18c2"),
                   keys=local("country-keys.json", "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8"),
                   binding=dict(document=local("model/geonames.meaning.yaml", "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"),
                                concept="geonames-country", role="identifier",

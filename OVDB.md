@@ -17,7 +17,7 @@ capacity proof before live publication. Final admission also requires independen
 carry-forward review and the released default OVDB publisher validator.
 
 `metadata/artifact.json` lists actual immutable chunk URLs, hashes, reconstruction
-instructions and attribution downloads at accepted provider revision `57e25689009047a557d35519831b8413b4abe838`.
+instructions and attribution downloads at accepted provider revision `7d18132fd9d09b4f893d019eb690d73576003de1`.
 There is no physical download URL for `geonames.sqlite`. Keep DATA-LICENSE.md
 and ATTRIBUTION.txt with reconstructed/downloaded data. Data licence: `CC-BY-4.0`;
 code/model/meaning rights remain separate. The snapshot and model/meaning/representation

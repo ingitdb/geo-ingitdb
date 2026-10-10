@@ -67,7 +67,7 @@
         },
         "model": {
           "path": "model/geonames.modelspec.json",
-          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+          "sha256": "affd113f8ec5d20dcc4af38556e263528af71dc0e8410099fdbc3422461b18c2"
         },
         "module": "geonames",
         "namespace": "GeoNames:countryInfoISO2",
@@ -145,7 +145,7 @@
         },
         "model": {
           "path": "model/geonames.modelspec.json",
-          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+          "sha256": "affd113f8ec5d20dcc4af38556e263528af71dc0e8410099fdbc3422461b18c2"
         },
         "module": "geonames",
         "namespace": "GeoNames:countryInfoISO2",
@@ -223,7 +223,7 @@
         },
         "model": {
           "path": "model/geonames.modelspec.json",
-          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+          "sha256": "affd113f8ec5d20dcc4af38556e263528af71dc0e8410099fdbc3422461b18c2"
         },
         "module": "geonames",
         "namespace": "GeoNames:countryInfoISO2",
@@ -301,7 +301,7 @@
         },
         "model": {
           "path": "model/geonames.modelspec.json",
-          "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+          "sha256": "affd113f8ec5d20dcc4af38556e263528af71dc0e8410099fdbc3422461b18c2"
         },
         "module": "geonames",
         "namespace": "GeoNames:countryInfoISO2",

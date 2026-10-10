@@ -15,7 +15,7 @@
     },
     "OVDB.md": {
       "bytes": 2748,
-      "sha256": "07909ce9c12a6b853b39503501479ad88b5bd3af219f339e43f83a0f997d9b86"
+      "sha256": "b20935d224d1ef0b24da28f9a1c7aba8facb7287ebc97391b75572d59642a315"
     },
     "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz": {
       "bytes": 6218432,
@@ -67,39 +67,39 @@
     },
     "manifest.json": {
       "bytes": 1452,
-      "sha256": "01377411c535e39b2240ae5ec1299ec7477744e7dfc0271417f44d277ad632b1"
+      "sha256": "0cefa9d7db47e605470f5ddd94e6332dede21ddd8be644197035f0ebd093cf45"
     },
     "metadata/artifact.json": {
       "bytes": 4348,
-      "sha256": "201ba2d4b68c629db42f04befcc77481a54626b8c89e7bcf559174b77baf70e9"
+      "sha256": "9379ac2418ab241f580c01c7cdc7f23474bc7b273407b98dccad37ee4931a084"
     },
     "metadata/contract.json": {
       "bytes": 23851,
-      "sha256": "7bae68764cb79c03c8173f592cf4b38985c7a0d0df4ff5260f0d753505a94958"
+      "sha256": "3b13cc7f1982f1b98a991708ff822fb931e42ab2fa5b1ed7d1bf5b45bc138705"
     },
     "model/geonames.meaning.yaml": {
       "bytes": 3777,
       "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
     },
     "model/geonames.modelspec.hcl": {
-      "bytes": 4393,
-      "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa"
+      "bytes": 4201,
+      "sha256": "f1e7a466b8709bcb623efcb32a1c9b7c08e7e51d9313aa15142693ab9d958fb6"
     },
     "model/geonames.modelspec.json": {
-      "bytes": 5509,
-      "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+      "bytes": 5478,
+      "sha256": "affd113f8ec5d20dcc4af38556e263528af71dc0e8410099fdbc3422461b18c2"
     },
     "model/representations.json": {
       "bytes": 12012,
-      "sha256": "d012fe6f269f9f3c48bd8051c77e74ab6c5578c4d7bfe2bdc7029d4bee0a7b2c"
+      "sha256": "5c24a4f70d16f8994dfd0bcd59871cf79f4de5d64ef694f95cff905c1c9f7c09"
     },
     "ovdb-database.json": {
       "bytes": 17856,
-      "sha256": "8553fcddb3f0838f10c39d029327d6a8a4a33cea04447c285105a5329793716e"
+      "sha256": "afe8797452249931ed0206d1170877fbe3bcad82cc704b1094a563368aa7fcb7"
     },
     "ovdb.yaml": {
       "bytes": 1507,
-      "sha256": "6625b8b6235703158116f456dec5a43596c5c26dad4b6d916abc7614f162639c"
+      "sha256": "44b6f9206c96e59a2e94396973d46b88b9c9c3c889d093286a3df382962798f4"
     },
     "schemas/ovdb-database-draft-1.schema.json": {
       "bytes": 5371,
@@ -139,7 +139,7 @@
     },
     "source/representation-attachment.json": {
       "bytes": 123,
-      "sha256": "fd3525eebf1c18ca6596a5490e4bf0d4372dc3a7502ec92e5142e7b811e1c8b4"
+      "sha256": "7c0e7aa75c26a88bea875eb1764df8e109ee1c2ec087b719f9d8fd1f9fdc4ca1"
     }
   }
 }

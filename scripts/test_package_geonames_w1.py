@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import os
 import subprocess
@@ -81,6 +82,78 @@ class PackageTest(unittest.TestCase):
         extra.write_text("{}")
         with self.assertRaises(ValueError):
             package.physical_closure(self.root, required, ROOT)
+
+    def test_model_is_the_landed_file_or_its_exact_rename_and_nothing_else(self):
+        spellings = package.modelspec_spellings
+        json_file, hcl_file = spellings.MODEL_PATHS
+        landed = {name: package.git_blob(ROOT, package.SOURCE_REVISION, name) for name in spellings.MODEL_PATHS}
+        renamed = {name: spellings.renamed(name, data) for name, data in landed.items()}
+        for name in spellings.MODEL_PATHS:
+            # The rename is recomputed, differs from the landed bytes, and is what the reference tool writes.
+            self.assertNotEqual(renamed[name], landed[name])
+            self.assertEqual(hashlib.sha256(renamed[name]).hexdigest(), spellings.RENAMED_SHA256[name])
+        pins = {pin["path"]: pin for pin in self.snapshot["artifacts"]}
+        for name in spellings.MODEL_PATHS:
+            # In both states the snapshot pins the landed bytes; it is not rewritten for the rename.
+            self.assertEqual((pins[name]["bytes"], pins[name]["sha256"]),
+                             (len(landed[name]), hashlib.sha256(landed[name]).hexdigest()))
+
+        def place(files):
+            for name, data in files.items():
+                (self.root / name).write_bytes(data)
+
+        for label, files in {"landed": landed, "renamed": renamed}.items():
+            with self.subTest(state=label):
+                place(files)
+                self.assertEqual(spellings.model_state(landed, files), "accepted" if label == "landed" else "renamed")
+                self.assertEqual(package.verify_bundle(self.root, ROOT), self.snapshot)
+        mixed = json.loads(renamed[json_file])
+        mixed["entities"] = mixed.pop("records")
+        refused = {
+            "only the JSON renamed": {json_file: renamed[json_file], hcl_file: landed[hcl_file]},
+            "only the HCL renamed": {json_file: landed[json_file], hcl_file: renamed[hcl_file]},
+            "rename and one more byte": {json_file: renamed[json_file] + b" ", hcl_file: renamed[hcl_file]},
+            "rename and a comment": {json_file: renamed[json_file], hcl_file: renamed[hcl_file] + b"# note\n"},
+            "rename and a changed type": {json_file: renamed[json_file].replace(b'"string"', b'"int"', 1), hcl_file: renamed[hcl_file]},
+            "mixed vocabulary": {json_file: (json.dumps(mixed, indent=2, ensure_ascii=False) + "\n").encode(), hcl_file: renamed[hcl_file]},
+            "landed and one more byte": {json_file: landed[json_file], hcl_file: landed[hcl_file] + b"\n"},
+        }
+        for label, files in refused.items():
+            with self.subTest(refused=label):
+                place(files)
+                with self.assertRaisesRegex(ValueError, "model/binding differs from landed source"):
+                    package.verify_bundle(self.root, ROOT)
+                with self.assertRaises(ValueError):
+                    spellings.model_state(landed, files)
+        # The rename is recomputed, not looked up: with the pinned digest moved to another file's,
+        # that file is still refused, because the recomputed rename no longer matches the digest.
+        other_type = renamed[json_file].replace(b'"string"', b'"int"', 1)
+        with patch.dict(spellings.RENAMED_SHA256, {json_file: hashlib.sha256(other_type).hexdigest()}):
+            with self.assertRaisesRegex(ValueError, "does not reproduce the reference tool's output"):
+                spellings.model_state(landed, {json_file: other_type, hcl_file: renamed[hcl_file]})
+        # A snapshot pin of a model file must name the landed size as well as the landed SHA-256.
+        place(renamed)
+        for name in spellings.MODEL_PATHS:
+            with self.subTest(wrong_bytes=name):
+                pins[name]["bytes"] += 1
+                self.save_snapshot()
+                with self.assertRaisesRegex(ValueError, "required artifact bytes/hash mismatch"):
+                    package.verify_bundle(self.root, ROOT)
+                pins[name]["bytes"] -= 1
+        self.save_snapshot()
+        self.assertEqual(package.verify_bundle(self.root, ROOT), self.snapshot)
+        # A snapshot whose pin is moved to follow the renamed file is refused: the pin names the landed bytes.
+        for pin in self.snapshot["artifacts"]:
+            if pin["path"] == json_file:
+                pin.update(bytes=len(renamed[json_file]), sha256=hashlib.sha256(renamed[json_file]).hexdigest())
+        self.save_snapshot()
+        self.rejected()
+        # A rename the reference tool would not write is refused, whatever it is compared with.
+        other = landed[json_file].replace(b'"geonames"', b'"other"', 1)
+        with self.assertRaisesRegex(ValueError, "does not reproduce the reference tool's output"):
+            spellings.renamed(json_file, other)
+        with self.assertRaisesRegex(ValueError, "not a renamed model file"):
+            spellings.renamed("model/geonames.meaning.yaml", b"")
 
     def test_source_generation_repo_revision_and_original_hash_are_checked(self):
         original = copy.deepcopy(self.snapshot)
@@ -347,7 +420,11 @@ class PackageTest(unittest.TestCase):
         for name in package.SOURCE_METADATA:
             destination = bundle / name
             destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(self.root / name, destination)
+            if name in package.modelspec_spellings.MODEL_PATHS:
+                # The reviewed input bundle holds the model as it was landed, whichever state the tree is in.
+                destination.write_bytes(package.git_blob(ROOT, package.SOURCE_REVISION, name))
+            else:
+                shutil.copyfile(self.root / name, destination)
         shutil.copyfile(self.root / "source/generation-snapshot.json", bundle / "snapshot.json")
         for chunk in self.snapshot["sqlite"]["chunks"]:
             shutil.copyfile(self.root / chunk["path"], bundle / Path(chunk["path"]).name)
