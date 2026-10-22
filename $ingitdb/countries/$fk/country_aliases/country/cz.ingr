@@ -1,0 +1,6 @@
+# INGR.io | countries/$fk/country_aliases/country/cz: $ID:string, alias:string, source:string
+"czech-republic"
+"Czech Republic"
+"chinook-database Invoice.BillingCountry; manual match: Chinook uses the former short name; countries.names.en is 'Czechia'"
+#-
+# 1 record

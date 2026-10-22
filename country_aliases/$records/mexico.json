@@ -1,0 +1,5 @@
+{
+  "alias": "Mexico",
+  "country": "mx",
+  "source": "northwind Customers.Country, Orders.ShipCountry; exact match on countries.names.en"
+}

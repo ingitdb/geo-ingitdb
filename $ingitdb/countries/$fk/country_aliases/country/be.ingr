@@ -1,0 +1,6 @@
+# INGR.io | countries/$fk/country_aliases/country/be: $ID:string, alias:string, source:string
+"belgium"
+"Belgium"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+# 1 record

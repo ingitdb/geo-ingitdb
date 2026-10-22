@@ -1,0 +1,6 @@
+# INGR.io | countries/$fk/country_aliases/country/jp: $ID:string, alias:string, source:string
+"japan"
+"Japan"
+"northwind Suppliers.Country; exact match on countries.names.en"
+#-
+# 1 record

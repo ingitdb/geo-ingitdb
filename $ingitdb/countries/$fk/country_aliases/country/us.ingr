@@ -1,0 +1,6 @@
+# INGR.io | countries/$fk/country_aliases/country/us: $ID:string, alias:string, source:string
+"usa"
+"USA"
+"chinook-database Invoice.BillingCountry; manual match: Chinook spells it 'USA'; countries.names.en is 'United States'; also northwind Customers.Country, Suppliers.Country, Employees.Country, Orders.ShipCountry (same spelling)"
+#-
+# 1 record

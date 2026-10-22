@@ -1,0 +1,5 @@
+{
+  "alias": "Japan",
+  "country": "jp",
+  "source": "northwind Suppliers.Country; exact match on countries.names.en"
+}
