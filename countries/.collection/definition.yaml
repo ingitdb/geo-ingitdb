@@ -38,3 +38,6 @@ columns:
   geonameid:
     type: int
 columns_order: [names, iso2, iso3, continent, capital, population, area_km2, currency_code, currency_name, phone_prefix, tld, geonameid]
+# Exported to $ingitdb/countries/countries.ingr by `ingitdb materialize --views`, so a
+# browser can fetch the whole collection as one file.
+default_view: {}

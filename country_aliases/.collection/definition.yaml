@@ -21,3 +21,8 @@ columns:
     type: string
     required: true
 columns_order: [alias, country, source]
+# Exported to $ingitdb/country_aliases/country_aliases.ingr by `ingitdb materialize --views`, so a
+# browser can fetch the whole collection as one file.
+# Its foreign key also yields one view per country under
+# $ingitdb/countries/$fk/country_aliases/country/<iso2>.ingr.
+default_view: {}

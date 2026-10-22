@@ -1,0 +1,152 @@
+# INGR.io | country_aliases/$default_view: $ID:string, alias:string, country:string, source:string
+"argentina"
+"Argentina"
+"ar"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"australia"
+"Australia"
+"au"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"austria"
+"Austria"
+"at"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"belgium"
+"Belgium"
+"be"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"brazil"
+"Brazil"
+"br"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"canada"
+"Canada"
+"ca"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"chile"
+"Chile"
+"cl"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"czech-republic"
+"Czech Republic"
+"cz"
+"chinook-database Invoice.BillingCountry; manual match: Chinook uses the former short name; countries.names.en is 'Czechia'"
+#-
+"denmark"
+"Denmark"
+"dk"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"finland"
+"Finland"
+"fi"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"france"
+"France"
+"fr"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"germany"
+"Germany"
+"de"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"hungary"
+"Hungary"
+"hu"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"india"
+"India"
+"in"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"ireland"
+"Ireland"
+"ie"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"italy"
+"Italy"
+"it"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"japan"
+"Japan"
+"jp"
+"northwind Suppliers.Country; exact match on countries.names.en"
+#-
+"mexico"
+"Mexico"
+"mx"
+"northwind Customers.Country, Orders.ShipCountry; exact match on countries.names.en"
+#-
+"netherlands"
+"Netherlands"
+"nl"
+"chinook-database Invoice.BillingCountry; manual match: countries.names.en is 'The Netherlands'; also northwind Suppliers.Country (same spelling)"
+#-
+"norway"
+"Norway"
+"no"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"poland"
+"Poland"
+"pl"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"portugal"
+"Portugal"
+"pt"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"singapore"
+"Singapore"
+"sg"
+"northwind Suppliers.Country; exact match on countries.names.en"
+#-
+"spain"
+"Spain"
+"es"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"sweden"
+"Sweden"
+"se"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"switzerland"
+"Switzerland"
+"ch"
+"northwind Customers.Country, Orders.ShipCountry; exact match on countries.names.en"
+#-
+"uk"
+"UK"
+"gb"
+"northwind Customers.Country, Suppliers.Country, Employees.Country, Orders.ShipCountry; manual match: Northwind spells it 'UK'; countries.names.en is 'United Kingdom'"
+#-
+"united-kingdom"
+"United Kingdom"
+"gb"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+"usa"
+"USA"
+"us"
+"chinook-database Invoice.BillingCountry; manual match: Chinook spells it 'USA'; countries.names.en is 'United States'; also northwind Customers.Country, Suppliers.Country, Employees.Country, Orders.ShipCountry (same spelling)"
+#-
+"venezuela"
+"Venezuela"
+"ve"
+"northwind Customers.Country, Orders.ShipCountry; exact match on countries.names.en"
+#-
+# 30 records

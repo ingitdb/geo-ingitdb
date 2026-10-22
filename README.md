@@ -40,6 +40,15 @@ to population without guessing at names. Northwind has one supplier whose countr
 is `Sweden ` with a trailing space (trim the value before the join), and two
 customers have no country.
 
+`countries`, `population_wb` and `country_aliases` also declare a
+`default_view`, so each is exported whole to one INGR file a browser can fetch
+directly: `$ingitdb/countries/countries.ingr`, `$ingitdb/population_wb/population_wb.ingr`
+and `$ingitdb/country_aliases/country_aliases.ingr` (for example
+`https://raw.githubusercontent.com/ingitdb/geo-ingitdb/main/$ingitdb/countries/countries.ingr`).
+The foreign keys add one view per country under `$ingitdb/countries/$fk/`. These
+files are generated: after changing records, run `ingitdb materialize --views`
+and commit the result. CI fails when the committed views are stale.
+
 Each collection is one JSON file per record under `$records/`. Multilingual
 names use inGitDB's `map[locale]string` column type (currently `en` only, from
 the ASCII source; richer locales can be added from GeoNames `alternateNames`).

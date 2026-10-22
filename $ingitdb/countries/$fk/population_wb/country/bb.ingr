@@ -1,0 +1,11 @@
+# INGR.io | countries/$fk/population_wb/country/bb: $ID:string, iso3:string, year:int, population:int, indicator:string, source_url:string, fetched_at:datetime, source_updated:date
+"bb"
+"BRB"
+2025
+282623
+"SP.POP.TOTL"
+"https://api.worldbank.org/v2/country/BRB/indicator/SP.POP.TOTL?format=json\u0026mrnev=1"
+"2026-10-02T09:26:00Z"
+"2026-07-13"
+#-
+# 1 record

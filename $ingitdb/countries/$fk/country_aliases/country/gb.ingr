@@ -1,0 +1,10 @@
+# INGR.io | countries/$fk/country_aliases/country/gb: $ID:string, alias:string, source:string
+"uk"
+"UK"
+"northwind Customers.Country, Suppliers.Country, Employees.Country, Orders.ShipCountry; manual match: Northwind spells it 'UK'; countries.names.en is 'United Kingdom'"
+#-
+"united-kingdom"
+"United Kingdom"
+"chinook-database Invoice.BillingCountry; exact match on countries.names.en"
+#-
+# 2 records

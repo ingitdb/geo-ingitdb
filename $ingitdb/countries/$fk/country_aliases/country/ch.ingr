@@ -1,0 +1,6 @@
+# INGR.io | countries/$fk/country_aliases/country/ch: $ID:string, alias:string, source:string
+"switzerland"
+"Switzerland"
+"northwind Customers.Country, Orders.ShipCountry; exact match on countries.names.en"
+#-
+# 1 record

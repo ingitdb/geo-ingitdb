@@ -26,3 +26,31 @@ jobs:
         with:
           cli-version: v0.70.2
           database-root: .
+
+  # The browser reads the committed $ingitdb/ views (one file per collection)
+  # instead of every record file, so they must match the records. Regenerate
+  # them with the same CLI release and fail on any difference.
+  Views:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # actions/checkout v6
+
+      - name: Install Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: '1.27'
+
+      - name: Regenerate materialized views
+        run: go run github.com/ingitdb/ingitdb-cli/cmd/ingitdb@v0.70.2 materialize --views --path .
+
+      - name: Fail if the committed views are stale
+        run: |
+          set -euo pipefail
+          git add -N .
+          if ! git diff --exit-code --stat; then
+            echo "::error::\$ingitdb/ views are stale; run 'ingitdb materialize --views' and commit the result"
+            exit 1
+          fi
