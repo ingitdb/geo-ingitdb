@@ -24,5 +24,5 @@ jobs:
       - name: Validate the inGitDB database
         uses: ingitdb/ingitdb-action@ec621991c6ca57d45a252c7d140eea1624f42ab9
         with:
-          cli-version: v0.68.2
+          cli-version: v0.70.2
           database-root: .

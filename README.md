@@ -25,15 +25,20 @@ model exercises that):
 | [`subdivisions`](subdivisions) | ~3,900 | `<iso2>-<admin1code>` (`us-ca`) | `country` → countries |
 | [`settlements`](settlements) | showcase only | `<slug>-<geonameid>` | `country` → countries, `subdivision` → subdivisions |
 | [`population_wb`](population_wb) | ~216 | lowercase iso2 (`ie`) | `country` → countries |
-| [`country_aliases`](country_aliases) | 24 | slug of the alias (`czech-republic`) | `country` → countries |
+| [`country_aliases`](country_aliases) | 30 | slug of the alias (`czech-republic`) | `country` → countries |
 
 `population_wb` is the latest World Bank `SP.POP.TOTL` observation per country
 (with `year`, `indicator`, `source_url`, `fetched_at`); unlike
 `countries.population` (GeoNames) it is dated and attributable. `country_aliases`
 maps the country spellings another system uses to a `countries` record — today the
 24 `Invoice.BillingCountry` values of the Chinook sample database (`USA`, `Czech
-Republic`, `Netherlands`, ...), each with its `source` provenance. Together they
-let a query join Chinook sales to population without guessing at names.
+Republic`, `Netherlands`, ...) and the 25 country spellings of the Northwind sample
+database (`Customers.Country`, `Suppliers.Country`, `Employees.Country`,
+`Orders.ShipCountry`; `UK`, `Japan`, `Mexico`, ...), 30 aliases in all, each with
+its `source` provenance. Together they let a query join Chinook or Northwind sales
+to population without guessing at names. Northwind has one supplier whose country
+is `Sweden ` with a trailing space (trim the value before the join), and two
+customers have no country.
 
 Each collection is one JSON file per record under `$records/`. Multilingual
 names use inGitDB's `map[locale]string` column type (currently `en` only, from
@@ -108,7 +113,7 @@ comm -23 <(ls countries/\$records | sort) <(ls population_wb/\$records | sort) |
 
 Use a left join (or `countries.population` from GeoNames, which is undated) when
 those territories matter. All 24 `Invoice.BillingCountry` values of the Chinook
-sample database have a population.
+sample database, and all 25 Northwind country spellings, have a population.
 
 ## Validation
 

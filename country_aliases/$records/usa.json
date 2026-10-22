@@ -1,5 +1,5 @@
 {
   "alias": "USA",
   "country": "us",
-  "source": "chinook-database Invoice.BillingCountry; manual match: Chinook spells it 'USA'; countries.names.en is 'United States'"
+  "source": "chinook-database Invoice.BillingCountry; manual match: Chinook spells it 'USA'; countries.names.en is 'United States'; also northwind Customers.Country, Suppliers.Country, Employees.Country, Orders.ShipCountry (same spelling)"
 }

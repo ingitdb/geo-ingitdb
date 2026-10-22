@@ -1,0 +1,5 @@
+{
+  "alias": "UK",
+  "country": "gb",
+  "source": "northwind Customers.Country, Suppliers.Country, Employees.Country, Orders.ShipCountry; manual match: Northwind spells it 'UK'; countries.names.en is 'United Kingdom'"
+}
