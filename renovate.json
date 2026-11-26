@@ -2,5 +2,38 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "dependencyDashboard": {
+    "enabled": true
+  },
+  "prConcurrentLimit": 3,
+  "branchConcurrentLimit": 3,
+  "automerge": false,
+  "packageRules": [
+    {
+      "description": "Review major updates through the Dependency Dashboard",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Pin the first-party shared Go workflow and review its changes",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepTypes": [
+        "action",
+        "workflow"
+      ],
+      "matchPackageNames": [
+        "strongo/cicd"
+      ],
+      "matchFileNames": [
+        ".github/workflows/go.yml"
+      ],
+      "pinDigests": true,
+      "automerge": false
+    }
   ]
 }

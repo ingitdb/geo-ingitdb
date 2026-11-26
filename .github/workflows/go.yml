@@ -13,7 +13,7 @@ jobs:
   ci:
     permissions:
       contents: write # declared by the reusable workflow's (disabled) tagging job
-    uses: strongo/cicd/.github/workflows/workflow.yml@v1.25.4
+    uses: strongo/cicd/.github/workflows/workflow.yml@b9bc69e5e3c3123956fc82a41d393cdd0cb23cbf # v1.25.5
     with:
       disable-version-bumping: true
     secrets:
